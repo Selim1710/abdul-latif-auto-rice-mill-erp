@@ -25,7 +25,7 @@
                                 <input type="hidden" name="production_id" value="{{$production->id}}"/>
                                 <div class="form-group col-md-3 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="sale_date">{{__('file.Sale Date')}}</label>
@@ -88,11 +88,11 @@
                                 <div class="form-group col-md-3 required">
                                     <div id="previous_due_status"></div>
                                     <label for="previous_due">{{__('file.Previous Due')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="previous_due" id="previous_due" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="previous_due" id="previous_due" readonly>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="net_total">{{__('file.Net Total')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="net_total" id="net_total" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="net_total" id="net_total" readonly>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="paid_amount">{{__('file.Paid Amount')}}</label>
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="due_amount">{{__('file.Due Amount')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="due_amount" id="due_amount" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="due_amount" id="due_amount" readonly>
                                 </div>
                                 <div class="col-md-12">
                                     <hr style="border-top: 5px dotted cadetblue;"/>
@@ -133,12 +133,12 @@
                                                     <td>
                                                         <select class="form-control selectpicker product text-center" id="production_sale_0_product_id" name="production_sale[0][product_id]" data-category_id="production_sale_0_category_id" data-unit_show="production_sale_0_unit_show" data-unit_id="production_sale_0_unit_id" data-price="production_sale_0_price" data-live-search = "true"></select>
                                                     </td>
-                                                    <td><input class="form-control bg-primary text-white text-center" id="production_sale_0_unit_show" readonly/><input type="hidden" id="production_sale_0_unit_id"/></td>
+                                                    <td><input class="form-control bg-primary text-center" id="production_sale_0_unit_show" readonly/><input type="hidden" id="production_sale_0_unit_id"/></td>
                                                     <td><input class="form-control qty text-center" id="production_sale_0_qty" name="production_sale[0][qty]" data-product_id="production_sale_0_product_id" data-unit_id="production_sale_0_unit_id" data-scale="production_sale_0_scale" data-price="production_sale_0_price" data-sub_total="production_sale_0_sub_total"/></td>
                                                     <td><input class="form-control scale text-center" id="production_sale_0_scale" name="production_sale[0][scale]" data-product_id="production_sale_0_product_id" data-unit_id="production_sale_0_unit_id" data-qty="production_sale_0_qty" data-price="production_sale_0_price" data-sub_total="production_sale_0_sub_total"/> </td>
                                                     <td><input class="form-control selQty text-center" id="production_sale_0_sel_qty" name="production_sale[0][sel_qty]"/> </td>
                                                     <td><input class="form-control price text-center" id="production_sale_0_price" name="production_sale[0][price]" data-product_id="production_sale_0_product_id" data-qty="production_sale_0_qty" data-sub_total="production_sale_0_sub_total"/> </td>
-                                                    <td><input class="form-control bg-primary text-white sub_total text-center" id="production_sale_0_sub_total" name="production_sale[0][sub_total]" readonly/> </td>
+                                                    <td><input class="form-control bg-primary sub_total text-center" id="production_sale_0_sub_total" name="production_sale[0][sub_total]" readonly/> </td>
                                                     <th  rowspan="4">
                                                         <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                                                         <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -173,11 +173,11 @@
                                                         </select>
                                                     </td>
                                                     <td><select class="form-control selectpicker useProduct text-center" id="production_sale_0_use_product_id" name="production_sale[0][use_product_id]" data-warehouse_id="production_sale_0_use_warehouse_id" data-unit_show="production_sale_0_use_unit_show" data-unit_id="production_sale_0_use_unit_id" data-available_qty="production_sale_0_use_available_qty" data-price="production_sale_0_use_price" data-live-search = "true"></select></td>
-                                                    <td><input class="form-control bg-primary text-white text-center" id="production_sale_0_use_unit_show" readonly/><input type="hidden" id="production_sale_0_use_unit_id"/></td>
-                                                    <td><input class="form-control bg-primary available_qty text-center text-white" id="production_sale_0_use_available_qty" readonly/></td>
+                                                    <td><input class="form-control bg-primary text-center" id="production_sale_0_use_unit_show" readonly/><input type="hidden" id="production_sale_0_use_unit_id"/></td>
+                                                    <td><input class="form-control bg-primary available_qty text-center" id="production_sale_0_use_available_qty" readonly/></td>
                                                     <td><input class="form-control useQty text-center" id="production_sale_0_use_qty" name="production_sale[0][use_qty]" data-product_id="production_sale_0_use_product_id" data-unit_id="production_sale_0_use_unit_id" data-available_qty="production_sale_0_use_available_qty" data-price="production_sale_0_use_price" data-sub_total="production_sale_0_use_sub_total"/></td>
                                                     <td><input class="form-control usePrice text-center" id="production_sale_0_use_price" name="production_sale[0][use_price]" data-qty="production_sale_0_use_qty" data-product_id="production_sale_0_use_product_id" data-sub_total="production_sale_0_use_sub_total"/></td>
-                                                    <td><input class="form-control useSubTotal bg-primary text-white text-center" id="production_sale_0_use_sub_total" name="production_sale[0][use_sub_total]" readonly/></td>
+                                                    <td><input class="form-control useSubTotal bg-primary text-center" id="production_sale_0_use_sub_total" name="production_sale[0][use_sub_total]" readonly/></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -189,15 +189,15 @@
                                     <table class="table">
                                         <tr>
                                             <td><button type="button" class="btn btn-primary btn-block">{{__('file.Total Quantity')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_sale_qty" name="total_sale_qty" readonly/></td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_sale_qty" name="total_sale_qty" readonly/></td>
                                         </tr>
                                         <tr>
                                             <td><button type="button" class="btn btn-primary btn-block">{{__('file.Total Scale')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_sale_scale" name="total_sale_scale" readonly/></td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_sale_scale" name="total_sale_scale" readonly/></td>
                                         </tr>
                                         <tr>
                                             <td><button type="button" class="btn btn-primary btn-block">{{__('file.Total Price')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_sale_sub_total" name="total_sale_sub_total" readonly/></td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_sale_sub_total" name="total_sale_sub_total" readonly/></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -451,12 +451,12 @@
                               <td>
                               <select class="form-control selectpicker product text-center" id="production_sale_`+ i +`_product_id" name="production_sale[`+ i +`][product_id]" data-category_id="production_sale_`+ i +`_category_id" data-unit_show="production_sale_`+ i +`_unit_show" data-unit_id="production_sale_`+ i +`_unit_id" data-price="production_sale_`+ i +`_price" data-live-search = "true"></select>
                               </td>
-                              <td><input class="form-control bg-primary text-white text-center" id="production_sale_`+ i +`_unit_show" readonly/><input type="hidden" id="production_sale_`+ i +`_unit_id"/></td>
+                              <td><input class="form-control bg-primary text-center" id="production_sale_`+ i +`_unit_show" readonly/><input type="hidden" id="production_sale_`+ i +`_unit_id"/></td>
                               <td><input class="form-control qty text-center" id="production_sale_`+ i +`_qty" name="production_sale[`+ i +`][qty]" data-product_id="production_sale_`+ i +`_product_id" data-unit_id="production_sale_`+ i +`_unit_id" data-scale="production_sale_`+ i +`_scale" data-price="production_sale_`+ i +`_price" data-sub_total="production_sale_`+ i +`_sub_total"/></td>
                               <td><input class="form-control scale text-center" id="production_sale_`+ i +`_scale" name="production_sale[`+ i +`][scale]" data-product_id="production_sale_`+ i +`_product_id" data-unit_id="production_sale_`+ i +`_unit_id" data-qty="production_sale_`+ i +`_qty" data-price="production_sale_`+ i +`_price" data-sub_total="production_sale_`+ i +`_sub_total"/> </td>
                               <td><input class="form-control selQty text-center" id="production_sale_`+ i +`_sel_qty" name="production_sale[`+ i +`][sel_qty]"/> </td>
                               <td><input class="form-control price text-center" id="production_sale_`+ i +`_price" name="production_sale[`+ i +`][price]" data-product_id="production_sale_`+ i +`_product_id" data-qty="production_sale_`+ i +`_qty" data-sub_total="production_sale_`+ i +`_sub_total"/> </td>
-                              <td><input class="form-control bg-primary text-white sub_total text-center" id="production_sale_`+ i +`_sub_total" name="production_sale[`+ i +`][sub_total]" readonly/> </td>
+                              <td><input class="form-control bg-primary sub_total text-center" id="production_sale_`+ i +`_sub_total" name="production_sale[`+ i +`][sub_total]" readonly/> </td>
                               <th rowspan="4">
                                 <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                                 <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -491,11 +491,11 @@
                               </select>
                               </td>
                               <td><select class="form-control selectpicker useProduct text-center" id="production_sale_`+ i +`_use_product_id" name="production_sale[`+ i +`][use_product_id]" data-warehouse_id="production_sale_`+ i +`_use_warehouse_id" data-unit_show="production_sale_`+ i +`_use_unit_show" data-unit_id="production_sale_`+ i +`_use_unit_id" data-available_qty="production_sale_`+ i +`_use_available_qty" data-price="production_sale_`+ i +`_use_price" data-live-search = "true"></select></td>
-                              <td><input class="form-control bg-primary text-white text-center" id="production_sale_`+ i +`_use_unit_show" readonly/><input type="hidden" id="production_sale_`+ i +`_use_unit_id"/></td>
-                              <td><input class="form-control bg-primary available_qty text-center text-white" id="production_sale_`+ i +`_use_available_qty" readonly/></td>
+                              <td><input class="form-control bg-primary text-center" id="production_sale_`+ i +`_use_unit_show" readonly/><input type="hidden" id="production_sale_`+ i +`_use_unit_id"/></td>
+                              <td><input class="form-control bg-primary available_qty text-center" id="production_sale_`+ i +`_use_available_qty" readonly/></td>
                               <td><input class="form-control useQty text-center" id="production_sale_`+ i +`_use_qty" name="production_sale[`+ i +`][use_qty]" data-product_id="production_sale_`+ i +`_use_product_id" data-unit_id="production_sale_`+ i +`_use_unit_id" data-available_qty="production_sale_`+ i +`_use_available_qty" data-price="production_sale_`+ i +`_use_price" data-sub_total="production_sale_`+ i +`_use_sub_total"/></td>
                               <td><input class="form-control usePrice text-center" id="production_sale_`+ i +`_use_price" name="production_sale[`+ i +`][use_price]" data-qty="production_sale_`+ i +`_use_qty" data-product_id="production_sale_`+ i +`_use_product_id" data-sub_total="production_sale_`+ i +`_use_sub_total"/></td>
-                              <td><input class="form-control useSubTotal bg-primary text-white text-center" id="production_sale_`+ i +`_use_sub_total" name="production_sale[`+ i +`][use_sub_total]" readonly/></td>
+                              <td><input class="form-control useSubTotal bg-primary text-center" id="production_sale_`+ i +`_use_sub_total" name="production_sale[`+ i +`][use_sub_total]" readonly/></td>
                           </tr>
                        </tbody>
                  </table>`;
@@ -532,29 +532,29 @@
         function paymentStatus(){
             let paymentStatus = $('#payment_status').find('option:selected').val();
             if(paymentStatus == 1){
-                $('#paid_amount').addClass( 'bg-primary text-white' );
+                $('#paid_amount').addClass( 'bg-primary' );
                 $('#paid_amount').prop('readonly', true);
-                $('#payment_method').removeClass( 'bg-primary text-white' );
+                $('#payment_method').removeClass( 'bg-primary' );
                 $('#payment_method').prop( "disabled", false );
-                $('#account_id').removeClass( 'bg-primary text-white' );
+                $('#account_id').removeClass( 'bg-primary' );
                 $('#account_id').prop( "disabled", false );
                 _('paid_amount').value = _('net_total').value;
                 calculation();
             }else if(paymentStatus == 3){
-                $('#paid_amount').addClass( 'bg-primary text-white' );
+                $('#paid_amount').addClass( 'bg-primary' );
                 $('#paid_amount').prop('readonly', true);
-                $('#payment_method').addClass( 'bg-primary text-white' );
+                $('#payment_method').addClass( 'bg-primary' );
                 $('#payment_method').prop( "disabled", true );
-                $('#account_id').addClass( 'bg-primary text-white' );
+                $('#account_id').addClass( 'bg-primary' );
                 $('#account_id').prop( "disabled", true );
                 _('paid_amount').value = '';
                 calculation();
             }else{
-                $('#paid_amount').removeClass( 'bg-primary text-white' );
+                $('#paid_amount').removeClass( 'bg-primary' );
                 $('#paid_amount').prop('readonly', false);
-                $('#payment_method').removeClass( 'bg-primary text-white' );
+                $('#payment_method').removeClass( 'bg-primary' );
                 $('#payment_method').prop( "disabled", false );
-                $('#account_id').removeClass( 'bg-primary text-white' );
+                $('#account_id').removeClass( 'bg-primary' );
                 $('#account_id').prop( "disabled", false );
                 _('paid_amount').value = '';
                 calculation();
