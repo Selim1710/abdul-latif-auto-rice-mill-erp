@@ -20,7 +20,7 @@
                                 <input type="hidden" name="update_id" value="{{$voucherNo}}"/>
                                 <div class="form-group col-md-6 required">
                                     <label for="voucher_no">{{__('file.Voucher No')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white" name="voucher_no" id="voucher_no" value="{{ $voucherNo }}" readonly />
+                                    <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no" value="{{ $voucherNo }}" readonly />
                                 </div>
                                 <div class="form-group col-md-6 required">
                                     <label for="voucher_date">{{__('file.Date')}}</label>

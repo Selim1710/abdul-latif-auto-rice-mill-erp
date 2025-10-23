@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 required">
                                     <label for="voucher_no">{{__('file.Voucher No')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white" name="voucher_no" id="voucher_no" value="{{ $voucher_no }}" readonly />
+                                    <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no" value="{{ $voucher_no }}" readonly />
                                 </div>
                                 <div class="form-group col-md-6 required">
                                     <label for="voucher_date">{{__('file.Date')}}</label>

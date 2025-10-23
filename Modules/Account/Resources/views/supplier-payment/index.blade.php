@@ -154,11 +154,11 @@
                     }
                 },
                 "buttons": [{
-                    'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column','columns': ':gt(0)'
+                    'extend':'colvis','className':'btn btn-secondary btn-sm','text':'Column','columns': ':gt(0)'
                 }, {
                     "extend"       : 'print',
                     'text'         :'Print',
-                    'className'    :'btn btn-secondary btn-sm text-white',
+                    'className'    :'btn btn-secondary btn-sm',
                     "title"        : "{{ $page_title }} List",
                     "orientation"  : "landscape", //portrait
                     "pageSize"     : "A4", //A3,A5,A6,legal,letter
@@ -176,7 +176,7 @@
                 }, {
                     "extend"       : 'csv',
                     'text'         :'CSV',
-                    'className'    :'btn btn-secondary btn-sm text-white',
+                    'className'    :'btn btn-secondary btn-sm',
                     "title"        : "{{ $page_title }} List",
                     "filename"     : "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                     "exportOptions": {
@@ -185,7 +185,7 @@
                 }, {
                     "extend"       : 'excel',
                     'text'         :'Excel',
-                    'className'    :'btn btn-secondary btn-sm text-white',
+                    'className'    :'btn btn-secondary btn-sm',
                     "title"        : "{{ $page_title }} List",
                     "filename"     : "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                     "exportOptions": {
@@ -194,7 +194,7 @@
                 }, {
                     "extend"       : 'pdf',
                     'text'         :'PDF',
-                    'className'    :'btn btn-secondary btn-sm text-white',
+                    'className'    :'btn btn-secondary btn-sm',
                     "title"        : "{{ $page_title }} List",
                     "filename"     : "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                     "orientation"  : "landscape", //portrait

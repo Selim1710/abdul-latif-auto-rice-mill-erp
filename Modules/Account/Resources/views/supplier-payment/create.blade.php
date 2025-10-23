@@ -19,7 +19,7 @@
                         <div class="row">
                                 <div class="form-group col-md-6 required">
                                     <label for="voucher_no">{{__('file.Voucher No')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white" name="voucher_no" id="voucher_no" value="{{ $voucher_no }}" readonly />
+                                    <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no" value="{{ $voucher_no }}" readonly />
                                 </div>
                                 <div class="form-group col-md-6 required">
                                     <label for="voucher_date">{{__('file.Date')}}</label>
@@ -37,7 +37,7 @@
                                 <div class="form-group col-md-6">
                                     <div id="previous_due_status"></div>
                                     <label for="due_amount">{{ __('file.Due Amount') }}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="previous_due" id="previous_due" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="previous_due" id="previous_due" readonly>
                                 </div>
                                 <x-form.selectbox labelName="{{__('file.Payment Method')}}" id="payment_method" name="payment_method" col="col-md-6" onchange="paymentMethod()">
                                     @foreach (PAYMENT_METHOD as $key => $value)

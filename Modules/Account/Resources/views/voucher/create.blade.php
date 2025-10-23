@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="form-group col-md-4 required">
                                 <label for="voucher_no"> {{__('file.Voucher No')}}</label>
-                                <input type="text" class="form-control bg-primary text-white" name="voucher_no" id="voucher_no" readonly />
+                                <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no" readonly />
                             </div>
                             <div class="form-group col-md-4 required">
                                 <label for="voucher_date"> {{__('file.Date')}}</label>
@@ -80,7 +80,7 @@
                                     <tfoot>
                                     <tr>
                                         <td class="text-right" colspan="2">Total</td>
-                                        <td><input type="text" class="form-control text-right bg-primary text-white" name="total_debit_amount" id="total_debit_amount" placeholder="0.00" readonly></td>
+                                        <td><input type="text" class="form-control text-right bg-primary" name="total_debit_amount" id="total_debit_amount" placeholder="0.00" readonly></td>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -121,7 +121,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td><input type="text" class="form-control text-right bg-primary text-white" name="total_credit_amount" id="total_credit_amount" placeholder="0.00" readonly></td>
+                                        <td><input type="text" class="form-control text-right bg-primary" name="total_credit_amount" id="total_credit_amount" placeholder="0.00" readonly></td>
                                         <td class="text-left" colspan="2">Total</td>
                                     </tr>
                                     </tfoot>
