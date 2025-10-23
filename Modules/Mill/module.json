@@ -1,0 +1,13 @@
+{
+    "name": "Mill",
+    "alias": "mill",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Mill\\Providers\\MillServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

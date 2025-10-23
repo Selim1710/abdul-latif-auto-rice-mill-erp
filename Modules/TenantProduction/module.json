@@ -1,0 +1,13 @@
+{
+    "name": "TenantProduction",
+    "alias": "tenantproduction",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TenantProduction\\Providers\\TenantProductionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

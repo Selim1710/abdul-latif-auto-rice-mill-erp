@@ -1,0 +1,13 @@
+{
+    "name": "LaborHead",
+    "alias": "laborhead",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\LaborHead\\Providers\\LaborHeadServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

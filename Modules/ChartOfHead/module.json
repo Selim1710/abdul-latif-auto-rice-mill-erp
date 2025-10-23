@@ -1,0 +1,13 @@
+{
+    "name": "ChartOfHead",
+    "alias": "chartofhead",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ChartOfHead\\Providers\\ChartOfHeadServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
