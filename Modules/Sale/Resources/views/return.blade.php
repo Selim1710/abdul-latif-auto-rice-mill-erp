@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white" id="invoice_no" name="invoice_no" value="{{$invoiceNo}}" readonly/>
+                                    <input type="text" class="form-control bg-primary" id="invoice_no" name="invoice_no" value="{{$invoiceNo}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="return_date">{{__('file.Return Date')}}</label>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="party">{{__('file.Party')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" value="{{$sale->party_type == 1 ? $sale->party->name : $sale->party_name}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" value="{{$sale->party_type == 1 ? $sale->party->name : $sale->party_name}}" readonly/>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -51,23 +51,23 @@
                                                     <tr class="text-center">
                                                         <input type="hidden" name="sale[{{$key}}][id]" value="{{$item->id}}"/>
                                                         <td>
-                                                            <select class="form-control warehouseProduct bg-primary text-white" id="sale_{{$key}}_warehouse_id" name="sale[{{$key}}][warehouse_id]">
+                                                            <select class="form-control warehouseProduct bg-primary" id="sale_{{$key}}_warehouse_id" name="sale[{{$key}}][warehouse_id]">
                                                                 <option value="{{$item->warehouse->id}}">{{$item->warehouse->name}}</option>
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <select class="form-control productDetails bg-primary text-white" id="sale_{{$key}}_product_id" name="sale[{{$key}}][product_id]">
+                                                            <select class="form-control productDetails bg-primary" id="sale_{{$key}}_product_id" name="sale[{{$key}}][product_id]">
                                                                 <option value="{{$item->product->id}}">{{$item->product->product_name}}</option>
                                                             </select>
                                                         </td>
-                                                        <td><input type="text" class="form-control bg-primary text-white" id="sale_{{$key}}_unit_name" name="sale[{{$key}}][unit_name]" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/></td>
-                                                        <td><input type="text" class="form-control price bg-primary text-white" id="sale_{{$key}}_price" name="sale[{{$key}}][price]" value="{{ $item->sub_total / $item->sel_qty }}" readonly/></td>
+                                                        <td><input type="text" class="form-control bg-primary" id="sale_{{$key}}_unit_name" name="sale[{{$key}}][unit_name]" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/></td>
+                                                        <td><input type="text" class="form-control price bg-primary" id="sale_{{$key}}_price" name="sale[{{$key}}][price]" value="{{ $item->sub_total / $item->sel_qty }}" readonly/></td>
                                                         <input type="hidden" name="sale[{{$key}}][scale]" value="{{$item->scale}}"/>
                                                         <input type="hidden" name="sale[{{$key}}][sel_qty]" value="{{$item->sel_qty}}"/>
-                                                        <td><input type="text" class="form-control bg-primary text-white" id="sale_{{$key}}_delivery_qty" value="{{$item->delivery_qty}}" readonly/></td>
-                                                        <td><input type="text" class="form-control bg-primary text-white" id="sale_{{$key}}_returned_qty" value="{{$item->return_qty}}" readonly/></td>
+                                                        <td><input type="text" class="form-control bg-primary" id="sale_{{$key}}_delivery_qty" value="{{$item->delivery_qty}}" readonly/></td>
+                                                        <td><input type="text" class="form-control bg-primary" id="sale_{{$key}}_returned_qty" value="{{$item->return_qty}}" readonly/></td>
                                                         <td><input type="text" class="form-control return_qty" id="sale_{{$key}}_return_qty" data-price = "sale_{{$key}}_price" data-delivery_qty = "sale_{{$key}}_delivery_qty" data-returned_qty = "sale_{{$key}}_returned_qty" data-sub_total = "sale_{{$key}}_sub_total" name="sale[{{$key}}][return_qty]"/></td>
-                                                        <td><input type="text" class="form-control sub_total bg-primary text-white" id="sale_{{$key}}_sub_total" name="sale[{{$key}}][sub_total]" readonly/></td>
+                                                        <td><input type="text" class="form-control sub_total bg-primary" id="sale_{{$key}}_sub_total" name="sale[{{$key}}][sub_total]" readonly/></td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
@@ -80,11 +80,11 @@
                                     <table class="table">
                                         <tr>
                                             <td><button class="btn btn-primary btn-block">{{__('file.Return Qty')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_return_qty" name="total_return_qty" readonly/> </td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_return_qty" name="total_return_qty" readonly/> </td>
                                         </tr>
                                         <tr>
                                             <td><button class="btn btn-primary btn-block">{{__('file.Return Amount')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_return_sub_total" name="total_return_sub_total" readonly/> </td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_return_sub_total" name="total_return_sub_total" readonly/> </td>
                                         </tr>
                                     </table>
                                 </div>

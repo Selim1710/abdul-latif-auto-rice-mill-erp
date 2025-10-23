@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-3 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="sale_date">{{__('file.Sale Date')}}</label>
@@ -101,11 +101,11 @@
                                 <div class="form-group col-md-3 required">
                                     <div id="previous_due_status"></div>
                                     <label for="previous_due">{{__('file.Previous Due')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="previous_due" id="previous_due" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="previous_due" id="previous_due" readonly>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="net_total">{{__('file.Net Total')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="net_total" id="net_total" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="net_total" id="net_total" readonly>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="paid_amount">{{__('file.Paid Amount')}}</label>
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="due_amount">{{__('file.Due Amount')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" name="due_amount" id="due_amount" readonly>
+                                    <input type="text" class="form-control bg-primary text-center" name="due_amount" id="due_amount" readonly>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="transport_name">{{__('file.Transport Name')}}</label>
@@ -156,8 +156,8 @@
                                                         </select>
                                                     </td>
                                                     <td><select class="form-control selectpicker product text-center" id="sale_0_product_id" name="sale[0][product_id]" data-warehouse_id="sale_0_warehouse_id" data-unit_show="sale_0_unit_show" data-unit_id="sale_0_unit_id" data-available_qty="sale_0_available_qty" data-price="sale_0_price" data-live-search = "true"></select></td>
-                                                    <td><input class="form-control bg-primary text-white text-center" id="sale_0_unit_show" readonly/><input type="hidden" id="sale_0_unit_id"/></td>
-                                                    <td><input class="form-control bg-primary available_qty text-center text-white" id="sale_0_available_qty" readonly/></td>
+                                                    <td><input class="form-control bg-primary text-center" id="sale_0_unit_show" readonly/><input type="hidden" id="sale_0_unit_id"/></td>
+                                                    <td><input class="form-control bg-primary available_qty text-center" id="sale_0_available_qty" readonly/></td>
                                                     <td><input class="form-control qty text-center" id="sale_0_qty" name="sale[0][qty]" data-product_id="sale_0_product_id" data-unit_id="sale_0_unit_id" data-available_qty="sale_0_available_qty" data-scale="sale_0_scale" data-price="sale_0_price" data-sub_total="sale_0_sub_total"/></td>
                                                     <td><input class="form-control scale text-center" id="sale_0_scale" name="sale[0][scale]" data-product_id="sale_0_product_id" data-unit_id="sale_0_unit_id" data-available_qty="sale_0_available_qty" data-qty="sale_0_qty" data-price="sale_0_price" data-sub_total="sale_0_sub_total"/> </td>
                                                     <td><input class="form-control selQty text-center" id="sale_0_sel_qty" name="sale[0][sel_qty]" data-available_qty="sale_0_available_qty"/> </td>
@@ -173,7 +173,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td><input class="form-control price text-center" id="sale_0_price" name="sale[0][price]" data-product_id="sale_0_product_id" data-qty="sale_0_qty" data-sub_total="sale_0_sub_total"/> </td>
-                                                    <td><input class="form-control bg-primary text-white sub_total text-center" id="sale_0_sub_total" name="sale[0][sub_total]" readonly/> </td>
+                                                    <td><input class="form-control bg-primary sub_total text-center" id="sale_0_sub_total" name="sale[0][sub_total]" readonly/> </td>
                                                     <td colspan="6"><input class="form-control text-center" id="sale_0_note" name="sale[0][note]"/> </td>
                                                 </tr>
                                                 </tbody>
@@ -186,11 +186,11 @@
                                     <table class="table">
                                         <tr>
                                             <td><button type="button" class="btn btn-primary btn-block">{{__('file.Total Quantity')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_sale_qty" name="total_sale_qty" readonly/></td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_sale_qty" name="total_sale_qty" readonly/></td>
                                         </tr>
                                         <tr>
                                             <td><button type="button" class="btn btn-primary btn-block">{{__('file.Total Price')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white text-center" id="total_sale_sub_total" name="total_sale_sub_total" readonly/></td>
+                                            <td><input type="text" class="form-control bg-primary text-center" id="total_sale_sub_total" name="total_sale_sub_total" readonly/></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -213,7 +213,7 @@
             return document.getElementById(x);
         }
         $(document).on('change','#sale_type',function(){
-            $('#sale_type').addClass( 'bg-primary text-white' );
+            $('#sale_type').addClass( 'bg-primary' );
             $('#sale_type').prop( "disabled", true );
             _('sale_type_hidden').value = $('#sale_type').find('option:selected').val();
         });
@@ -392,8 +392,8 @@
                              </select>
                              </td>
                              <td><select class="form-control selectpicker product text-center" id="sale_`+ i +`_product_id" name="sale[`+ i +`][product_id]" data-warehouse_id="sale_`+ i +`_warehouse_id" data-unit_show="sale_`+ i +`_unit_show" data-unit_id="sale_`+ i +`_unit_id" data-available_qty="sale_`+ i +`_available_qty" data-price="sale_`+ i +`_price" data-live-search = "true"></select></td>
-                             <td><input class="form-control bg-primary text-white text-center" id="sale_`+ i +`_unit_show" readonly/><input type="hidden" id="sale_`+ i +`_unit_id"/></td>
-                             <td><input class="form-control bg-primary available_qty text-center text-white" id="sale_`+ i +`_available_qty" readonly/></td>
+                             <td><input class="form-control bg-primary text-center" id="sale_`+ i +`_unit_show" readonly/><input type="hidden" id="sale_`+ i +`_unit_id"/></td>
+                             <td><input class="form-control bg-primary available_qty text-center" id="sale_`+ i +`_available_qty" readonly/></td>
                              <td><input class="form-control qty text-center" id="sale_`+ i +`_qty" name="sale[`+ i +`][qty]" data-product_id="sale_`+ i +`_product_id" data-unit_id="sale_`+ i +`_unit_id" data-available_qty="sale_`+ i +`_available_qty" data-scale="sale_`+ i +`_scale" data-price="sale_`+ i +`_price" data-sub_total="sale_`+ i +`_sub_total"/></td>
                              <td><input class="form-control scale text-center" id="sale_`+ i +`_scale" name="sale[`+ i +`][scale]" data-product_id="sale_`+ i +`_product_id" data-unit_id="sale_`+ i +`_unit_id" data-available_qty="sale_`+ i +`_available_qty" data-qty="sale_`+ i +`_qty" data-price="sale_`+ i +`_price" data-sub_total="sale_`+ i +`_sub_total"/> </td>
                              <td><input class="form-control selQty text-center" id="sale_`+ i +`_sel_qty" name="sale[`+ i +`][sel_qty]" data-available_qty="sale_`+ i +`_available_qty"/> </td>
@@ -409,7 +409,7 @@
                           </tr>
                           <tr>
                              <td><input class="form-control price text-center" id="sale_`+ i +`_price" name="sale[`+ i +`][price]" data-product_id="sale_`+ i +`_product_id" data-qty="sale_`+ i +`_qty" data-sub_total="sale_`+ i +`_sub_total"/> </td>
-                             <td><input class="form-control bg-primary text-white sub_total text-center" id="sale_`+ i +`_sub_total" name="sale[`+ i +`][sub_total]" readonly/> </td>
+                             <td><input class="form-control bg-primary sub_total text-center" id="sale_`+ i +`_sub_total" name="sale[`+ i +`][sub_total]" readonly/> </td>
                              <td colspan="6"><input class="form-control text-center" id="sale_`+ i +`_note" name="sale[`+ i +`][note]"/> </td>
                           </tr>
                        </tbody>
@@ -448,29 +448,29 @@
         function paymentStatus(){
             let paymentStatus = $('#payment_status').find('option:selected').val();
             if(paymentStatus == 1){
-                $('#paid_amount').addClass( 'bg-primary text-white' );
+                $('#paid_amount').addClass( 'bg-primary' );
                 $('#paid_amount').prop('readonly', true);
-                $('#payment_method').removeClass( 'bg-primary text-white' );
+                $('#payment_method').removeClass( 'bg-primary' );
                 $('#payment_method').prop( "disabled", false );
-                $('#account_id').removeClass( 'bg-primary text-white' );
+                $('#account_id').removeClass( 'bg-primary' );
                 $('#account_id').prop( "disabled", false );
                 _('paid_amount').value = _('net_total').value;
                 calculation();
             }else if(paymentStatus == 3){
-                $('#paid_amount').addClass( 'bg-primary text-white' );
+                $('#paid_amount').addClass( 'bg-primary' );
                 $('#paid_amount').prop('readonly', true);
-                $('#payment_method').addClass( 'bg-primary text-white' );
+                $('#payment_method').addClass( 'bg-primary' );
                 $('#payment_method').prop( "disabled", true );
-                $('#account_id').addClass( 'bg-primary text-white' );
+                $('#account_id').addClass( 'bg-primary' );
                 $('#account_id').prop( "disabled", true );
                 _('paid_amount').value = '';
                 calculation();
             }else{
-                $('#paid_amount').removeClass( 'bg-primary text-white' );
+                $('#paid_amount').removeClass( 'bg-primary' );
                 $('#paid_amount').prop('readonly', false);
-                $('#payment_method').removeClass( 'bg-primary text-white' );
+                $('#payment_method').removeClass( 'bg-primary' );
                 $('#payment_method').prop( "disabled", false );
-                $('#account_id').removeClass( 'bg-primary text-white' );
+                $('#account_id').removeClass( 'bg-primary' );
                 $('#account_id').prop( "disabled", false );
                 _('paid_amount').value = '';
                 calculation();
