@@ -20,7 +20,7 @@
                                 <input type="hidden" id="update_id" name="update_id" value="{{$details->id}}"/>
                                 <div class="form-group col-md-4 required">
                                     <label for="invoice_no">{{__('file.Invoice No')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white" name="invoice_no" id="invoice_no" value="{{ $details->invoice_no }}" readonly/>
+                                    <input type="text" class="form-control bg-primary" name="invoice_no" id="invoice_no" value="{{ $details->invoice_no }}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{__('file.Date')}}</label>
@@ -110,14 +110,14 @@
                                         <tfoot>
                                         <tr>
                                             <td class="text-right"><b>{{__('file.Total')}}({{__('file.Rent')}})</b></td>
-                                            <td><input type="text" class="form-control text-right bg-primary text-white" id="rent_amount" name="rent_amount" value="{{$details->rent_amount}}" placeholder="0.00" readonly></td>
+                                            <td><input type="text" class="form-control text-right bg-primary" id="rent_amount" name="rent_amount" value="{{$details->rent_amount}}" placeholder="0.00" readonly></td>
                                             <td class="text-right"><b>{{__('file.Total')}}({{__('file.Expense')}})</b></td>
-                                            <td><input type="text" class="form-control text-right bg-primary text-white" id="total_expense" name="total_expense" value="{{$details->total_expense}}" placeholder="0.00" readonly></td>
+                                            <td><input type="text" class="form-control text-right bg-primary" id="total_expense" name="total_expense" value="{{$details->total_expense}}" placeholder="0.00" readonly></td>
                                             <td class="text-center"></td>
                                         </tr>
                                         <tr>
                                             <td class="text-right" colspan="3"><b>{{__('file.Income')}}</b></td>
-                                            <td><input type="text" class="form-control text-right bg-danger text-white" id="income" name="income" value="{{$details->income}}" placeholder="0.00" readonly></td>
+                                            <td><input type="text" class="form-control text-right bg-danger" id="income" name="income" value="{{$details->income}}" placeholder="0.00" readonly></td>
                                         </tr>
                                         </tfoot>
                                     </table>

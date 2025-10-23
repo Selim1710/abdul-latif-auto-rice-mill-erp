@@ -103,11 +103,11 @@
             "buttons": [
                 @if (permission('truck-report'))
                 {
-                    'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'{{__('file.Column')}}','columns': ':gt(0)'
+                    'extend':'colvis','className':'btn btn-secondary btn-sm','text':'{{__('file.Column')}}','columns': ':gt(0)'
                 }, {
                     "extend": 'print',
                     'text':'{{__('file.Print')}}',
-                    'className':'btn btn-secondary btn-sm text-white',
+                    'className':'btn btn-secondary btn-sm',
                     "title": "{{ $page_title }} List",
                     "orientation": "landscape", //portrait
                     "pageSize": "A4", //A3,A5,A6,legal,letter
@@ -127,7 +127,7 @@
                 }, {
                     "extend": 'csv',
                     'text':'{{__('file.CSV')}}',
-                    'className':'btn btn-secondary btn-sm text-white',
+                    'className':'btn btn-secondary btn-sm',
                     "title": "{{ $page_title }} List",
                     "filename": "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                     "exportOptions": {
@@ -136,7 +136,7 @@
                 }, {
                     "extend": 'excel',
                     'text':'{{__('file.Excel')}}',
-                    'className':'btn btn-secondary btn-sm text-white',
+                    'className':'btn btn-secondary btn-sm',
                     "title": "{{ $page_title }} List",
                     "filename": "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                     "exportOptions": {
@@ -145,7 +145,7 @@
                 }, {
                     "extend": 'pdf',
                     'text':'{{__('file.PDF')}}',
-                    'className':'btn btn-secondary btn-sm text-white',
+                    'className':'btn btn-secondary btn-sm',
                     "title": "{{ $page_title }} List",
                     "filename": "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                     "orientation": "portrait", //portrait
@@ -200,7 +200,7 @@
                                 keyboard: false,
                                 backdrop: 'static',
                             });
-                            $('#store_or_update_modal .modal-title').html('<i class="fas fa-edit text-white"></i> <span>{{__('file.Edit')}} ' + data.name + '</span>');
+                            $('#store_or_update_modal .modal-title').html('<i class="fas fa-edit"></i> <span>{{__('file.Edit')}} ' + data.name + '</span>');
                             $('#store_or_update_modal #save-btn').text('{{__('file.Update')}}');
                         }
                     },
