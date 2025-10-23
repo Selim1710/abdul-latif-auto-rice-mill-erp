@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{__('file.Date')}}</label>
@@ -71,7 +71,7 @@
                                                     </select>
                                                 </td>
                                                 <td><select class="form-control selectpicker product text-center" id="tenant_receive_0_product_id" name="tenant_receive[0][product_id]" data-unit_show="tenant_receive_0_unit_show" data-unit_id="tenant_receive_0_unit_id"  data-live-search = "true"></select></td>
-                                                <td><input class="form-control bg-primary text-white text-center" id="tenant_receive_0_unit_show" readonly/><input type="hidden" id="tenant_receive_0_unit_id"/></td>
+                                                <td><input class="form-control bg-primary text-center" id="tenant_receive_0_unit_show" readonly/><input type="hidden" id="tenant_receive_0_unit_id"/></td>
                                                 <td><input class="form-control qty text-center" id="tenant_receive_0_qty" name="tenant_receive[0][qty]" data-product_id="tenant_receive_0_product_id" data-unit_id="tenant_receive_0_unit_id" data-scale="tenant_receive_0_scale"/></td>
                                                 <td><input class="form-control scale text-center" id="tenant_receive_0_scale" name="tenant_receive[0][scale]" data-product_id="tenant_receive_0_product_id" data-unit_id="tenant_receive_0_unit_id" data-qty="tenant_receive_0_qty"/> </td>
                                                 <td><input class="form-control" id="tenant_receive_0_rec_qty" name="tenant_receive[0][rec_qty]"/></td>
@@ -190,7 +190,7 @@
                       </select>
                       </td>
                       <td><select class="form-control selectpicker product text-center" id="tenant_receive_`+ i +`_product_id" name="tenant_receive[`+ i +`][product_id]" data-unit_show="tenant_receive_`+ i +`_unit_show" data-unit_id="tenant_receive_`+ i +`_unit_id"  data-live-search = "true"></select></td>
-                      <td><input class="form-control bg-primary text-white text-center" id="tenant_receive_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_receive_`+ i +`_unit_id"/></td>
+                      <td><input class="form-control bg-primary text-center" id="tenant_receive_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_receive_`+ i +`_unit_id"/></td>
                       <td><input class="form-control qty text-center" id="tenant_receive_`+ i +`_qty" name="tenant_receive[`+ i +`][qty]" data-product_id="tenant_receive_`+ i +`_product_id" data-unit_id="tenant_receive_`+ i +`_unit_id" data-scale="tenant_receive_`+ i +`_scale"/></td>
                       <td><input class="form-control scale text-center" id="tenant_receive_`+ i +`_scale" name="tenant_receive[`+ i +`][scale]" data-product_id="tenant_receive_`+ i +`_product_id" data-unit_id="tenant_receive_`+ i +`_unit_id" data-qty="tenant_receive_`+ i +`_qty"/> </td>
                       <td><input class="form-control" id="tenant_receive_`+ i +`_rec_qty" name="tenant_receive[`+ i +`][rec_qty]"/></td>

@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$tenantReturn->invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$tenantReturn->invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{__('file.Date')}}</label>
@@ -74,9 +74,9 @@
                                                         <option value = "{{$item->product_id}}">{{$item->product->product_name}}</option>
                                                     </select>
                                                 </td>
-                                                <td><input class="form-control bg-primary text-white text-center" id="tenant_return_{{$key}}_unit_show" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/><input type="hidden" id="tenant_return_{{$key}}_unit_id" value="{{$item->product->unit->unit_name}}"/></td>
-                                                <td><input class="form-control av_qty text-center bg-primary text-white" id="tenant_return_{{$key}}_av_qty" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->qty ?? 0}}" readonly/></td>
-                                                <td><input class="form-control av_scale text-center bg-primary text-white" id="tenant_return_{{$key}}_av_scale" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->scale ?? 0}}" readonly/></td>
+                                                <td><input class="form-control bg-primary text-center" id="tenant_return_{{$key}}_unit_show" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/><input type="hidden" id="tenant_return_{{$key}}_unit_id" value="{{$item->product->unit->unit_name}}"/></td>
+                                                <td><input class="form-control av_qty text-center bg-primary" id="tenant_return_{{$key}}_av_qty" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->qty ?? 0}}" readonly/></td>
+                                                <td><input class="form-control av_scale text-center bg-primary" id="tenant_return_{{$key}}_av_scale" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->scale ?? 0}}" readonly/></td>
                                                 <td><input class="form-control qty text-center" id="tenant_return_{{$key}}_qty" name="tenant_return[{{$key}}][qty]" value="{{$item->qty}}" data-product_id="tenant_return_{{$key}}_product_id" data-unit_id="tenant_return_{{$key}}_unit_id" data-av_qty="tenant_return_{{$key}}_av_qty" data-av_scale="tenant_return_{{$key}}_av_scale" data-scale="tenant_return_{{$key}}_scale"/></td>
                                                 <td><input class="form-control scale text-center" id="tenant_return_{{$key}}_scale" name="tenant_return[{{$key}}][scale]" value="{{$item->scale}}" data-product_id="tenant_return_{{$key}}_product_id" data-unit_id="tenant_return_{{$key}}_unit_id" data-av_qty="tenant_return_{{$key}}_av_qty" data-av_scale="tenant_return_{{$key}}_av_scale" data-qty="tenant_return_{{$key}}_qty"/> </td>
                                                 <td><input class="form-control retQty" id="tenant_return_{{$key}}_ret_qty" name="tenant_return[{{$key}}][ret_qty]" value="{{$item->ret_qty}}" data-av_qty="tenant_return_{{$key}}_av_qty"/></td>
@@ -239,9 +239,9 @@
                       <td>
                       <select class="form-control selectpicker product text-center" id="tenant_return_`+ i +`_product_id" name="tenant_return[`+ i +`][product_id]" data-warehouse_id = "tenant_return_`+ i +`_warehouse_id" data-unit_show="tenant_return_`+ i +`_unit_show" data-unit_id="tenant_return_`+ i +`_unit_id" data-av_qty="tenant_return_`+ i +`_av_qty" data-av_scale="tenant_return_`+ i +`_av_scale" data-live-search = "true"></select>
                       </td>
-                      <td><input class="form-control bg-primary text-white text-center" id="tenant_return_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_return_`+ i +`_unit_id"/></td>
-                      <td><input class="form-control av_qty text-center bg-primary text-white" id="tenant_return_`+ i +`_av_qty" readonly/></td>
-                      <td><input class="form-control av_scale text-center bg-primary text-white" id="tenant_return_`+ i +`_av_scale" readonly/></td>
+                      <td><input class="form-control bg-primary text-center" id="tenant_return_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_return_`+ i +`_unit_id"/></td>
+                      <td><input class="form-control av_qty text-center bg-primary" id="tenant_return_`+ i +`_av_qty" readonly/></td>
+                      <td><input class="form-control av_scale text-center bg-primary" id="tenant_return_`+ i +`_av_scale" readonly/></td>
                       <td><input class="form-control qty text-center" id="tenant_return_`+ i +`_qty" name="tenant_return[`+ i +`][qty]" data-product_id="tenant_return_`+ i +`_product_id" data-unit_id="tenant_return_`+ i +`_unit_id" data-av_qty="tenant_return_`+ i +`_av_qty" data-av_scale="tenant_return_`+ i +`_av_scale" data-scale="tenant_return_`+ i +`_scale"/></td>
                       <td><input class="form-control scale text-center" id="tenant_return_`+ i +`_scale" name="tenant_return[`+ i +`][scale]" data-product_id="tenant_return_`+ i +`_product_id" data-unit_id="tenant_return_`+ i +`_unit_id" data-av_qty="tenant_return_`+ i +`_av_qty" data-av_scale="tenant_return_`+ i +`_av_scale" data-qty="tenant_return_`+ i +`_qty"/> </td>
                       <td><input class="form-control retQty" id="tenant_return_`+ i +`_ret_qty" name="tenant_return[`+ i +`][ret_qty]" data-av_qty="tenant_return_`+ i +`_av_qty"/></td>

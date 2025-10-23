@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="form-group col-md-4 required">
                                 <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$tenantDelivery->invoice_no}}" readonly />
+                                <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$tenantDelivery->invoice_no}}" readonly />
                             </div>
                             <div class="form-group col-md-4 required">
                                 <label for="date">{{__('file.Date')}}</label>
@@ -76,9 +76,9 @@
                                                         <option value="{{$item->product_id}}">{{$item->product->product_name}}</option>
                                                     </select>
                                                 </td>
-                                                <td><input class="form-control bg-primary text-white text-center" id="tenant_delivery_{{$key}}_unit_show" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly /><input type="hidden" id="tenant_delivery_{{$key}}_unit_id" value="{{$item->product->unit->unit_name}}" /></td>
-                                                <td><input class="form-control av_qty text-center bg-primary text-white" id="tenant_delivery_{{$key}}_av_qty" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->qty ?? 0}}" readonly /></td>
-                                                <td><input class="form-control av_scale text-center bg-primary text-white" id="tenant_delivery_{{$key}}_av_scale" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->scale ?? 0}}" readonly /></td>
+                                                <td><input class="form-control bg-primary text-center" id="tenant_delivery_{{$key}}_unit_show" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly /><input type="hidden" id="tenant_delivery_{{$key}}_unit_id" value="{{$item->product->unit->unit_name}}" /></td>
+                                                <td><input class="form-control av_qty text-center bg-primary" id="tenant_delivery_{{$key}}_av_qty" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->qty ?? 0}}" readonly /></td>
+                                                <td><input class="form-control av_scale text-center bg-primary" id="tenant_delivery_{{$key}}_av_scale" value="{{$item->availableQty($item->warehouse_id,$item->product_id)->scale ?? 0}}" readonly /></td>
                                                 <td><input class="form-control qty text-center" id="tenant_delivery_{{$key}}_qty" name="tenant_delivery[{{$key}}][qty]" value="{{$item->qty}}" data-product_id="tenant_delivery_{{$key}}_product_id" data-unit_id="tenant_delivery_{{$key}}_unit_id" data-av_qty="tenant_delivery_{{$key}}_av_qty" data-av_scale="tenant_delivery_{{$key}}_av_scale" data-scale="tenant_delivery_{{$key}}_scale" /></td>
                                                 <td><input class="form-control scale text-center" id="tenant_delivery_{{$key}}_scale" name="tenant_delivery[{{$key}}][scale]" value="{{$item->scale}}" data-product_id="tenant_delivery_{{$key}}_product_id" data-unit_id="tenant_delivery_{{$key}}_unit_id" data-av_qty="tenant_delivery_{{$key}}_av_qty" data-av_scale="tenant_delivery_{{$key}}_av_scale" data-qty="tenant_delivery_{{$key}}_qty" /> </td>
                                                 <td><input class="form-control delQty" id="tenant_delivery_{{$key}}_del_qty" name="tenant_delivery[{{$key}}][del_qty]" value="{{$item->del_qty}}" data-av_qty="tenant_delivery_{{$key}}_av_qty" /></td>
@@ -259,9 +259,9 @@
                       <td>
                       <select class="form-control selectpicker product text-center" id="tenant_delivery_` + i + `_product_id" name="tenant_delivery[` + i + `][product_id]" data-warehouse_id = "tenant_delivery_` + i + `_warehouse_id" data-unit_show="tenant_delivery_` + i + `_unit_show" data-unit_id="tenant_delivery_` + i + `_unit_id" data-av_qty="tenant_delivery_` + i + `_av_qty" data-av_scale="tenant_delivery_` + i + `_av_scale" data-live-search = "true"></select>
                       </td>
-                      <td><input class="form-control bg-primary text-white text-center" id="tenant_delivery_` + i + `_unit_show" readonly/><input type="hidden" id="tenant_delivery_` + i + `_unit_id"/></td>
-                      <td><input class="form-control av_qty text-center bg-primary text-white" id="tenant_delivery_` + i + `_av_qty" readonly/></td>
-                      <td><input class="form-control av_scale text-center bg-primary text-white" id="tenant_delivery_` + i + `_av_scale" readonly/></td>
+                      <td><input class="form-control bg-primary text-center" id="tenant_delivery_` + i + `_unit_show" readonly/><input type="hidden" id="tenant_delivery_` + i + `_unit_id"/></td>
+                      <td><input class="form-control av_qty text-center bg-primary" id="tenant_delivery_` + i + `_av_qty" readonly/></td>
+                      <td><input class="form-control av_scale text-center bg-primary" id="tenant_delivery_` + i + `_av_scale" readonly/></td>
                       <td><input class="form-control qty text-center" id="tenant_delivery_` + i + `_qty" name="tenant_delivery[` + i + `][qty]" data-product_id="tenant_delivery_` + i + `_product_id" data-unit_id="tenant_delivery_` + i + `_unit_id" data-av_qty="tenant_delivery_` + i + `_av_qty" data-av_scale="tenant_delivery_` + i + `_av_scale" data-scale="tenant_delivery_` + i + `_scale"/></td>
                       <td><input class="form-control scale text-center" id="tenant_delivery_` + i + `_scale" name="tenant_delivery[` + i + `][scale]" data-product_id="tenant_delivery_` + i + `_product_id" data-unit_id="tenant_delivery_` + i + `_unit_id" data-av_qty="tenant_delivery_` + i + `_av_qty" data-av_scale="tenant_delivery_` + i + `_av_scale" data-qty="tenant_delivery_` + i + `_qty"/> </td>
                       <td><input class="form-control delQty" id="tenant_delivery_` + i + `_del_qty" name="tenant_delivery[` + i + `][del_qty]" data-av_qty="tenant_delivery_` + i + `_av_qty"/></td>

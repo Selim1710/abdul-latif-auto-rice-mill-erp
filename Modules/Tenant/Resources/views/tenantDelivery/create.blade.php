@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{__('file.Date')}}</label>
@@ -75,9 +75,9 @@
                                                 <td>
                                                     <select class="form-control selectpicker product text-center" id="tenant_delivery_0_product_id" name="tenant_delivery[0][product_id]" data-warehouse_id = "tenant_delivery_0_warehouse_id" data-unit_show="tenant_delivery_0_unit_show" data-unit_id="tenant_delivery_0_unit_id" data-av_qty="tenant_delivery_0_av_qty" data-av_scale="tenant_delivery_0_av_scale" data-live-search = "true"></select>
                                                 </td>
-                                                <td><input class="form-control bg-primary text-white text-center" id="tenant_delivery_0_unit_show" readonly/><input type="hidden" id="tenant_delivery_0_unit_id"/></td>
-                                                <td><input class="form-control av_qty text-center bg-primary text-white" id="tenant_delivery_0_av_qty" readonly/></td>
-                                                <td><input class="form-control av_scale text-center bg-primary text-white" id="tenant_delivery_0_av_scale" readonly/></td>
+                                                <td><input class="form-control bg-primary text-center" id="tenant_delivery_0_unit_show" readonly/><input type="hidden" id="tenant_delivery_0_unit_id"/></td>
+                                                <td><input class="form-control av_qty text-center bg-primary" id="tenant_delivery_0_av_qty" readonly/></td>
+                                                <td><input class="form-control av_scale text-center bg-primary" id="tenant_delivery_0_av_scale" readonly/></td>
                                                 <td><input class="form-control qty text-center" id="tenant_delivery_0_qty" name="tenant_delivery[0][qty]" data-product_id="tenant_delivery_0_product_id" data-unit_id="tenant_delivery_0_unit_id" data-av_qty="tenant_delivery_0_av_qty" data-av_scale="tenant_delivery_0_av_scale" data-scale="tenant_delivery_0_scale"/></td>
                                                 <td><input class="form-control scale text-center" id="tenant_delivery_0_scale" name="tenant_delivery[0][scale]" data-product_id="tenant_delivery_0_product_id" data-unit_id="tenant_delivery_0_unit_id" data-av_qty="tenant_delivery_0_av_qty" data-av_scale="tenant_delivery_0_av_scale" data-qty="tenant_delivery_0_qty"/> </td>
                                                 <td><input class="form-control delQty" id="tenant_delivery_0_del_qty" name="tenant_delivery[0][del_qty]" data-av_qty="tenant_delivery_0_av_qty"/></td>
@@ -242,9 +242,9 @@
                       <td>
                       <select class="form-control selectpicker product text-center" id="tenant_delivery_`+ i +`_product_id" name="tenant_delivery[`+ i +`][product_id]" data-warehouse_id = "tenant_delivery_`+ i +`_warehouse_id" data-unit_show="tenant_delivery_`+ i +`_unit_show" data-unit_id="tenant_delivery_`+ i +`_unit_id" data-av_qty="tenant_delivery_`+ i +`_av_qty" data-av_scale="tenant_delivery_`+ i +`_av_scale" data-live-search = "true"></select>
                       </td>
-                      <td><input class="form-control bg-primary text-white text-center" id="tenant_delivery_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_delivery_`+ i +`_unit_id"/></td>
-                      <td><input class="form-control av_qty text-center bg-primary text-white" id="tenant_delivery_`+ i +`_av_qty" readonly/></td>
-                      <td><input class="form-control av_scale text-center bg-primary text-white" id="tenant_delivery_`+ i +`_av_scale" readonly/></td>
+                      <td><input class="form-control bg-primary text-center" id="tenant_delivery_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_delivery_`+ i +`_unit_id"/></td>
+                      <td><input class="form-control av_qty text-center bg-primary" id="tenant_delivery_`+ i +`_av_qty" readonly/></td>
+                      <td><input class="form-control av_scale text-center bg-primary" id="tenant_delivery_`+ i +`_av_scale" readonly/></td>
                       <td><input class="form-control qty text-center" id="tenant_delivery_`+ i +`_qty" name="tenant_delivery[`+ i +`][qty]" data-product_id="tenant_delivery_`+ i +`_product_id" data-unit_id="tenant_delivery_`+ i +`_unit_id" data-av_qty="tenant_delivery_`+ i +`_av_qty" data-av_scale="tenant_delivery_`+ i +`_av_scale" data-scale="tenant_delivery_`+ i +`_scale"/></td>
                       <td><input class="form-control scale text-center" id="tenant_delivery_`+ i +`_scale" name="tenant_delivery[`+ i +`][scale]" data-product_id="tenant_delivery_`+ i +`_product_id" data-unit_id="tenant_delivery_`+ i +`_unit_id" data-av_qty="tenant_delivery_`+ i +`_av_qty" data-av_scale="tenant_delivery_`+ i +`_av_scale" data-qty="tenant_delivery_`+ i +`_qty"/> </td>
                       <td><input class="form-control delQty" id="tenant_delivery_`+ i +`_del_qty" name="tenant_delivery[`+ i +`][del_qty]" data-av_qty="tenant_delivery_`+ i +`_av_qty"/></td>

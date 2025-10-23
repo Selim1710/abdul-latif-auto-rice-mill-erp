@@ -96,11 +96,11 @@
                 }],
                 "dom"          : "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6' <'float-right'B>>> <'row'<'col-sm-12'tr>> <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'<'float-right'p>>>",
                 "buttons"      : [
-                    { 'extend' :'colvis','className':'btn btn-secondary btn-sm text-white','text':'{{__('file.Column')}}','columns': ':gt(0)' },
+                    { 'extend' :'colvis','className':'btn btn-secondary btn-sm','text':'{{__('file.Column')}}','columns': ':gt(0)' },
                     {
                         "extend"       : 'print',
                         'text'         :'{{__('file.Print')}}',
-                        'className'    :'btn btn-secondary btn-sm text-white',
+                        'className'    :'btn btn-secondary btn-sm',
                         "title"        : "{{ $page_title }} List",
                         "orientation"  : "landscape", //portrait
                         "pageSize"     : "A4", //A3,A5,A6,legal,letter
@@ -118,7 +118,7 @@
                     }, {
                         "extend"       : 'csv',
                         'text'         :'{{__('file.CSV')}}',
-                        'className'    :'btn btn-secondary btn-sm text-white',
+                        'className'    :'btn btn-secondary btn-sm',
                         "title"        : "{{ $page_title }} List",
                         "filename"     : "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                         "exportOptions": {
@@ -127,7 +127,7 @@
                     }, {
                         "extend"       : 'excel',
                         'text'         :'{{__('file.Excel')}}',
-                        'className'    :'btn btn-secondary btn-sm text-white',
+                        'className'    :'btn btn-secondary btn-sm',
                         "title"        : "{{ $page_title }} List",
                         "filename"     : "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                         "exportOptions": {
@@ -136,7 +136,7 @@
                     }, {
                         "extend"       : 'pdf',
                         'text'         :'{{__('file.PDF')}}',
-                        'className'    :'btn btn-secondary btn-sm text-white',
+                        'className'    :'btn btn-secondary btn-sm',
                         "title"        : "{{ $page_title }} List",
                         "filename"     : "{{ strtolower(str_replace(' ','-',$page_title)) }}-list",
                         "orientation"  : "landscape", //portrait

@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$tenantReceive->invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$tenantReceive->invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{__('file.Date')}}</label>
@@ -72,7 +72,7 @@
                                                         <option value = "{{$item->product_id}}">{{$item->product->product_name}}</option>
                                                     </select>
                                                 </td>
-                                                <td><input class="form-control bg-primary text-white text-center" id="tenant_receive_{{$key}}_unit_show" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/><input type="hidden" id="tenant_receive_{{$key}}_unit_id" value="{{$item->product->unit->unit_name}}"/></td>
+                                                <td><input class="form-control bg-primary text-center" id="tenant_receive_{{$key}}_unit_show" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/><input type="hidden" id="tenant_receive_{{$key}}_unit_id" value="{{$item->product->unit->unit_name}}"/></td>
                                                 <td><input class="form-control qty text-center" id="tenant_receive_{{$key}}_qty" name="tenant_receive[{{$key}}][qty]" value="{{$item->qty}}" data-product_id="tenant_receive_{{$key}}_product_id" data-unit_id="tenant_receive_{{$key}}_unit_id" data-scale="tenant_receive_{{$key}}_scale"/></td>
                                                 <td><input class="form-control scale text-center" id="tenant_receive_{{$key}}_scale" name="tenant_receive[{{$key}}][scale]" value="{{$item->scale}}" data-product_id="tenant_receive_{{$key}}_product_id" data-unit_id="tenant_receive_{{$key}}_unit_id" data-qty="tenant_receive_{{$key}}_qty"/> </td>
                                                 <td><input class="form-control" id="tenant_receive_{{$key}}_rec_qty" name="tenant_receive[{{$key}}][rec_qty]" value="{{$item->rec_qty}}"/></td>
@@ -192,7 +192,7 @@
                       </select>
                       </td>
                       <td><select class="form-control selectpicker product text-center" id="tenant_receive_`+ i +`_product_id" name="tenant_receive[`+ i +`][product_id]" data-unit_show="tenant_receive_`+ i +`_unit_show" data-unit_id="tenant_receive_`+ i +`_unit_id"  data-live-search = "true"></select></td>
-                      <td><input class="form-control bg-primary text-white text-center" id="tenant_receive_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_receive_`+ i +`_unit_id"/></td>
+                      <td><input class="form-control bg-primary text-center" id="tenant_receive_`+ i +`_unit_show" readonly/><input type="hidden" id="tenant_receive_`+ i +`_unit_id"/></td>
                       <td><input class="form-control qty text-center" id="tenant_receive_`+ i +`_qty" name="tenant_receive[`+ i +`][qty]" data-product_id="tenant_receive_`+ i +`_product_id" data-unit_id="tenant_receive_`+ i +`_unit_id" data-scale="tenant_receive_`+ i +`_scale"/></td>
                       <td><input class="form-control scale text-center" id="tenant_receive_`+ i +`_scale" name="tenant_receive[`+ i +`][scale]" data-product_id="tenant_receive_`+ i +`_product_id" data-unit_id="tenant_receive_`+ i +`_unit_id" data-qty="tenant_receive_`+ i +`_qty"/> </td>
                       <td><input class="form-control" id="tenant_receive_`+ i +`_rec_qty" name="tenant_receive[`+ i +`][rec_qty]"/></td>
