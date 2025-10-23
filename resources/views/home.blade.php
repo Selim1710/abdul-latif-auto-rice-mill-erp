@@ -1,162 +1,226 @@
 @extends('layouts.app')
-@section('title','Dashboard')
+
+@section('title', 'Dashboard')
+
 @push('styles')
-<style>
-    .today-btn{
-        border-radius: 5px 0 0 5px !important;
-    }
-    .week-btn,.month-btn{
-        border-radius: 0 !important;
-    }
-    .year-btn{
-        border-radius: 0 5px 5px 0 !important;
-    }
-    .icon{
-        width: 40px;
-        height: 40px;
-    }
-</style>
+    <link rel="stylesheet" href="css/chart.min.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            background: #fff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 150px;
+            justify-content: start;
+            align-items: center;
+            padding: 16px 24px;
+            display: flex;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: 24px;
+            object-fit: contain;
+        }
+
+        .dashboard-value {
+            font-weight: 600;
+            text-align: start;
+        }
+
+        /* Colors */
+        .text-teal {
+            color: #03A6A1;
+            font-size: 24px;
+        }
+
+        .text-pink {
+            color: #EA2264;
+            font-size: 24px;
+        }
+
+        .text-green {
+            color: #59AC77;
+            font-size: 24px;
+        }
+
+        .text-purple {
+            color: #B5179E;
+            font-size: 24px;
+        }
+
+        .text-orange {
+            color: #FF714B;
+            font-size: 24px;
+        }
+
+        .text-blue {
+            color: #007BFF;
+            font-size: 24px;
+        }
+
+        .text-cyan {
+            color: #1E93AB;
+            font-size: 24px;
+        }
+
+        .text-green-secondary {
+            color: #67C090;
+            font-size: 24px;
+        }
+
+        .text-purple-secondary {
+            color: #9929EA;
+            font-size: 24px;
+        }
+
+        .text-ash-blue {
+            color: #696FC7;
+            font-size: 24px;
+        }
+
+        .text-blue-secondary {
+            color: #0BA6DF;
+            font-size: 24px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            text-align: start;
+            color: #000;
+        }
+
+        /* Grid layout fix */
+        .dashboard-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            /* ✅ Aligns last row to the left */
+            gap: 20px;
+        }
+
+        .dashboard-row .dashboard-col {
+            flex: 1 1 calc(33.333% - 20px);
+            max-width: calc(33.333% - 20px);
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-row .dashboard-col {
+                flex: 1 1 calc(50% - 20px);
+                max-width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-row .dashboard-col {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 @endpush
+
 @section('content')
     <div class="d-flex flex-column-fluid">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/customer.png')}}" alt="customer"></div>
-                        <br/>
-                        <h5><b>{{ $party }}</b></h5>
-                        <h5><b>{{__('file.Party')}}</b></h5>
+            <div class="dashboard-row">
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/customer.png') }}" class="dashboard-icon" alt="Party">
+                        <div class="dashboard-value text-teal">{{ $party ?? 0 }} TK
+                            <p class="card-text"><small>Party</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/supplier.png')}}" alt="supplier"></div>
-                        <br/>
-                        <h5><b>{{ $tenant }}</b></h5>
-                        <h5><b>{{__('file.Tenant')}}</b></h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/labor.png') }}" class="dashboard-icon" alt="labor">
+                        <div class="dashboard-value text-pink">{{ $labor ?? 0 }} TK
+                            <p class="card-text"><small>Labor</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/labor.png')}}" alt="labor"></div>
-                        <br/>
-                        <h5><b>{{ $labor }}</b></h5>
-                        <h5><b>{{__('file.Labor')}}</b></h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/categories.png') }}" class="dashboard-icon" alt="category">
+                        <div class="dashboard-value text-green">{{ $category ?? 0 }}
+                            <p class="card-text"><small>Category</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/bank.png')}}" alt="bank"></div>
-                        <h5>{{ 0 }}</h5>
-                        <h5>{{__('file.Bank')}}</h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/product.png') }}" class="dashboard-icon" alt="product">
+                        <div class="dashboard-value text-purple">{{ $product ?? 0 }}
+                            <p class="card-text"><small>product</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/mobile_bank.png')}}" alt="mobile bank"></div>
-                        <h5>{{ 0 }}</h5>
-                        <h5>{{__('file.Mobile Bank')}}</h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/purchase.png') }}" class="dashboard-icon" alt="purchase">
+                        <div class="dashboard-value text-orange">{{ number_format($purchases, 2) }}
+                            <p class="card-text"><small>purchase</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/cash.png')}}" alt="cash"></div>
-                        <h5>{{ 0 }}</h5>
-                        <h5>{{__('file.Cash')}}</h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/sale.png') }}" class="dashboard-icon" alt="sale">
+                        <div class="dashboard-value text-cyan">{{ number_format($sales, 2) }}
+                            <p class="card-text"><small>{{ __('file.Sale') }} </small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/categories.png')}}" alt="category"></div>
-                        <br/>
-                        <h5><b>{{ $category }}</b></h5>
-                        <h5><b>{{__('file.Category')}}</b></h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/mill.png') }}" class="dashboard-icon" alt="{{ __('file.Mill') }}">
+                        <div class="dashboard-value text-green-secondary">{{ $mill ?? 0 }}
+                            <p class="card-text"><small>{{ __('file.Mill') }}</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/product.png')}}" alt="product"></div>
-                        <br/>
-                        <h5><b>{{ $product }}</b></h5>
-                        <h5><b>{{__('file.Product')}}</b></h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/transport.png') }}" class="dashboard-icon"
+                            alt="{{ __('file.Transport') }}">
+                        <div class="dashboard-value text-purple-secondary">{{ $truck ?? 0 }}
+                            <p class="card-text"><small>{{ __('file.Transport') }}</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/purchase.png')}}" alt="purchase"></div>
-                        <br/>
-                        <h5><b>{{ number_format($purchases,2) }}</b></h5>
-                        <h5><b>{{__('file.Purchase')}}</b></h5>
+
+                <div class="dashboard-col">
+                    <div class="dashboard-card">
+                        <img src="{{ asset('icon/user.png') }}" class="dashboard-icon" alt="{{ __('file.User') }}">
+                        <div class="dashboard-value text-ash-blue">{{ $user ?? 0 }}
+                            <p class="card-text"><small>{{ __('file.User') }}</small></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/sale.png')}}" alt="sale"></div>
-                        <br/>
-                        <h5><b>{{ number_format($sales,2) }}</b></h5>
-                        <h5><b>{{__('file.Sale')}}</b></h5>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5 text-primary bold">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/income.png')}}" alt="income"></div>
-                        <h5>{{ 0 }}</h5>
-                        <h5>{{__('file.Income')}}</h5>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/expense.png')}}" alt="expense"></div>
-                        <h5>{{ 0 }}</h5>
-                        <h5>{{__('file.Expense')}}</h5>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/mill.png')}}" alt="mill"></div>
-                        <br/>
-                        <h5><b>{{ $mill }}</b></h5>
-                        <h5><b>{{__('file.Mill')}}</b></h5>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/transport.png')}}" alt="transport"></div>
-                        <br/>
-                        <h5><b>{{ $truck }}</b></h5>
-                        <h5><b>{{__('file.Transport')}}</b></h5>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="bg-white text-center py-3 text-primary bold">
-                        <div><img src="{{asset('icon/user.png')}}" alt="user"></div>
-                        <br/>
-                        <h5><b>{{ $user }}</b></h5>
-                        <h5><b>{{__('file.User')}}</b></h5>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
 @endsection
-@push('scripts')
-<script>
-{{--$(document).ready(function(){--}}
-{{--    $('.data-btn').on('click',function(){--}}
-{{--        $('.data-btn').removeClass('active');--}}
-{{--        $(this).addClass('active');--}}
-{{--        var start_date = $(this).data('start_date');--}}
-{{--        var end_date = $(this).data('end_date');--}}
-{{--        $.get("{{ url('dashboard-data') }}/"+start_date+'/'+end_date, function(data){--}}
-{{--            $('#sale').text((data.sale).toFixed(2)+'Tk');--}}
-{{--            $('#purchase').text((data.purchase).toFixed(2)+'Tk');--}}
-{{--            $('#machine_purchase').text((data.machine_purchase).toFixed(2)+'Tk');--}}
-{{--            $('#expense').text((data.expense).toFixed(2)+'Tk');--}}
-{{--            $('#maintenance_service').text((data.maintenance_service).toFixed(2)+'Tk');--}}
-{{--            $('#transport_service').text((data.transport_service).toFixed(2)+'Tk');--}}
-{{--        });--}}
-{{--    });--}}
-{{--});--}}
-</script>
-@endpush
