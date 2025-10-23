@@ -18,19 +18,19 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="invoice_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-center text-white" id="invoice_no" name="invoice_no" value="{{$invoiceNo}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoiceNo}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="purchase_date">{{__('file.Purchase Date')}}</label>
-                                    <input type="date" class="form-control date bg-primary text-center text-white" id="purchase_date" name="purchase_date" value="{{$purchase->purchase_date}}" readonly/>
+                                    <input type="date" class="form-control date bg-primary text-center" id="purchase_date" name="purchase_date" value="{{$purchase->purchase_date}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="party_type">{{__('file.Party Type')}}</label>
-                                    <input type="text" class="form-control bg-primary text-center text-white" id="party_type" name="party_type" value="{{PARTY_TYPE_VALUE[$purchase->party_type]}}"/>
+                                    <input type="text" class="form-control bg-primary text-center" id="party_type" name="party_type" value="{{PARTY_TYPE_VALUE[$purchase->party_type]}}"/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="party">{{__('file.Party')}}</label>
-                                    <input type="text" class="form-control bg-primary text-center text-white" id="party" name="party" value="{{$purchase->party_type == 1 ? $purchase->party->name : $purchase->party_name}}"/>
+                                    <input type="text" class="form-control bg-primary text-center" id="party" name="party" value="{{$purchase->party_type == 1 ? $purchase->party->name : $purchase->party_name}}"/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="return_date">{{__('file.Return Date')}}</label>
@@ -55,23 +55,23 @@
                                                     <tr class="text-center">
                                                         <input type="hidden" name="return[{{$key}}][id]" value="{{$item->id}}"/>
                                                         <td>
-                                                            <select class="form-control bg-primary text-white text-center" id="return_{{$key}}_warehouse_id" name="return[{{$key}}][warehouse_id]">
+                                                            <select class="form-control bg-primary text-center" id="return_{{$key}}_warehouse_id" name="return[{{$key}}][warehouse_id]">
                                                                 <option value="{{$item->warehouse->id}}">{{$item->warehouse->name}}</option>
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <select class="form-control bg-primary text-white text-center" id="return_{{$key}}_product_id" name="return[{{$key}}][product_id]">
+                                                            <select class="form-control bg-primary text-center" id="return_{{$key}}_product_id" name="return[{{$key}}][product_id]">
                                                                 <option value="{{$item->product->id}}">{{$item->product->product_name}}</option>
                                                             </select>
                                                         </td>
-                                                        <td><input type="text" class="form-control bg-primary text-white text-center" id="return_{{$key}}_unit_name" name="return[{{$key}}][unit_name]" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/></td>
-                                                        <td><input type="text" class="form-control price bg-primary text-white text-center" id="return_{{$key}}_price" name="return[{{$key}}][price]" value="{{$item->sub_total / $item->rec_qty}}" readonly/></td>
+                                                        <td><input type="text" class="form-control bg-primary text-center" id="return_{{$key}}_unit_name" name="return[{{$key}}][unit_name]" value="{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}" readonly/></td>
+                                                        <td><input type="text" class="form-control price bg-primary text-center" id="return_{{$key}}_price" name="return[{{$key}}][price]" value="{{$item->sub_total / $item->rec_qty}}" readonly/></td>
                                                         <input type="hidden" name="return[{{$key}}][scale]" value="{{$item->scale}}"/>
                                                         <input type="hidden" name="return[{{$key}}][rec_qty]" value="{{$item->rec_qty}}"/>
-                                                        <td><input type="text" class="form-control bg-primary text-white text-center" id="return_{{$key}}_received_qty" value="{{$item->receive_qty}}" readonly/></td>
-                                                        <td><input type="text" class="form-control bg-primary text-white text-center" id="return_{{$key}}_returned_qty" value="{{$item->return_qty}}" readonly/></td>
+                                                        <td><input type="text" class="form-control bg-primary text-center" id="return_{{$key}}_received_qty" value="{{$item->receive_qty}}" readonly/></td>
+                                                        <td><input type="text" class="form-control bg-primary text-center" id="return_{{$key}}_returned_qty" value="{{$item->return_qty}}" readonly/></td>
                                                         <td><input type="text" class="form-control returnQty text-center" id="return_{{$key}}_return_qty" name="return[{{$key}}][return_qty]" data-price = "return_{{$key}}_price" data-received_qty = "return_{{$key}}_received_qty" data-returned_qty = "return_{{$key}}_returned_qty" data-sub_total = "return_{{$key}}_sub_total"/></td>
-                                                        <td><input type="text" class="form-control subTotal bg-primary text-white text-center" id="return_{{$key}}_sub_total" name="return[{{$key}}][sub_total]" readonly/></td>
+                                                        <td><input type="text" class="form-control subTotal bg-primary text-center" id="return_{{$key}}_sub_total" name="return[{{$key}}][sub_total]" readonly/></td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
