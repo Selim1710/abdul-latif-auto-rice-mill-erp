@@ -67,7 +67,7 @@
                                         <tfoot>
                                         <tr>
                                             <td class="text-right" colspan="2">Total</td>
-                                            <td><input type="text" class="form-control text-right bg-primary text-white" name="debit_grand_total" id="debit_grand_total" placeholder="0.00" readonly></td>
+                                            <td><input type="text" class="form-control text-right bg-primary" name="debit_grand_total" id="debit_grand_total" placeholder="0.00" readonly></td>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -84,7 +84,7 @@
                                         <tbody>
                                         <tr class="text-center">
                                             <td>
-                                                <input type="text" class="form-control text-right bg-primary text-white" id="amount" name="amount" />
+                                                <input type="text" class="form-control text-right bg-primary" id="amount" name="amount" />
                                             </td>
                                             <td>
                                                 <select class="form-control selectpicker" id="loan_id" name="loan_id" data-live-search="true">
@@ -101,7 +101,7 @@
                                         </tbody>
                                         <tfoot>
                                         <tr>
-                                            <td><input type="text" class="form-control text-left bg-primary text-white" id="amount_total" name="amount_total" placeholder="0.00" readonly></td>
+                                            <td><input type="text" class="form-control text-left bg-primary" id="amount_total" name="amount_total" placeholder="0.00" readonly></td>
                                             <td class="text-left" colspan="2">Total</td>
                                         </tr>
                                         </tfoot>

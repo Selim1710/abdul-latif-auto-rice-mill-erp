@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-md-4"><br/>
                                 <label for="total_amount">{{__('file.Total Amount')}}</label>
-                                <input type="text" class="form-control bg-primary text-white" id="total_amount" name="total_amount" value="{{$details->total_amount}}" readonly/>
+                                <input type="text" class="form-control bg-primary" id="total_amount" name="total_amount" value="{{$details->total_amount}}" readonly/>
                             </div>
                             <div class="col-md-4"><br/>
                                 <label for="processing_charge">{{__('file.Processing Charge')}}</label>
@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-md-4"><br/>
                                 <label for="monthly_installment">{{__('file.Monthly Installment')}}</label>
-                                <input type="text" class="form-control bg-primary text-white" id="monthly_installment" name="monthly_installment" value="{{$details->monthly_installment}}" readonly/>
+                                <input type="text" class="form-control bg-primary" id="monthly_installment" name="monthly_installment" value="{{$details->monthly_installment}}" readonly/>
                             </div>
                             <div class="col-md-4"><br/>
                                 <label for="document">{{__('file.Document')}}</label>

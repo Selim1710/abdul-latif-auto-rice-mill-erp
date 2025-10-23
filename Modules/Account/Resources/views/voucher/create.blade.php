@@ -19,11 +19,11 @@
                         <div class="row">
                             <div class="form-group col-md-4 required">
                                 <label for="voucher_no"> {{__('file.Voucher No')}}</label>
-                                <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no" readonly />
+                                <input type="text" class="form-control bg-primary" name="voucher_no" value="" id="voucher_no" readonly />
                             </div>
                             <div class="form-group col-md-4 required">
                                 <label for="voucher_date"> {{__('file.Date')}}</label>
-                                <input type="date" class="form-control" name="date" id=date" value="{{ date('Y-m-d') }}"/>
+                                <input type="date" class="form-control" name="date" id="date" value="{{ date('Y-m-d') }}"/>
                             </div>
                             <div class="form-group col-md-4 required">
                                 <label for="voucher_type"> {{__('file.Voucher Type')}}</label>
