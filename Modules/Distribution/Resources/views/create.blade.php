@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="invoice_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{__('file.Date')}}.</label>
@@ -71,10 +71,10 @@
                                                     </td>
                                                     <td><select class="form-control product selectpicker" id="distribution_0_product_id" data-warehouse_id="distribution_0_warehouse_id" data-unit_id_show = "distribution_0_unit_id_show" data-unit_id = "distribution_0_unit_id" data-available_qty = "distribution_0_available_qty" name="distribution[0][product_id]" data-live-search="true"></select></td>
                                                     <td>
-                                                        <input type="text" class="form-control bg-primary text-white" id="distribution_0_unit_id_show" readonly/>
-                                                        <input type="hidden" class="form-control bg-primary text-white" id="distribution_0_unit_id" readonly/>
+                                                        <input type="text" class="form-control bg-primary" id="distribution_0_unit_id_show" readonly/>
+                                                        <input type="hidden" class="form-control bg-primary" id="distribution_0_unit_id" readonly/>
                                                     </td>
-                                                    <td><input type="text" class="form-control bg-primary text-white" id="distribution_0_available_qty" readonly/></td>
+                                                    <td><input type="text" class="form-control bg-primary" id="distribution_0_available_qty" readonly/></td>
                                                     <td><input type="number" class="form-control qty" id="distribution_0_qty" name="distribution[0][qty]" data-product_id = "distribution_0_product_id" data-available_qty = "distribution_0_available_qty" data-unit_id = "distribution_0_unit_id" data-scale="distribution_0_scale"/></td>
                                                     <td><input type="text" class="form-control scale" id="distribution_0_scale" name="distribution[0][scale]" data-product_id = "distribution_0_product_id" data-available_qty = "distribution_0_available_qty" data-unit_id = "distribution_0_unit_id" data-qty="distribution_0_qty"/></td>
                                                     <td><input type="text" class="form-control disQty" id="distribution_0_dis_qty" name="distribution[0][dis_qty]" data-product_id = "distribution_0_product_id" data-available_qty = "distribution_0_available_qty"/></td>
@@ -226,10 +226,10 @@
                       </td>
                       <td><select class="form-control product selectpicker" id="distribution_`+ i +`_product_id" data-warehouse_id="distribution_`+ i +`_warehouse_id" data-unit_id_show = "distribution_`+ i +`_unit_id_show" data-unit_id = "distribution_`+ i +`_unit_id" data-available_qty = "distribution_`+ i +`_available_qty" name="distribution[`+ i +`][product_id]" data-live-search="true"></select></td>
                       <td>
-                      <input type="text" class="form-control bg-primary text-white" id="distribution_`+ i +`_unit_id_show" readonly/>
-                      <input type="hidden" class="form-control bg-primary text-white" id="distribution_`+ i +`_unit_id" readonly/>
+                      <input type="text" class="form-control bg-primary" id="distribution_`+ i +`_unit_id_show" readonly/>
+                      <input type="hidden" class="form-control bg-primary" id="distribution_`+ i +`_unit_id" readonly/>
                       </td>
-                      <td><input type="text" class="form-control bg-primary text-white" id="distribution_`+ i +`_available_qty" readonly/></td>
+                      <td><input type="text" class="form-control bg-primary" id="distribution_`+ i +`_available_qty" readonly/></td>
                       <td><input type="number" class="form-control qty" id="distribution_`+ i +`_qty" name="distribution[`+ i +`][qty]" data-product_id = "distribution_`+ i +`_product_id" data-available_qty = "distribution_`+ i +`_available_qty" data-unit_id = "distribution_`+ i +`_unit_id" data-scale="distribution_`+ i +`_scale"/></td>
                       <td><input type="text" class="form-control scale" id="distribution_`+ i +`_scale" name="distribution[`+ i +`][scale]" data-product_id = "distribution_`+ i +`_product_id" data-available_qty = "distribution_`+ i +`_available_qty" data-unit_id = "distribution_`+ i +`_unit_id" data-qty="distribution_`+ i +`_qty"/></td>
                       <td><input type="text" class="form-control disQty" id="distribution_`+ i +`_dis_qty" name="distribution[`+ i +`][dis_qty]" data-product_id = "distribution_`+ i +`_product_id" data-available_qty = "distribution_`+ i +`_available_qty"/></td>

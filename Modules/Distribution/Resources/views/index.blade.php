@@ -121,7 +121,7 @@
                     keyboard: false,
                     backdrop: 'static',
                 });
-                $('#store_or_update_modal .modal-title').html('<i class="fas fa-edit text-white"></i> <span>{{__('file.Edit')}}' + $(this).data('category_name') + '</span>');
+                $('#store_or_update_modal .modal-title').html('<i class="fas fa-edit"></i> <span>{{__('file.Edit')}}' + $(this).data('category_name') + '</span>');
                 $('#store_or_update_modal #save-btn').text('{{__('file.Update')}}');
             });
             $(document).on('click', '.change_status', function () {
