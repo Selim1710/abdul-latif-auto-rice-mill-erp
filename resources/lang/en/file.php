@@ -1978,4 +1978,8 @@ return [
     'Manage Leave'                       => 'Manage Leave',
     'Labour Type'                       => 'Labour Type',
 
+    // new
+    'Labour Head'                       => 'Labour Head',
+
+
 ];

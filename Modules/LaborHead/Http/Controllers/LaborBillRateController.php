@@ -60,18 +60,14 @@ class LaborBillRateController extends BaseController
                 $no++;
                 $action = '';
                 if (permission('labor-bill-rate-edit')) {
-                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '"  data-warehouse_id="' . ($value->warehouse_id ?? '') . '" data-name="' . $value->name . '" data-rate="' . $value->rate . '">' . $this->actionButton('Edit') . '</a>';
+                    $action .= ' <a class="dropdown-item" href="' . route('labor.bill.rate.edit', $value->id) . '">' . $this->actionButton('Edit') . '</a>';
                 }
                 if (permission('labor-bill-rate-delete')) {
                     $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">' . $this->actionButton('Delete') . '</a>';
                 }
                 $row    = [];
                 $row[]  = $no;
-                $row[]  = $value->warehouse->name ?? '';
-                $row[]  = $value->name;
-                $row[]  = $value->rate;
-                $row[]  = STATUS_LABEL[$value->status];
-                $row[]  = $value->created_by;
+                $row[]  = $value->labour_head->name ?? '';
                 $row[]  = action_button($action);
                 $data[] = $row;
             }
@@ -88,6 +84,7 @@ class LaborBillRateController extends BaseController
             $collection   = collect($request->all());
             $result       = $this->model->updateOrCreate(['id' => $request->update_id], $collection->all());
             if (!empty($request->warehouse)) {
+                LaborBillRateDetail::where(['labor_bill_rate_id' => $result->id,])->delete();
                 foreach ($request->warehouse as $warehouse) {
                     LaborBillRateDetail::create([
                         'labor_bill_rate_id' => $result->id,
@@ -103,10 +100,26 @@ class LaborBillRateController extends BaseController
         }
     }
 
+    public function edit($id)
+    {
+        if (permission('labor-bill-add')) {
+            $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
+            $data = [
+                'labor_bill_rate' => $this->model->find($id),
+                'laborHeads' => LaborHead::get(),
+                'warehouses' => Warehouse::where('status', 1)->get(),
+            ];
+            return view('laborhead::laborBillRate.create_edit', $data);
+        } else {
+            return $this->access_blocked();
+        }
+    }
+
     public function delete(Request $request)
     {
         if ($request->ajax() && permission('labor-bill-rate-delete')) {
             $result   = $this->model->find($request->id)->delete();
+            LaborBillRateDetail::where(['labor_bill_rate_id' => $request->id])->delete();
             $output   = $this->delete_message($result);
             return response()->json($output);
         } else {

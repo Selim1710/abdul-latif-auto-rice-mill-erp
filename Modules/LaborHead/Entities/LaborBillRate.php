@@ -23,15 +23,15 @@ class LaborBillRate extends BaseModel
         return $this->hasMany(LaborBill::class, 'labor_bill_rate_id', 'id');
     }
     
-    public function warehouse()
+    public function labour_head()
     {
-        return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
+        return $this->hasOne(LaborHead::class, 'id', 'labor_head_id');
     }
     
     private function get_datatable_query()
     {
         $this->column_order = ['id', 'name', 'rate', 'status', 'created_by', null];
-        $query              = self::with('warehouse');
+        $query              = self::with('labour_head');
         // $query              = self::toBase();
         if (!empty($this->_name)) {
             $query->where('name', 'like', '%' . $this->_name . '%');

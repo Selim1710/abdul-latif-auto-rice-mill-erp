@@ -52,11 +52,7 @@
                                     <thead class="bg-primary">
                                         <tr>
                                             <th>{{ __('file.SL') }}</th>
-                                            <th>{{ __('file.Warehouse') }}</th>
-                                            <th>{{ __('file.Name') }}</th>
-                                            <th>{{ __('file.Rate') }}</th>
-                                            <th>{{ __('file.Status') }}</th>
-                                            <th>{{ __('file.Created By') }}</th>
+                                            <th>{{ __('file.Labour Head') }}</th>
                                             <th>{{ __('file.Action') }}</th>
                                         </tr>
                                     </thead>
@@ -101,7 +97,7 @@
                     }
                 },
                 "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5],
+                    "targets": [0, 1, 2],
                     "orderable": false,
                     "className": "text-center"
                 }, ],

@@ -17,6 +17,7 @@
             </div>
             <form id="labor_bill_form" method="post">
                 @csrf
+                <input type="hidden" name="update_id" value="{{ $labor_bill_rate->id ?? '' }}">
                 <div class="card card-custom">
                     <div class="card-body">
                         <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -28,7 +29,9 @@
                                             name="labor_head_id" required data-live-search = "true">
                                             <option value="">Select Please</option>
                                             @foreach ($laborHeads as $labor)
-                                                <option value="{{ $labor->id }}">{{ $labor->name }}</option>
+                                                <option value="{{ $labor->id }}"
+                                                    @if (!empty($labor_bill_rate) && $labor_bill_rate->labor_head_id == $labor->id) Selected @endif>{{ $labor->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -43,6 +46,16 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($warehouses as $key => $warehouse)
+                                            @if (!empty($labor_bill_rate))
+                                                @php
+                                                    $labor_bill_rate_detail = \Modules\LaborHead\Entities\LaborBillRateDetail::where(
+                                                        [
+                                                            'labor_bill_rate_id' => $labor_bill_rate->id,
+                                                            'warehouse_id' => $warehouse->id,
+                                                        ],
+                                                    )->first();
+                                                @endphp
+                                                @endif
                                                 <tr class="text-center">
                                                     <td>
                                                         <input type="text" class="form-control bg-primary"
@@ -56,7 +69,7 @@
                                                         <input type="text" class="form-control rate"
                                                             id="warehouse_{{ $key }}_rate"
                                                             name="warehouse[{{ $key }}][rate]"
-                                                            value="{{ $warehouse->rate ?? '' }}" />
+                                                            value="{{ $labor_bill_rate_detail->rate ?? '' }}" />
                                                     </td>
                                                 </tr>
                                             @endforeach
