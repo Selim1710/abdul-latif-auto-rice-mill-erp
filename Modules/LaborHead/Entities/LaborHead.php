@@ -5,35 +5,57 @@ namespace Modules\LaborHead\Entities;
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\Cache;
 use Modules\ChartOfHead\Entities\ChartOfHead;
+use Modules\Setting\Entities\Warehouse;
 
-class LaborHead extends BaseModel{
-    protected $fillable               = [ 'name','mobile','previous_balance','status','created_by','modified_by' ];
+class LaborHead extends BaseModel
+{
+    protected $fillable               = ['warehouse_id', 'labour_type_id', 'name', 'mobile', 'previous_balance', 'status', 'created_by', 'modified_by'];
     protected $table                  = 'labor_heads';
     protected const ALL_LABORHEADS    = '_labor_head';
     protected $_name;
     protected $_mobile;
     protected $_status;
-    public function coh(){
-        return $this->hasOne(ChartOfHead::class,'labor_head_id','id');
+
+    public function coh()
+    {
+        return $this->hasOne(ChartOfHead::class, 'labor_head_id', 'id');
     }
-    public function scopeActive($query){
-        return $query->where(['status'=>1]);
+
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
     }
-    public function scopeInactive($query){
-        return $query->where(['status'=>2]);
+
+    public function labourType()
+    {
+        return $this->hasOne(LabourType::class, 'id', 'labour_type_id');
     }
-    public function setName($name){
+
+    public function scopeActive($query)
+    {
+        return $query->where(['status' => 1]);
+    }
+    public function scopeInactive($query)
+    {
+        return $query->where(['status' => 2]);
+    }
+    public function setName($name)
+    {
         $this->_name = $name;
     }
-    public function setMobile($mobile){
+    public function setMobile($mobile)
+    {
         $this->_mobile = $mobile;
     }
-    public function setStatus($status){
+    public function setStatus($status)
+    {
         $this->_status = $status;
     }
-    private function get_datatable_query(){
-        $this->column_order = ['id', 'name','mobile','previous_balance','status','created_by','modified_by', null];
-        $query              = self::toBase();
+    private function get_datatable_query()
+    {
+        $this->column_order = ['id', 'name', 'mobile', 'previous_balance', 'status', 'created_by', 'modified_by', null];
+        $query              = self::with('warehouse', 'labourType');
+        // $query              = self::toBase();
         if (!empty($this->_name)) {
             $query->where('name', 'like', '%' . $this->_name . '%');
         }
@@ -50,7 +72,8 @@ class LaborHead extends BaseModel{
         }
         return $query;
     }
-    public function getDatatableList(){
+    public function getDatatableList()
+    {
         $query = $this->get_datatable_query();
         if ($this->lengthVlaue != -1) {
             $query->offset($this->startVlaue)->limit($this->lengthVlaue);
@@ -62,26 +85,30 @@ class LaborHead extends BaseModel{
         $query = $this->get_datatable_query();
         return $query->get()->count();
     }
-    public function count_all(){
+    public function count_all()
+    {
         return self::toBase()->get()->count();
     }
-    public static function allLaborHead(){
+    public static function allLaborHead()
+    {
         return Cache::rememberForever(self::ALL_LABORHEADS, function () {
-            return self::active()->orderBy('name','asc')->get();
+            return self::active()->orderBy('name', 'asc')->get();
         });
     }
-    public static function flushCache(){
+    public static function flushCache()
+    {
         Cache::forget(self::ALL_LABORHEADS);
     }
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
         static::updated(function () {
             self::flushCache();
         });
-        static::created(function() {
+        static::created(function () {
             self::flushCache();
         });
-        static::deleted(function() {
+        static::deleted(function () {
             self::flushCache();
         });
     }

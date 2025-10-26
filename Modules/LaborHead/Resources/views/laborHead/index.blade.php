@@ -52,6 +52,8 @@
                                     <thead class="bg-primary">
                                         <tr>
                                             <th>{{ __('file.SL') }}</th>
+                                            <th>{{ __('file.Warehouse') }}</th>
+                                            <th>{{ __('file.Labour Type') }}</th>
                                             <th>{{ __('file.Name') }}</th>
                                             <th>{{ __('file.Mobile') }}</th>
                                             <th>{{ __('file.Previous Balance') }}</th>
@@ -109,7 +111,7 @@
                     }
                 },
                 "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5, 6],
+                    "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8],
                     "orderable": false,
                     "className": "text-center"
                 }, ],
@@ -201,19 +203,30 @@
                 store_or_update_data(table, method, url, formData);
             });
             $(document).on('click', '.edit_data', function() {
-                _('update_id').value = $(this).data('id');
-                _('labor_name').value = $(this).data('name');
-                _('labor_mobile').value = $(this).data('mobile');
-                _('labor_previous_balance').value = $(this).data('previous_balance');
+                // Fill inputs
+                $('#update_id').val($(this).data('id'));
+                $('#labor_name').val($(this).data('name'));
+                $('#labor_mobile').val($(this).data('mobile'));
+                $('#labor_previous_balance').val($(this).data('previous_balance'));
+
+                // Select dropdown options
+                $('#warehouse_id').val($(this).data('warehouse_id')).trigger('change');
+                $('#labour_type_id').val($(this).data('labour_type_id')).trigger('change');
+
+                // Open modal
                 $('#store_or_update_modal').modal({
                     keyboard: false,
                     backdrop: 'static',
                 });
+
+                // Update modal title and button text
                 $('#store_or_update_modal .modal-title').html(
                     '<i class="fas fa-edit text-white"></i> <span>{{ __('file.Edit') }} ' + $(this)
-                    .data('name') + '</span>');
+                    .data('name') + '</span>'
+                );
                 $('#store_or_update_modal #save-btn').text('{{ __('file.Update') }}');
             });
+
             $(document).on('click', '.delete_data', function() {
                 let id = $(this).data('id');
                 let name = $(this).data('name');

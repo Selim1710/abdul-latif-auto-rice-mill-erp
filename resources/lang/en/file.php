@@ -1976,5 +1976,6 @@ return [
     'Salary Payment'                       => 'Salary Payment',
     'Leave Category'                       => 'Leave Category',
     'Manage Leave'                       => 'Manage Leave',
+    'Labour Type'                       => 'Labour Type',
 
 ];

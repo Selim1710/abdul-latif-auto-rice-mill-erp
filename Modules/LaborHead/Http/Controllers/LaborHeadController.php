@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Modules\Account\Entities\Transaction;
 use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\LaborHead\Entities\LaborHead;
+use Modules\LaborHead\Entities\LabourType;
 use Modules\LaborHead\Http\Requests\LaborHeadFormRequest;
+use Modules\Setting\Entities\Warehouse;
 
 class LaborHeadController extends BaseController
 {
@@ -18,12 +20,16 @@ class LaborHeadController extends BaseController
     {
         $this->model = $model;
     }
+
     public function index()
     {
         $setTitle = __('file.Labor Head');
         $this->setPageData($setTitle, $setTitle, 'fas fa-user', [['name' => $setTitle]]);
-        return view('laborhead::laborHead.index');
+        $data['warehouses'] = Warehouse::where('status', 1)->get();
+        $data['labour_types'] = LabourType::where('status', 1)->get();
+        return view('laborhead::laborHead.index', $data);
     }
+
     public function getDataTableData(Request $request)
     {
         if ($request->ajax() && permission('labor-head-access')) {
@@ -44,13 +50,15 @@ class LaborHeadController extends BaseController
                 $no++;
                 $action      = '';
                 if (permission('labor-head-edit')) {
-                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '"data-name="' . $value->name . '"data-mobile="' . $value->mobile . '"data-previous_balance="' . $value->previous_balance . '">' . $this->actionButton('Edit') . '</a>';
+                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '" data-warehouse_id="' . $value->warehouse_id . '"  data-labour_type_id="' . $value->labour_type_id . '"  data-name="' . $value->name . '" data-mobile="' . $value->mobile . '" data-previous_balance="' . $value->previous_balance . '">' . $this->actionButton('Edit') . '</a>';
                 }
                 if (permission('labor-head-delete')) {
                     $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">' . $this->actionButton('Delete') . '</a>';
                 }
                 $row    = [];
                 $row[]  = $no;
+                $row[]  = $value->warehouse->name ?? '';
+                $row[]  = $value->labourType->name ?? '';
                 $row[]  = $value->name;
                 $row[]  = $value->mobile;
                 $row[]  = $value->previous_balance;
@@ -64,6 +72,7 @@ class LaborHeadController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function storeOrUpdateData(LaborHeadFormRequest $request)
     {
         if ($request->ajax() && permission('labor-head-add')) {
@@ -123,6 +132,7 @@ class LaborHeadController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function delete(Request $request)
     {
         if ($request->ajax() && permission('labor-head-delete')) {

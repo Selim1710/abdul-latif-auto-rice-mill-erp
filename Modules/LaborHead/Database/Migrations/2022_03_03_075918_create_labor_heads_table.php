@@ -15,6 +15,8 @@ class CreateLaborHeadsTable extends Migration
     {
         Schema::create('labor_heads', function (Blueprint $table) {
             $table->id();
+            $table->integer('warehouse_id')->nullable();
+            $table->integer('labour_type_id')->nullable();
             $table->string('name');
             $table->string('mobile')->unique();
             $table->enum('status',['1','2'])->default('1')->comment = "1=Active, 2=Inactive";
