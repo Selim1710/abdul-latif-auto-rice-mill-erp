@@ -5,6 +5,7 @@ namespace Modules\LaborHead\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Modules\LaborHead\Entities\LaborBillRate;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\LaborHead\Http\Requests\LaborBillRateFormRequest;
 use Modules\Setting\Entities\Warehouse;
 
@@ -21,7 +22,24 @@ class LaborBillRateController extends BaseController
             $setTitle = __('file.Labor Bill Rate');
             $this->setPageData($setTitle, $setTitle, 'fas fa-th-list', [['name' => $setTitle]]);
             $data['warehouses'] = Warehouse::where('status', 1)->get();
+            // return $data['warehouses'];
+
+            $data['labor_heads'] = LaborHead::where('status', 1)->get();
             return view('laborhead::laborBillRate.index', $data);
+        } else {
+            return $this->access_blocked();
+        }
+    }
+
+    public function create()
+    {
+        if (permission('labor-bill-add')) {
+            $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
+            $data = [
+                'laborHeads' => LaborHead::get(),
+                'warehouses' => Warehouse::where('status', 1)->get(),
+            ];
+            return view('laborhead::laborBillRate.create', $data);
         } else {
             return $this->access_blocked();
         }

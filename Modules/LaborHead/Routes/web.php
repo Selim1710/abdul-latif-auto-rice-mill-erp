@@ -46,5 +46,6 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::post('store-or-update', 'LaborBillRateController@storeOrUpdate')->name('store.or.update');
         Route::post('edit', 'LaborBillRateController@edit')->name('edit');
         Route::post('delete', 'LaborBillRateController@delete')->name('delete');
+        Route::get('create', 'LaborBillRateController@create')->name('create');
     });
 });
