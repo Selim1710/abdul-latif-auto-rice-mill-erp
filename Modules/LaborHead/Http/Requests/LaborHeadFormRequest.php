@@ -8,9 +8,9 @@ class LaborHeadFormRequest extends FormRequest{
     protected $rules    = [];
     protected $messages = [];
     public function rules(){
-        $this->rules['mobile']         = ['required','string','max:15','unique:labor_heads,mobile'];
+        $this->rules['name']         = ['required','string','max:15','unique:labor_heads,name'];
         if(request()->update_id){
-            $this->rules['mobile'][3]  = 'unique:labor_heads,mobile,'.request()->update_id;
+            $this->rules['name'][3]  = 'unique:labor_heads,name,'.request()->update_id;
         }
         return $this->rules;
     }

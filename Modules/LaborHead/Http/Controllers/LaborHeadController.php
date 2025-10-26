@@ -25,9 +25,9 @@ class LaborHeadController extends BaseController
     {
         $setTitle = __('file.Labor Head');
         $this->setPageData($setTitle, $setTitle, 'fas fa-user', [['name' => $setTitle]]);
-        $data['warehouses'] = Warehouse::where('status', 1)->get();
-        $data['labour_types'] = LabourType::where('status', 1)->get();
-        return view('laborhead::laborHead.index', $data);
+        // $data['warehouses'] = Warehouse::where('status', 1)->get();
+        // $data['labour_types'] = LabourType::where('status', 1)->get();
+        return view('laborhead::laborHead.index');
     }
 
     public function getDataTableData(Request $request)
@@ -57,8 +57,8 @@ class LaborHeadController extends BaseController
                 }
                 $row    = [];
                 $row[]  = $no;
-                $row[]  = $value->warehouse->name ?? '';
-                $row[]  = $value->labourType->name ?? '';
+                // $row[]  = $value->warehouse->name ?? '';
+                // $row[]  = $value->labourType->name ?? '';
                 $row[]  = $value->name;
                 $row[]  = $value->mobile;
                 $row[]  = $value->previous_balance;

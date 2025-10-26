@@ -52,8 +52,8 @@
                                     <thead class="bg-primary">
                                         <tr>
                                             <th>{{ __('file.SL') }}</th>
-                                            <th>{{ __('file.Warehouse') }}</th>
-                                            <th>{{ __('file.Labour Type') }}</th>
+                                            {{-- <th>{{ __('file.Warehouse') }}</th> --}}
+                                            {{-- <th>{{ __('file.Labour Type') }}</th> --}}
                                             <th>{{ __('file.Name') }}</th>
                                             <th>{{ __('file.Mobile') }}</th>
                                             <th>{{ __('file.Previous Balance') }}</th>
@@ -111,7 +111,7 @@
                     }
                 },
                 "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                    "targets": [0, 1, 2, 3, 4, 5, 6],
                     "orderable": false,
                     "className": "text-center"
                 }, ],

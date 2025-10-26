@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <input type="hidden" name="update_id" id="update_id" />
-
+{{-- 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="warehouse_id">{{ __('file.Warehouse') }}</label>
@@ -25,9 +25,9 @@
                                     @endif
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label for="labour_type_id">{{ __('file.Labour Type') }}</label>
                                 <select name="labour_type_id" class="form-control selectpicker" data-live-search="true"
@@ -40,7 +40,7 @@
                                     @endif
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-12">
                             <label for="name">{{ __('file.Name') }}</label>

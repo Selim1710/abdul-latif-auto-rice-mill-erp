@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="voucher_date"> {{__('file.Date')}}</label>
-                                    <input type="date" class="form-control" name="date" id=date" value="{{ date('Y-m-d') }}"/>
+                                    <input type="date" class="form-control" name="date" id="date" value="{{ date('Y-m-d') }}"/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="labor_head_id"> {{__('file.Labor')}}</label>
