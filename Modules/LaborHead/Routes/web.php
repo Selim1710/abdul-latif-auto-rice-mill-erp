@@ -26,6 +26,16 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::post('change-status', 'LaborHeadController@changeStatus')->name('change.status');
     });
 
+    // labor-bill-rate
+    Route::get('labor-bill-rate', 'LaborBillRateController@index')->name('labor.bill.rate');
+    Route::group(['prefix' => 'labor-bill-rate', 'as' => 'labor.bill.rate.'], function () {
+        Route::post('datatable-data', 'LaborBillRateController@getDataTableData')->name('datatable.data');
+        Route::post('store-or-update', 'LaborBillRateController@storeOrUpdate')->name('store.or.update');
+        Route::get('edit{id}', 'LaborBillRateController@edit')->name('edit');
+        Route::post('delete', 'LaborBillRateController@delete')->name('delete');
+        Route::get('create', 'LaborBillRateController@create')->name('create');
+    });
+
     // labor-bill
     Route::get('labor-bill', 'LaborBillController@index')->name('labor.bill');
     Route::group(['prefix' => 'labor-bill', 'as' => 'labor.bill.'], function () {
@@ -37,15 +47,5 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::post('update', 'LaborBillController@update')->name('update');
         Route::post('delete', 'LaborBillController@delete')->name('delete');
         Route::post('change-status', 'LaborBillController@changeStatus')->name('change.status');
-    });
-
-    // labor-bill-rate
-    Route::get('labor-bill-rate', 'LaborBillRateController@index')->name('labor.bill.rate');
-    Route::group(['prefix' => 'labor-bill-rate', 'as' => 'labor.bill.rate.'], function () {
-        Route::post('datatable-data', 'LaborBillRateController@getDataTableData')->name('datatable.data');
-        Route::post('store-or-update', 'LaborBillRateController@storeOrUpdate')->name('store.or.update');
-        Route::get('edit{id}', 'LaborBillRateController@edit')->name('edit');
-        Route::post('delete', 'LaborBillRateController@delete')->name('delete');
-        Route::get('create', 'LaborBillRateController@create')->name('create');
     });
 });

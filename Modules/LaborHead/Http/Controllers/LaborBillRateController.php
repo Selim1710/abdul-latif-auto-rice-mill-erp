@@ -36,9 +36,16 @@ class LaborBillRateController extends BaseController
     {
         if (permission('labor-bill-add')) {
             $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
+
+            $labor_head_ids = LaborBillRate::pluck('labor_head_id');
+            if (!empty($labor_head_ids)) {
+                $laborHeads = LaborHead::whereNotIn('id', $labor_head_ids)->get();
+            } else {
+                $laborHeads = LaborHead::get();
+            }
             $data = [
-                'laborHeads' => LaborHead::get(),
                 'warehouses' => Warehouse::where('status', 1)->get(),
+                'laborHeads' => $laborHeads
             ];
             return view('laborhead::laborBillRate.create_edit', $data);
         } else {
