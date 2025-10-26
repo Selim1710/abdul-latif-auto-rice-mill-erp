@@ -21,8 +21,8 @@
                     <div class="card-body">
                         <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group col-md-4 required">
+                                <div class="col-md-12 required">
+                                    <div class="form-group col-md-4">
                                         <label for="labor_head_id"> {{ __('file.Labor') }}</label>
                                         <select class="form-control labor_head_id selectpicker" id="labor_head_id"
                                             name="labor_head_id" required data-live-search = "true">
@@ -157,7 +157,7 @@
                     } else {
                         notification(data.status, data.message);
                         if (data.status == 'success') {
-                            window.location.replace("{{ route('labor.bill') }}");
+                            window.location.replace("{{ route('labor.bill.rate') }}");
                         }
                     }
                 },

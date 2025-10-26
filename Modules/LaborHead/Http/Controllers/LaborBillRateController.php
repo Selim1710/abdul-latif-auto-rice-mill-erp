@@ -5,6 +5,7 @@ namespace Modules\LaborHead\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Modules\LaborHead\Entities\LaborBillRate;
+use Modules\LaborHead\Entities\LaborBillRateDetail;
 use Modules\LaborHead\Entities\LaborHead;
 use Modules\LaborHead\Http\Requests\LaborBillRateFormRequest;
 use Modules\Setting\Entities\Warehouse;
@@ -39,7 +40,7 @@ class LaborBillRateController extends BaseController
                 'laborHeads' => LaborHead::get(),
                 'warehouses' => Warehouse::where('status', 1)->get(),
             ];
-            return view('laborhead::laborBillRate.create', $data);
+            return view('laborhead::laborBillRate.create_edit', $data);
         } else {
             return $this->access_blocked();
         }
@@ -82,10 +83,19 @@ class LaborBillRateController extends BaseController
 
     public function storeOrUpdate(LaborBillRateFormRequest $request)
     {
+
         if (($request->ajax() && permission('labor-bill-rate-add')) || ($request->ajax() && permission('labor-bill-rate-edit'))) {
-            $collection   = collect($request->validated());
-            $collection   = $this->track_data($collection, $request->update_id);
+            $collection   = collect($request->all());
             $result       = $this->model->updateOrCreate(['id' => $request->update_id], $collection->all());
+            if (!empty($request->warehouse)) {
+                foreach ($request->warehouse as $warehouse) {
+                    LaborBillRateDetail::create([
+                        'labor_bill_rate_id' => $result->id,
+                        'warehouse_id' => $warehouse['warehouse_id'],
+                        'rate' => $warehouse['rate']
+                    ]);
+                }
+            }
             $output       = $this->store_message($result, $request->update_id);
             return response()->json($output);
         } else {

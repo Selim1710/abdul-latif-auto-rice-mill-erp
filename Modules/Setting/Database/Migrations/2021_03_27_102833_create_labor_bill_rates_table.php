@@ -15,7 +15,6 @@ class CreateLaborBillRatesTable extends Migration
     {
         Schema::create('labor_bill_rates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('warehouse_id')->nullable();
             $table->unsignedBigInteger('labor_bill_id');
             $table->foreign('labor_bill_id')->references('id')->on('labor_bills');
             $table->unsignedBigInteger('unit_id');

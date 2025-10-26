@@ -9,7 +9,7 @@ use Modules\Setting\Entities\Warehouse;
 
 class LaborBillRate extends BaseModel
 {
-    protected $fillable                     = ['warehouse_id','name', 'rate', 'status', 'created_by'];
+    protected $fillable                     = ['labor_head_id','narration'];
     protected $table                        = 'labor_bill_rates';
     protected const ALL_LABOR_BILL_RATES    = '_all_labor_bill_rates';
     protected $_name;

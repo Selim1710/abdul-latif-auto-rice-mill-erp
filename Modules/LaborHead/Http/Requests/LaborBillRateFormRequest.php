@@ -11,11 +11,9 @@ class LaborBillRateFormRequest extends FormRequest
     public function rules()
     {
         $this->rules['warehouse_id']        = ['nullable'];
-        $this->rules['name']                = ['required', 'unique:labor_bill_rates,name'];
-        $this->rules['rate']                = ['required'];
-        if (request()->update_id) {
-            $this->rules['name'][1]         = 'unique:labor_bill_rates,name,' . request()->update_id;
-        }
+        $this->rules['labor_head_id']                = ['required'];
+        $this->rules['rate']                = ['nullable'];
+       
         return $this->rules;
     }
     public function messages()
