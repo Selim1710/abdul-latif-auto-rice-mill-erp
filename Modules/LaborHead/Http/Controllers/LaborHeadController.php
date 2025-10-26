@@ -11,18 +11,22 @@ use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\LaborHead\Entities\LaborHead;
 use Modules\LaborHead\Http\Requests\LaborHeadFormRequest;
 
-class LaborHeadController extends BaseController{
+class LaborHeadController extends BaseController
+{
     private const ob     = 'OPENING-BALANCE';
-    public function __construct(LaborHead $model){
+    public function __construct(LaborHead $model)
+    {
         $this->model = $model;
     }
-    public function index(){
+    public function index()
+    {
         $setTitle = __('file.Labor Head');
-        $this->setPageData($setTitle,$setTitle,'fas fa-user',[['name'=>$setTitle]]);
+        $this->setPageData($setTitle, $setTitle, 'fas fa-user', [['name' => $setTitle]]);
         return view('laborhead::laborHead.index');
     }
-    public function getDataTableData(Request $request){
-        if($request->ajax() && permission('labor-head-access')){
+    public function getDataTableData(Request $request)
+    {
+        if ($request->ajax() && permission('labor-head-access')) {
             if (!empty($request->name)) {
                 $this->model->setName($request->name);
             }
@@ -39,10 +43,11 @@ class LaborHeadController extends BaseController{
             foreach ($list as $value) {
                 $no++;
                 $action      = '';
-                if(permission('labor-head-edit')){
-                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '"data-name="' . $value->name . '"data-mobile="' . $value->mobile . '"data-previous_balance="' . $value->previous_balance . '">'.$this->actionButton('Edit').'</a>';
-                }if(permission('labor-head-delete')){
-                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">'.$this->actionButton('Delete').'</a>';
+                if (permission('labor-head-edit')) {
+                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '"data-name="' . $value->name . '"data-mobile="' . $value->mobile . '"data-previous_balance="' . $value->previous_balance . '">' . $this->actionButton('Edit') . '</a>';
+                }
+                if (permission('labor-head-delete')) {
+                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">' . $this->actionButton('Delete') . '</a>';
                 }
                 $row    = [];
                 $row[]  = $no;
@@ -54,20 +59,22 @@ class LaborHeadController extends BaseController{
                 $row[]  = action_button($action);
                 $data[] = $row;
             }
-            return $this->datatable_draw($request->input('draw'),$this->model->count_all(), $this->model->count_filtered(), $data);
-        }else{
+            return $this->datatable_draw($request->input('draw'), $this->model->count_all(), $this->model->count_filtered(), $data);
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function storeOrUpdateData(LaborHeadFormRequest $request){
-        if($request->ajax() && permission('labor-head-add')){
+    public function storeOrUpdateData(LaborHeadFormRequest $request)
+    {
+        if ($request->ajax() && permission('labor-head-add')) {
             DB::beginTransaction();
-            try{
-                $collection = collect($request->all())->except('_token','update_id')->merge(['status' => 1 , 'created_by' => auth()->user()->name]);
+            try {
+                $collection = collect($request->all())->except('_token', 'update_id')->merge(['status' => 1, 'created_by' => auth()->user()->name]);
                 $result     = $this->model->updateOrCreate(
                     [
                         'id' => $request->update_id
-                    ],$collection->all()
+                    ],
+                    $collection->all()
                 );
                 ChartOfHead::updateOrCreate(
                     [
@@ -84,18 +91,18 @@ class LaborHeadController extends BaseController{
                         'classification'   => 3
                     ]
                 );
-                $cohId = ChartOfHead::firstWhere(['labor_head_id' => $result->id , 'classification' => 3]);
-                if(!empty($request->update_id)){
+                $cohId = ChartOfHead::firstWhere(['labor_head_id' => $result->id, 'classification' => 3]);
+                if (!empty($request->update_id)) {
                     $transaction = Transaction::firstWhere(['chart_of_head_id' => $cohId->id]);
-                    if (!empty($transaction)){
+                    if (!empty($transaction)) {
                         $transaction->delete();
                     }
                 }
-                if(!empty($request->previous_balance)){
+                if (!empty($request->previous_balance)) {
                     Transaction::create([
                         'chart_of_head_id' => $cohId->id,
                         'date'             => date('Y-m-d'),
-                        'voucher_no'       => self::ob.'-'.round(microtime(true)*1000),
+                        'voucher_no'       => self::ob . '-' . round(microtime(true) * 1000),
                         'voucher_type'     => self::ob,
                         'narration'        => 'Labor Head Payable Balance',
                         'debit'            => 0,
@@ -105,23 +112,24 @@ class LaborHeadController extends BaseController{
                         'created_by'       => auth()->user()->name,
                     ]);
                 }
-                $output  = ['status' => 'success' , 'message' => $this->responseMessage('Data Saved')];
+                $output  = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
                 DB::commit();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 DB::rollBack();
-                $output  = ['status' => 'error' , 'message' => $e->getMessage()];
+                $output  = ['status' => 'error', 'message' => $e->getMessage()];
             }
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function delete(Request $request){
-        if($request->ajax() && permission('labor-head-delete')){
+    public function delete(Request $request)
+    {
+        if ($request->ajax() && permission('labor-head-delete')) {
             $result   = $this->model->find($request->id)->delete();
             $output   = $this->delete_message($result);
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }

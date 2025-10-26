@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('manage-designation', 'DesignationController@index')->name('designation');
     Route::group(['prefix' => 'designation', 'as' => 'designation.'], function () {

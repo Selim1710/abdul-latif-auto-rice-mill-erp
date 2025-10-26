@@ -110,4 +110,16 @@ class DesignationController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
+    
+    public function change_status(Request $request)
+    {
+        // return $request;
+        $result = $this->model->find($request->id)->update([
+            'status' => $request->status
+        ]);
+
+        $output = $result ? ['status' => 'success', 'message' => 'Status Has Been Changed Successfully'] : ['status' => 'error', 'message' => 'Failed To Change Status'];
+        return response()->json($output);
+    }
 }

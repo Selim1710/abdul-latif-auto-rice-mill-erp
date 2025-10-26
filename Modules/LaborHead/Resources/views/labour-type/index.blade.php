@@ -1,50 +1,56 @@
 @extends('layouts.app')
+
 @section('title', $page_title)
+
 @section('content')
     <div class="d-flex flex-column-fluid">
         <div class="container-fluid">
+            <!--begin::Notice-->
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-5">
                     <div class="card-title">
                         <h3 class="card-label"><i class="{{ $page_icon }} text-primary"></i> {{ $sub_title }}</h3>
                     </div>
                     <div class="card-toolbar">
-                        @if (permission('labor-head-add'))
+                        <!--begin::Button-->
+                        @if (permission('labour-type-add'))
                             <a href="javascript:void(0);"
-                                onclick="showFormModal('{{ __('file.Add New Labor Head') }}','{{ __('file.Save') }}')"
-                                class="btn btn-primary btn-sm font-weight-bolder"><i class="fas fa-plus-circle"></i>
-                                {{ __('file.Add New') }}</a>
+                                onclick="showFormModal('{{ __('Add New') }}','{{ __('file.Save') }}')"
+                                class="btn btn-primary btn-sm font-weight-bolder">
+                                <i class="fas fa-plus-circle"></i> {{ __('file.Add New') }}</a>
                         @endif
+                        <!--end::Button-->
                     </div>
                 </div>
             </div>
+            <!--end::Notice-->
+            <!--begin::Card-->
             <div class="card card-custom">
                 <div class="card-header flex-wrap py-5">
                     <form method="POST" id="form-filter" class="col-md-12 px-0">
                         <div class="row">
-                            <x-form.textbox labelName="{{ __('file.Name') }}" name="name" col="col-md-3" />
-                            <x-form.textbox labelName="{{ __('file.Mobile') }}" name="mobile" col="col-md-3" />
-                            <x-form.selectbox labelName="{{ __('file.Status') }}" name="status" col="col-md-3"
-                                class="selectpicker">
-                                @foreach (STATUS as $key => $value)
-                                    <option value="{{ $key }}">{{ $value }}</option>
-                                @endforeach
-                            </x-form.selectbox>
-                            <div class="col-md-3 pt-5 text-left">
-                                <div style="margin-top:0px;">
-                                    <button id="btn-reset" class="btn btn-danger btn-sm btn-elevate btn-icon float-right"
-                                        type="button" data-toggle="tooltip" data-theme="dark"
-                                        title="{{ __('file.Reset') }}"><i class="fas fa-undo-alt"></i></button>
-                                    <button id="btn-filter"
-                                        class="btn btn-primary btn-sm btn-elevate btn-icon mr-2 float-right" type="button"
-                                        data-toggle="tooltip" data-theme="dark" title="{{ __('file.Search') }}"><i
-                                            class="fas fa-search"></i></button>
+                            <x-form.textbox labelName="{{ __('Name') }}" name="name" col="col-md-4" />
+                            <div class="col-md-0">
+                                <div style="margin-top:28px;">
+                                    <div style="margin-top:28px;">
+                                        <button id="btn-reset"
+                                            class="btn btn-danger btn-sm btn-elevate btn-icon float-right" type="button"
+                                            data-toggle="tooltip" data-theme="dark" title="{{ __('file.Reset') }}">
+                                            <i class="fas fa-undo-alt"></i></button>
+
+                                        <button id="btn-filter"
+                                            class="btn btn-primary btn-sm btn-elevate btn-icon mr-2 float-right"
+                                            type="button" data-toggle="tooltip" data-theme="dark"
+                                            title="{{ __('file.Search') }}">
+                                            <i class="fas fa-search"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="card-body">
+                    <!--begin: Datatable-->
                     <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <div class="row">
                             <div class="col-sm-12">
@@ -53,10 +59,7 @@
                                         <tr>
                                             <th>{{ __('file.SL') }}</th>
                                             <th>{{ __('file.Name') }}</th>
-                                            <th>{{ __('file.Mobile') }}</th>
-                                            <th>{{ __('file.Previous Balance') }}</th>
                                             <th>{{ __('file.Status') }}</th>
-                                            <th>{{ __('file.Created By') }}</th>
                                             <th>{{ __('file.Action') }}</th>
                                         </tr>
                                     </thead>
@@ -65,20 +68,21 @@
                             </div>
                         </div>
                     </div>
+                    <!--end: Datatable-->
                 </div>
             </div>
+            <!--end::Card-->
         </div>
     </div>
-    @include('laborhead::laborHead.modal')
+    @include('laborhead::labour-type.modal')
 @endsection
+
 @push('scripts')
     <script>
-        function _(x) {
-            return document.getElementById(x);
-        }
-        let table;
+        var table;
         $(document).ready(function() {
-            table = $('#dataTable').DataTable({
+
+             table = $('#dataTable').DataTable({
                 "processing": true, //Feature control the processing indicator
                 "serverSide": true, //Feature control DataTable server side processing mode
                 "order": [], //Initial no order
@@ -97,19 +101,15 @@
                     zeroRecords: '<strong class="text-danger">{{ __('file.No Data Found') }}</strong>'
                 },
                 "ajax": {
-                    "url": "{{ route('labor.head.datatable.data') }}",
+                    "url": "{{ route('labour-type.datatable.data') }}",
                     "type": "POST",
                     "data": function(data) {
                         data.name = $("#form-filter #name").val();
-                        data.mobile = $("#form-filter #mobile").val();
-                        data.status = $("#form-filter #status").val();
-                        data.created_by = $("#form-filter #created_by").val();
-                        data.modified_by = $("#form-filter #modified_by	").val()
                         data._token = _token;
                     }
                 },
                 "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5, 6],
+                    "targets": [0, 1, 2, 3],
                     "orderable": false,
                     "className": "text-center"
                 }, ],
@@ -179,19 +179,21 @@
                     },
                 ],
             });
+
             $('#btn-filter').click(function() {
                 table.ajax.reload();
             });
+
             $('#btn-reset').click(function() {
                 $('#form-filter')[0].reset();
-                $('#form-filter .selectpicker').selectpicker('refresh');
                 table.ajax.reload();
             });
+
             $(document).on('click', '#save-btn', function() {
                 let form = document.getElementById('store_or_update_form');
                 let formData = new FormData(form);
-                let url = "{{ route('labor.head.store.or.update') }}";
-                let id = _('update_id').value;
+                let url = "{{ route('labour-type.store.or.update') }}";
+                let id = $('#update_id').val();
                 let method;
                 if (id) {
                     method = 'update';
@@ -200,26 +202,65 @@
                 }
                 store_or_update_data(table, method, url, formData);
             });
+
             $(document).on('click', '.edit_data', function() {
-                _('update_id').value = $(this).data('id');
-                _('labor_name').value = $(this).data('name');
-                _('labor_mobile').value = $(this).data('mobile');
-                _('labor_previous_balance').value = $(this).data('previous_balance');
-                $('#store_or_update_modal').modal({
-                    keyboard: false,
-                    backdrop: 'static',
-                });
-                $('#store_or_update_modal .modal-title').html(
-                    '<i class="fas fa-edit text-white"></i> <span>{{ __('file.Edit') }} ' + $(this)
-                    .data('name') + '</span>');
-                $('#store_or_update_modal #save-btn').text('{{ __('file.Update') }}');
+                let id = $(this).data('id');
+                $('#store_or_update_form')[0].reset();
+                $('#store_or_update_form .select').val('');
+                $('#store_or_update_form').find('.is-invalid').removeClass('is-invalid');
+                $('#store_or_update_form').find('.error').remove();
+                if (id) {
+                    $.ajax({
+                        url: "{{ route('labour-type.edit') }}",
+                        type: "POST",
+                        data: {
+                            id: id,
+                            _token: _token
+                        },
+                        dataType: "JSON",
+                        success: function(data) {
+                            if (data.status == 'error') {
+                                notification(data.status, data.message)
+                            } else {
+                                $('#store_or_update_form #update_id').val(data.id);
+                                $('#store_or_update_form #name').val(data.name);
+                                $('#store_or_update_form #deletable').val(data.deletable);
+                                $('#store_or_update_form .selectpicker').selectpicker(
+                                    'refresh');
+                                $('#store_or_update_modal').modal({
+                                    keyboard: false,
+                                    backdrop: 'static',
+                                });
+                                $('#store_or_update_modal .modal-title').html(
+                                    '<i class="fas fa-edit text-white"></i> <span>{{ __('file.Edit') }} ' +
+                                    data.name + '</span>');
+                                $('#store_or_update_modal #save-btn').text(
+                                    '{{ __('file.Update') }}');
+                            }
+                        },
+                        error: function(xhr, ajaxOption, thrownError) {
+                            console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr
+                                .responseText);
+                        }
+                    });
+                }
             });
+
             $(document).on('click', '.delete_data', function() {
                 let id = $(this).data('id');
                 let name = $(this).data('name');
                 let row = table.row($(this).parent('tr'));
-                let url = "{{ route('labor.head.delete') }}";
+                let url = "{{ route('labour-type.delete') }}";
                 delete_data(id, url, table, row, name);
+            });
+
+            $(document).on('click', '.change_status', function() {
+                let id = $(this).data('id');
+                let name = $(this).data('name');
+                let status = $(this).data('status');
+                let row = table.row($(this).parent('tr'));
+                let url = "{{ route('labour-type.change.status') }}";
+                change_status(id, url, table, row, name, status);
             });
         });
     </script>

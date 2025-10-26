@@ -1,27 +1,29 @@
 <?php
 
-namespace Modules\HRM\Http\Controllers;
+namespace Modules\LaborHead\Http\Controllers;
 
 use App\Http\Controllers\BaseController;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\HRM\Entities\Branch;
-use Modules\HRM\Http\Requests\BranchFormRequest;
+use Modules\LaborHead\Entities\LabourType;
+use Modules\LaborHead\Http\Requests\LabourTypeRequest;
 
-class BranchController extends BaseController
+class LabourTypeController extends BaseController
 {
-    public function __construct(Branch $model)
+    public function __construct(LabourType $model)
     {
         $this->model = $model;
     }
 
     public function index()
     {
-        if (permission('branch-access')) {
-            $setTitle = __('file.Branch');
+        if (permission('labour-type-access')) {
+            $setTitle = __('Labour Type');
             $this->setPageData($setTitle, $setTitle, 'far fa-handshake', [['name' => $setTitle]]);
-            return view('hrm::branch.index');
+            $deletable = self::DELETABLE;
+            // return 'ok';
+            return view('laborhead::labour-type.index', compact('deletable'));
         } else {
             return $this->access_blocked();
         }
@@ -30,26 +32,34 @@ class BranchController extends BaseController
     public function get_datatable_data(Request $request)
     {
         if ($request->ajax()) {
-            if (permission('branch-access')) {
+            if (permission('labour-type-access')) {
 
                 if (!empty($request->name)) {
                     $this->model->setName($request->name);
                 }
+
                 $this->set_datatable_default_properties($request); //set datatable default properties
-                $list = $this->model->getDatatableList(); //get table data
-                $data = [];
-                $no = $request->input('start');
+                $list   = $this->model->getDatatableList(); //get table data
+                $data   = [];
+                $no     = $request->input('start');
                 foreach ($list as $value) {
                     $no++;
                     $action = '';
-                    if (permission('branch-edit')) {
+                    if (permission('labour-type-edit')) {
                         $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '">' . $this->actionButton('Edit') . '</a>';
                     }
-                    $row = [];
-                    $row[] = $no;
-                    $row[] = $value->name;
-                    $row[] = permission('branch-edit') ? change_status($value->id, $value->status, $value->name) : STATUS_LABEL[$value->status];
-                    $row[] = action_button($action); //custom helper function for action button
+
+                    if (permission('labour-type-delete')) {
+                        if ($value->deletable == 2) {
+                            $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">' . $this->actionButton('Delete') . '</a>';
+                        }
+                    }
+
+                    $row    = [];
+                    $row[]  = $no;
+                    $row[]  = $value->name;
+                    $row[]  = permission('labour-type-edit') ? change_status($value->id, $value->status, $value->name) : STATUS_LABEL[$value->status];
+                    $row[]  = action_button($action); //custom helper function for action button
                     $data[] = $row;
                 }
                 return $this->datatable_draw(
@@ -64,11 +74,11 @@ class BranchController extends BaseController
         }
     }
 
-    public function store_or_update_data(BranchFormRequest $request)
+    public function store_or_update_data(LabourTypeRequest $request)
     {
         if ($request->ajax()) {
-            if (permission('branch-add')) {
-                $collection   = collect($request->all());
+            if (permission('labour-type-add')) {
+                $collection   = collect($request->validated());
                 $collection   = $this->track_data($collection, $request->update_id);
                 $result       = $this->model->updateOrCreate(['id' => $request->update_id], $collection->all());
                 $output       = $this->store_message($result, $request->update_id);
@@ -84,11 +94,26 @@ class BranchController extends BaseController
     public function edit(Request $request)
     {
         if ($request->ajax()) {
-            if (permission('branch-edit')) {
+            if (permission('labour-type-edit')) {
                 $data   = $this->model->findOrFail($request->id);
                 $output = $this->data_message($data); //if data found then it will return data otherwise return error message
             } else {
-                $output       = $this->unauthorized();
+                $output = $this->unauthorized();
+            }
+            return response()->json($output);
+        } else {
+            return response()->json($this->unauthorized());
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        if ($request->ajax()) {
+            if (permission('labour-type-delete')) {
+                $result   = $this->model->find($request->id)->delete();
+                $output   = $this->delete_message($result);
+            } else {
+                $output   = $this->unauthorized();
             }
             return response()->json($output);
         } else {
