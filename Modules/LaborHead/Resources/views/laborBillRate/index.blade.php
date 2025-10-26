@@ -37,6 +37,7 @@
                                     <thead class="bg-primary">
                                     <tr>
                                         <th>{{__('file.SL')}}</th>
+                                        <th>{{__('file.Warehouse')}}</th>
                                         <th>{{__('file.Name')}}</th>
                                         <th>{{__('file.Rate')}}</th>
                                         <th>{{__('file.Status')}}</th>
@@ -114,13 +115,14 @@
             });
             $(document).on('click', '.edit_data', function () {
                 $('#store_or_update_form #update_id').val($(this).data('id'));
+                $('#store_or_update_form #warehouse_id').val($(this).data('warehouse_id')).change();
                 $('#store_or_update_form #name').val($(this).data('name'));
                 $('#store_or_update_form #rate').val($(this).data('rate'));
                 $('#store_or_update_modal').modal({
                     keyboard: false,
                     backdrop: 'static',
                 });
-                $('#store_or_update_modal .modal-title').html('<i class="fas fa-edit text-white"></i> <span>{{__('file.Edit')}}' + $(this).data('category_name') + '</span>');
+                $('#store_or_update_modal .modal-title').html('<i class="fas fa-edit text-white"></i> <span>{{__('file.Edit')}}' + ' Data' + '</span>');
                 $('#store_or_update_modal #save-btn').text('{{__('file.Update')}}');
             });
             $(document).on('click', '.delete_data', function () {
