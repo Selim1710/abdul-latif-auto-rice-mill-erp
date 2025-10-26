@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="invoice_no"> {{__('file.Invoice No')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly />
+                                    <input type="text" class="form-control bg-primary" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly />
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="voucher_date"> {{__('file.Date')}}</label>
@@ -57,7 +57,7 @@
                                         @foreach($laborBillRates as $key => $bill)
                                             <tr class="text-center">
                                                 <td>
-                                                    <input type="text" class="form-control bg-primary text-white" value="{{$bill->name}}" readonly/>
+                                                    <input type="text" class="form-control bg-primary" value="{{$bill->name}}" readonly/>
                                                     <input type="hidden" id="bill_{{$key}}_labor_bill_rate_id" name="bill[{{$key}}][labor_bill_rate_id]" value="{{$bill->id}}"/>
                                                 </td>
                                                 <td>
@@ -67,7 +67,7 @@
                                                     <input type="text" class="form-control qty" id="bill_{{$key}}_qty" name="bill[{{$key}}][qty]" data-rate="bill_{{$key}}_rate" data-amount="bill_{{$key}}_amount"/>
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control bg-primary text-white amount" id="bill_{{$key}}_amount" name="bill[{{$key}}][amount]" readonly/>
+                                                    <input type="text" class="form-control bg-primary amount" id="bill_{{$key}}_amount" name="bill[{{$key}}][amount]" readonly/>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -75,7 +75,7 @@
                                         <tfoot>
                                         <tr class="text-center">
                                             <td colspan="3"><button type="button" class="btn btn-primary btn-block">{{__('file.Total Amount')}}</button></td>
-                                            <td><input type="text" class="form-control bg-primary text-white" id="total_amount"/></td>
+                                            <td><input type="text" class="form-control bg-primary" id="total_amount"/></td>
                                         </tr>
                                         </tfoot>
                                     </table>
