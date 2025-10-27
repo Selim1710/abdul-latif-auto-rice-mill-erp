@@ -44,8 +44,8 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::post('datatable-data', 'LaborBillController@getDataTableData')->name('datatable.data');
         Route::get('create', 'LaborBillController@create')->name('create');
         Route::post('store', 'LaborBillController@store')->name('store');
-        Route::get('show/{invoice_no}', 'LaborBillController@show')->name('show');
-        Route::get('edit/{invoice_no}', 'LaborBillController@edit')->name('edit');
+        Route::get('show/{id}', 'LaborBillController@show')->name('show');
+        Route::get('edit/{id}', 'LaborBillController@edit')->name('edit');
         Route::post('update', 'LaborBillController@update')->name('update');
         Route::post('delete', 'LaborBillController@delete')->name('delete');
         Route::post('change-status', 'LaborBillController@changeStatus')->name('change.status');

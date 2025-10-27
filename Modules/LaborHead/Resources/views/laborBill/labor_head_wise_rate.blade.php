@@ -1,5 +1,5 @@
-  @if (!empty($laborBillRate->labour_bill_rate_details))
-      @foreach ($laborBillRate->labour_bill_rate_details as $key => $labor_bill_detail)
+@if (!empty($laborBillRate->labour_bill_rate_details))
+    @foreach ($laborBillRate->labour_bill_rate_details as $key => $labor_bill_detail)
           <input type="hidden" id="bill_{{ $key }}_labor_bill_rate_detail_id"
               name="bill[{{ $key }}][labor_bill_rate_detail_id]" value="{{ $labor_bill_detail->id ?? '' }}" />
 
@@ -34,5 +34,4 @@
           </td>
           <td><input type="text" name="grand_total" class="form-control bg-primary" id="total_amount" /></td>
       </tr>
-
-  @endif
+@endif

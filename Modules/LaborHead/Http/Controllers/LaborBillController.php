@@ -51,25 +51,25 @@ class LaborBillController extends BaseController
                 $no++;
                 $action = '';
                 if (permission('labor-bill-show')) {
-                    $action .= ' <a class="dropdown-item view_data" href="' . route("labor.bill.show", $value->invoiceNo) . '">' . $this->actionButton('View') . '</a>';
+                    $action .= ' <a class="dropdown-item view_data" href="' . route("labor.bill.show", $value->id) . '">' . $this->actionButton('View') . '</a>';
                 }
                 if (permission('labor-bill-edit') && $value->status != 1) {
-                    $action .= ' <a class="dropdown-item" href="' . route("labor.bill.edit", $value->invoiceNo) . '">' . $this->actionButton('Edit') . '</a>';
+                    $action .= ' <a class="dropdown-item" href="' . route("labor.bill.edit", $value->id) . '">' . $this->actionButton('Edit') . '</a>';
                 }
                 if (permission('labor-bill-status-change') && $value->status != 1) {
-                    $action .= ' <a class="dropdown-item change_status"  data-id="' . $value->invoiceNo . '" data-name="' . $value->invoiceNo . '" data-status="' . $value->status . '"><i class="fas fa-check-circle text-success mr-2"></i> Change Status</a>';
+                    $action .= ' <a class="dropdown-item change_status"  data-id="' . $value->id . '" data-name="' . $value->invoice_no . '" data-status="' . $value->status . '"><i class="fas fa-check-circle text-success mr-2"></i> Change Status</a>';
                 }
                 if (permission('labor-bill-delete') && $value->status != 1) {
-                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->invoiceNo . '" data-name="' . $value->invoiceNo . '">' . $this->actionButton('Delete') . '</a>';
+                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->invoice_no . '">' . $this->actionButton('Delete') . '</a>';
                 }
                 $row    = [];
                 $row[]  = $no;
                 $row[]  = $value->date;
-                $row[]  = $value->invoiceNo;
-                $row[]  = $value->laborHead;
-                $row[]  = number_format($value->amount, 2);
+                $row[]  = $value->invoice_no;
+                $row[]  = $value->laborHead->name ?? '';
+                $row[]  = number_format($value->grand_total ?? 0);
                 $row[]  = VOUCHER_APPROVE_STATUS_LABEL[$value->status];
-                $row[]  = $value->createdBy;
+                $row[]  = $value->created_by ?? '';
                 $row[]  = action_button($action);
                 $data[] = $row;
             }
@@ -153,24 +153,23 @@ class LaborBillController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
-    public function show($invoice_no)
+    public function show($id)
     {
         if (permission('labor-bill-edit')) {
             $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
-            $data = LaborBill::with('laborHead', 'laborBillRate')->where(['invoice_no' => $invoice_no])->get();
+            $data = LaborBill::with('laborHead', 'laborBillRate')->where(['id' => $id])->get();
             return view('laborhead::laborBill.details', compact('data'));
         } else {
             return $this->access_blocked();
         }
     }
-    public function edit($invoice_no)
+    public function edit($id)
     {
         if (permission('labor-bill-edit')) {
-            $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
+            $this->setPageData('Labor Bill Edit', 'Labor Bill Edit', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
             $data = [
-                'edit'          => LaborBill::with('laborBillRate')->where(['invoice_no' => $invoice_no])->get(),
-                'laborHeads'    => LaborHead::all(),
-                'laborBillRates' => LaborBillRate::doesntHave('laborBill')->get(),
+                'labour_bill'          => LaborBill::with('laborBillDetails')->find($id),
+                'laborHeads'    => LaborHead::get(),
             ];
             return view('laborhead::laborBill.edit', $data);
         } else {
@@ -179,30 +178,40 @@ class LaborBillController extends BaseController
     }
     public function update(LaborBillFormRequest $request)
     {
+        // return $request;
+
         if ($request->ajax() && permission('labor-bill-edit')) {
             DB::beginTransaction();
             try {
-                LaborBill::where(['invoice_no' => $request->invoice_no])->get()->each->delete();
-                $laborBill = [];
+                $labour_bill = LaborBill::find($request->labor_bill_id);
+
+                $labour_bill->update([
+                    'invoice_no'         => $request->invoice_no,
+                    'date'               => $request->date,
+                    'labor_head_id'      => $request->labor_head_id,
+                    'grand_total'      => $request->grand_total,
+                    'narration'          => $request->narration,
+                    'status'             => 3,
+                    'created_by'         => auth()->user()->name
+                ]);
+
                 if ($request->has('bill')) {
+                    LaborBillDetail::where(['labor_bill_id' => $labour_bill->id])->delete();
                     foreach ($request->bill as $value) {
-                        if (!empty($value['labor_bill_rate_id']) && !empty($value['rate']) && !empty($value['qty']) && !empty($value['amount'])) {
-                            $laborBill[] = [
-                                'date'               => $request->date,
-                                'invoice_no'         => $request->invoice_no,
-                                'labor_head_id'      => $request->labor_head_id,
-                                'labor_bill_rate_id' => $value['labor_bill_rate_id'],
-                                'rate'               => $value['rate'],
-                                'qty'                => $value['qty'],
-                                'amount'             => $value['amount'],
+                        if (!empty($value['labor_bill_rate_detail_id']) && !empty($value['rate']) && !empty($value['qty']) && !empty($value['amount'])) {
+                            LaborBillDetail::create([
+                                'labor_bill_id' => $labour_bill->id,
+                                'labor_bill_rate_detail_id' => $value['labor_bill_rate_detail_id'] ?? '',
+                                'warehouse_id' => $value['warehouse_id'] ?? '',
+                                'rate'               => $value['rate'] ?? '',
+                                'qty'                => $value['qty'] ?? '',
+                                'amount'             => $value['amount'] ?? '',
                                 'status'             => 3,
-                                'narration'          => $request->narration,
                                 'created_by'         => auth()->user()->name
-                            ];
+                            ]);
                         }
                     }
                 }
-                LaborBill::insert($laborBill);
                 $output = ['status' => 'success', 'message' => $this->responseMessage('Data Update')];
                 DB::commit();
             } catch (Exception $e) {

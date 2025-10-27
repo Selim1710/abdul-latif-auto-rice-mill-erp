@@ -18,10 +18,12 @@ class LaborBill extends BaseModel
     {
         return $this->belongsTo(LaborHead::class, 'labor_head_id', 'id');
     }
-    public function laborBillRate(): BelongsTo
+
+    public function laborBillDetails()
     {
-        return $this->belongsTo(LaborBillRate::class, 'labor_bill_rate_id', 'id');
+        return $this->hasMany(LaborBillDetail::class, 'labor_bill_id', 'id');
     }
+
     public function setFromDate($from_date)
     {
         $this->_from_date = $from_date;
@@ -33,7 +35,7 @@ class LaborBill extends BaseModel
     private function get_datatable_query()
     {
         $this->column_order = ['date', 'invoice_no', 'labor_head_id', 'grand_total', 'status', 'created_by', null];
-        $query              = self::toBase();
+        $query              = self::with('laborHead');
         if (!empty($this->_from_date)) {
             $query->where('date', '>=', $this->_from_date);
         }

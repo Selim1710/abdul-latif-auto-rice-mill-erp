@@ -56,8 +56,8 @@
                                                 <th>{{ __('file.SL') }}</th>
                                                 <th>{{ __('file.Date') }}</th>
                                                 <th>{{ __('file.Invoice No') }}</th>
-                                                <th>{{ __('file.Labor') }}</th>
-                                                <th>{{ __('file.Amount') }}</th>
+                                                <th>{{ __('file.Labor Head') }}</th>
+                                                <th>{{ __('file.Grand Total') }}</th>
                                                 <th>{{ __('file.Status') }}</th>
                                                 <th>{{ __('file.Created By') }}</th>
                                                 <th>{{ __('file.Action') }}</th>
