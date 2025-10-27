@@ -1,13 +1,15 @@
   @if (!empty($laborBillRate->labour_bill_rate_details))
       @foreach ($laborBillRate->labour_bill_rate_details as $key => $labor_bill_detail)
+          <input type="hidden" id="bill_{{ $key }}_labor_bill_rate_detail_id"
+              name="bill[{{ $key }}][labor_bill_rate_detail_id]" value="{{ $labor_bill_detail->id ?? '' }}" />
+
+          <input type="hidden" id="bill_{{ $key }}_warehouse_id" name="bill[{{ $key }}][warehouse_id]"
+              value="{{ $labor_bill_detail->warehouse_id ?? '' }}" />
+
           <tr class="text-center">
               <td>
                   <input type="text" class="form-control bg-primary"
                       value="{{ $labor_bill_detail->warehouse->name ?? '' }}" readonly />
-
-                  <input type="hidden" id="bill_{{ $key }}_labor_bill_rate_detail_id"
-                      name="bill[{{ $key }}][labor_bill_rate_detail_id]"
-                      value="{{ $labor_bill_detail->id ?? '' }}" />
               </td>
               <td>
                   <input type="text" class="form-control rate" id="bill_{{ $key }}_rate"
@@ -30,7 +32,7 @@
           <td colspan="3"><button type="button"
                   class="btn btn-primary btn-block">{{ __('file.Total Amount') }}</button>
           </td>
-          <td><input type="text" class="form-control bg-primary" id="total_amount" /></td>
+          <td><input type="text" name="grand_total" class="form-control bg-primary" id="total_amount" /></td>
       </tr>
 
   @endif

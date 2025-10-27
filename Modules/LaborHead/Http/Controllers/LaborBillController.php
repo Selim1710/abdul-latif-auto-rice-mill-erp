@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Account\Entities\Transaction;
 use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\LaborHead\Entities\LaborBill;
+use Modules\LaborHead\Entities\LaborBillDetail;
 use Modules\LaborHead\Entities\LaborBillRate;
 use Modules\LaborHead\Entities\LaborBillRateDetail;
 use Modules\LaborHead\Entities\LaborHead;
@@ -109,29 +110,38 @@ class LaborBillController extends BaseController
 
     public function store(LaborBillFormRequest $request)
     {
+        // return $request;
+
         if ($request->ajax() && permission('labor-bill-add')) {
             DB::beginTransaction();
             try {
-                $laborBill = [];
+                $labour_bill = LaborBill::create([
+                    'invoice_no'         => $request->invoice_no,
+                    'date'               => $request->date,
+                    'labor_head_id'      => $request->labor_head_id,
+                    'grand_total'      => $request->grand_total,
+                    'narration'          => $request->narration,
+                    'status'             => 3,
+                    'created_by'         => auth()->user()->name
+                ]);
+
                 if ($request->has('bill')) {
                     foreach ($request->bill as $value) {
-                        if (!empty($value['labor_bill_rate_id']) && !empty($value['rate']) && !empty($value['qty']) && !empty($value['amount'])) {
-                            $laborBill[] = [
-                                'date'               => $request->date,
-                                'invoice_no'         => $request->invoice_no,
-                                'labor_head_id'      => $request->labor_head_id,
-                                'labor_bill_rate_id' => $value['labor_bill_rate_id'],
-                                'rate'               => $value['rate'],
-                                'qty'                => $value['qty'],
-                                'amount'             => $value['amount'],
+                        if (!empty($value['labor_bill_rate_detail_id']) && !empty($value['rate']) && !empty($value['qty']) && !empty($value['amount'])) {
+                            LaborBillDetail::create([
+                                'labor_bill_id' => $labour_bill->id,
+                                'labor_bill_rate_detail_id' => $value['labor_bill_rate_detail_id'] ?? '',
+                                'warehouse_id' => $value['warehouse_id'] ?? '',
+                                'rate'               => $value['rate'] ?? '',
+                                'qty'                => $value['qty'] ?? '',
+                                'amount'             => $value['amount'] ?? '',
                                 'status'             => 3,
-                                'narration'          => $request->narration,
                                 'created_by'         => auth()->user()->name
-                            ];
+                            ]);
                         }
                     }
                 }
-                LaborBill::insert($laborBill);
+
                 $output = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
                 DB::commit();
             } catch (Exception $e) {

@@ -15,13 +15,10 @@ class CreateLaborBillsTable extends Migration
     {
         Schema::create('labor_bills', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->nullable();
             $table->string('invoice_no')->nullable();
-            $table->foreignId('labor_head_id')->constrained();
-            $table->foreignId('labor_bill_rate_id')->constrained();
-            $table->double('rate')->nullable();
-            $table->double('qty')->nullable();
-            $table->double('amount')->nullable();
+            $table->date('date')->nullable();
+            $table->integer('labor_head_id')->nullable();
+            $table->double('grand_total')->nullable();
             $table->enum('status',['1','2','3'])->default(2)->comment = " 1 = Approve , 2 = Reject , 3 = Pending";
             $table->longText('narration')->nullable();
             $table->string('created_by')->nullable();
