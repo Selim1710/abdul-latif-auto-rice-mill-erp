@@ -157,8 +157,8 @@ class LaborBillController extends BaseController
     {
         if (permission('labor-bill-edit')) {
             $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
-            $data = LaborBill::with('laborHead', 'laborBillRate')->where(['id' => $id])->get();
-            return view('laborhead::laborBill.details', compact('data'));
+            $labour_bill = LaborBill::with('laborHead', 'laborBillDetails','laborBillDetails.warehouse')->find($id);
+            return view('laborhead::laborBill.details', compact('labour_bill'));
         } else {
             return $this->access_blocked();
         }
