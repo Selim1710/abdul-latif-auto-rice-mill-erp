@@ -10,6 +10,7 @@ use Modules\Account\Entities\Transaction;
 use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\LaborHead\Entities\LaborBill;
 use Modules\LaborHead\Entities\LaborBillRate;
+use Modules\LaborHead\Entities\LaborBillRateDetail;
 use Modules\LaborHead\Entities\LaborHead;
 use Modules\LaborHead\Http\Requests\LaborBillFormRequest;
 
@@ -82,11 +83,25 @@ class LaborBillController extends BaseController
         if (permission('labor-bill-add')) {
             $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
             $data = [
-                'laborHeads'    => LaborHead::all(),
-                'laborBillRates' => LaborBillRate::all(),
+                'laborHeads'    => LaborHead::get(),
+                'laborBillRates' => LaborBillRate::get(),
                 'invoice_no'    => self::lb . '-' . round(microtime(true) * 1000),
             ];
+            // return $data['laborBillRates'];
+
             return view('laborhead::laborBill.create', $data);
+        } else {
+            return $this->access_blocked();
+        }
+    }
+
+    public function labourHeadWiseRate(Request $request)
+    {
+        // return $request;
+        if (permission('labor-bill-add')) {
+            $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
+            $data['laborBillRate']    = LaborBillRate::with('labour_bill_rate_details', 'labour_bill_rate_details.warehouse')->where('labor_head_id', $request->labor_head_id)->first();
+            return view('laborhead::laborBill.labor_head_wise_rate', $data);
         } else {
             return $this->access_blocked();
         }

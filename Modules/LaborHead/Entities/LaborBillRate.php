@@ -28,6 +28,11 @@ class LaborBillRate extends BaseModel
         return $this->hasOne(LaborHead::class, 'id', 'labor_head_id');
     }
     
+    public function labour_bill_rate_details()
+    {
+        return $this->hasMany(LaborBillRateDetail::class, 'labor_bill_rate_id', 'id');
+    }
+    
     private function get_datatable_query()
     {
         $this->column_order = ['id', 'name', 'rate', 'status', 'created_by', null];

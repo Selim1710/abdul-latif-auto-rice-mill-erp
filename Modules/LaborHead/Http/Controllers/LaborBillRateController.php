@@ -36,7 +36,6 @@ class LaborBillRateController extends BaseController
     {
         if (permission('labor-bill-add')) {
             $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
-
             $labor_head_ids = LaborBillRate::pluck('labor_head_id');
             if (!empty($labor_head_ids)) {
                 $laborHeads = LaborHead::whereNotIn('id', $labor_head_ids)->get();
@@ -93,11 +92,13 @@ class LaborBillRateController extends BaseController
             if (!empty($request->warehouse)) {
                 LaborBillRateDetail::where(['labor_bill_rate_id' => $result->id,])->delete();
                 foreach ($request->warehouse as $warehouse) {
-                    LaborBillRateDetail::create([
-                        'labor_bill_rate_id' => $result->id,
-                        'warehouse_id' => $warehouse['warehouse_id'],
-                        'rate' => $warehouse['rate']
-                    ]);
+                    if (!empty($warehouse['rate'])) {
+                        LaborBillRateDetail::create([
+                            'labor_bill_rate_id' => $result->id,
+                            'warehouse_id' => $warehouse['warehouse_id'],
+                            'rate' => $warehouse['rate']
+                        ]);
+                    }
                 }
             }
             $output       = $this->store_message($result, $request->update_id);

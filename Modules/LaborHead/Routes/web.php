@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth', 'language']], function () {
 
     // labor-bill
     Route::get('labor-bill', 'LaborBillController@index')->name('labor.bill');
+    Route::get('labor-head-wise-rate', 'LaborBillController@labourHeadWiseRate');
+
     Route::group(['prefix' => 'labor-bill', 'as' => 'labor.bill.'], function () {
         Route::post('datatable-data', 'LaborBillController@getDataTableData')->name('datatable.data');
         Route::get('create', 'LaborBillController@create')->name('create');
