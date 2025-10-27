@@ -17,6 +17,7 @@ class CreateLaborBillDetailsTable extends Migration
             $table->id();
             $table->integer('labor_bill_id')->nullable();
             $table->integer('labor_bill_rate_detail_id')->nullable();
+            $table->integer('labor_head_id')->nullable();
             $table->integer('warehouse_id')->nullable();
             $table->double('rate')->nullable();
             $table->double('qty')->nullable();

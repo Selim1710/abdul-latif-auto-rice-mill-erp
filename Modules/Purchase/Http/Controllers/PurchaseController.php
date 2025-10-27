@@ -126,9 +126,11 @@ class PurchaseController extends BaseController
             $data = [
                 'invoice_no'   => self::purchase . '-' . round(microtime(true) * 1000),
                 'parties'      => Party::latest()->get(),
-                'warehouses'   => Warehouse::latest()->get(),
+                'warehouses'   => Warehouse::with('labour_load_unload_head')->get(),
                 'categories'   => Category::latest()->get()
             ];
+            // return $data['warehouses'];
+
             return view('purchase::create', $data);
         } else {
             return $this->access_blocked();

@@ -10,7 +10,7 @@ class LaborBillRateDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['labor_bill_rate_id', 'warehouse_id', 'rate'];
+    protected $fillable = ['labor_bill_rate_id','labor_head_id', 'warehouse_id', 'rate'];
 
      
     public function warehouse()

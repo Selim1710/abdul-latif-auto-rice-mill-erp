@@ -95,6 +95,7 @@ class LaborBillRateController extends BaseController
                     if (!empty($warehouse['rate'])) {
                         LaborBillRateDetail::create([
                             'labor_bill_rate_id' => $result->id,
+                            'labor_head_id' => $request->labor_head_id,
                             'warehouse_id' => $warehouse['warehouse_id'],
                             'rate' => $warehouse['rate']
                         ]);
