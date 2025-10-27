@@ -153,16 +153,18 @@ class LaborBillController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function show($id)
     {
         if (permission('labor-bill-edit')) {
             $this->setPageData('Labor Bill', 'Labor Bill', 'far fa-money-bill-alt', [['name' => 'Labor'], ['name' => 'Bill']]);
-            $labour_bill = LaborBill::with('laborHead', 'laborBillDetails','laborBillDetails.warehouse')->find($id);
+            $labour_bill = LaborBill::with('laborHead', 'laborBillDetails', 'laborBillDetails.warehouse')->find($id);
             return view('laborhead::laborBill.details', compact('labour_bill'));
         } else {
             return $this->access_blocked();
         }
     }
+
     public function edit($id)
     {
         if (permission('labor-bill-edit')) {
@@ -176,6 +178,7 @@ class LaborBillController extends BaseController
             return $this->access_blocked();
         }
     }
+
     public function update(LaborBillFormRequest $request)
     {
         // return $request;
@@ -223,20 +226,23 @@ class LaborBillController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function changeStatus(Request $request)
     {
         if ($request->ajax() && permission('voucher-status-change')) {
             DB::beginTransaction();
             try {
-                $voucher = LaborBill::where(['invoice_no' => $request->id])->get();
-                $amount  = LaborBill::where(['invoice_no' => $request->id])->sum('amount');
-                $coh     = ChartOfHead::firstWhere(['labor_head_id' => $voucher[0]->labor_head_id]);
-                abort_if($voucher[0]->status == 1, 404);
-                $voucher->each->update([
-                    'status' => 1
-                ]);
-                $this->balanceCredit($coh->id, $voucher[0]->invoice_no, $voucher[0]->narration, $amount);
-                $output = ['status' => 'success', 'message' => 'Data Status Change Successfully'];
+                $voucher = LaborBill::find($request->id);
+                if (!empty($voucher)) {
+                    $amount  = $voucher->grand_total ?? 0;
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $voucher->labor_head_id]);
+                    abort_if($voucher->status == 1, 404);
+                    $voucher->update([
+                        'status' => 1
+                    ]);
+                    $this->balanceCredit($coh->id, $voucher->id, $voucher->narration, $amount);
+                    $output = ['status' => 'success', 'message' => 'Data Status Change Successfully'];
+                }
                 DB::commit();
             } catch (Exception $e) {
                 DB::rollBack();
@@ -247,14 +253,16 @@ class LaborBillController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function delete(Request $request)
     {
         if ($request->ajax() && permission('labor-bill-delete')) {
             DB::beginTransaction();
             try {
-                $voucher = LaborBill::where(['invoice_no' => $request->id])->get();
-                abort_if($voucher[0]->status == 1, 404);
-                $voucher->each->delete();
+                $labour_bill = LaborBill::find($request->id);
+                abort_if($labour_bill->status == 1, 404);
+                $labour_bill->delete();
+                LaborBillDetail::where(['labor_bill_id' => $labour_bill->id])->delete();
                 $output = ['status' => 'success', 'message' => 'Data Deleted Successfully'];
                 DB::commit();
             } catch (Exception $e) {
@@ -266,6 +274,7 @@ class LaborBillController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function balanceCredit($cohId, $invoiceNo, $narration, $paidAmount)
     {
         Transaction::create([

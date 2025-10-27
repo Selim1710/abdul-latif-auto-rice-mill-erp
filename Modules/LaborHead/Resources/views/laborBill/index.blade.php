@@ -181,9 +181,11 @@
                     }
                 }, ],
             });
+
             $('#btn-filter').click(function() {
                 table.ajax.reload();
             });
+
             $('#btn-reset').click(function() {
                 $('#form-filter')[0].reset();
                 $('#form-filter #start_date').val("");
@@ -192,6 +194,7 @@
                 $('#form-filter .selectpicker').selectpicker('refresh');
                 table.ajax.reload();
             });
+
             $(document).on('click', '.change_status', function() {
                 let id = $(this).data('id');
                 let name = $(this).data('name');
@@ -200,6 +203,7 @@
                 let url = "{{ route('labor.bill.change.status') }}";
                 change_status(id, url, table, row, name, status);
             });
+            
             $(document).on('click', '.delete_data', function() {
                 let id = $(this).data('id');
                 let name = $(this).data('name');
