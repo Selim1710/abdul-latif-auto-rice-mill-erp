@@ -12,7 +12,7 @@ use Modules\Setting\Entities\Warehouse;
 
 class Sale extends BaseModel
 {
-    protected $fillable          = ['invoice_no', 'sale_date', 'transport_name', 'party_type', 'party_id', 'party_name', 'sale_type', 'sale_status', 'document', 'discount', 'total_sale_qty', 'total_delivery_qty', 'total_return_qty', 'total_sale_sub_total', 'total_delivery_sub_total', 'total_return_sub_total', 'previous_due', 'net_total', 'paid_amount', 'due_amount', 'payment_status', 'payment_method', 'account_id', 'created_by', 'modified_by'];
+    protected $fillable          = ['invoice_no', 'sale_date', 'transport_name', 'party_type', 'party_id', 'party_name', 'sale_type', 'sale_status', 'document', 'discount', 'total_sale_qty', 'total_delivery_qty', 'total_return_qty', 'total_sale_sub_total', 'total_delivery_sub_total', 'total_return_sub_total', 'previous_due', 'net_total', 'paid_amount', 'due_amount', 'payment_status', 'payment_method', 'account_id', 'created_by', 'modified_by','total_load_unload'];
     protected $table             = 'sales';
     protected const ALL_SALES    = '_sales';
     protected $_invoice_no;

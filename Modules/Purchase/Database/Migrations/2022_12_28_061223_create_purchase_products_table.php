@@ -18,6 +18,7 @@ class CreatePurchaseProductsTable extends Migration
             $table->foreignId('purchase_id')->constrained();
             $table->foreignId('warehouse_id')->nullable()->constrained();
              $table->double('load_unload_rate')->nullable();
+             $table->double('load_unload_amount')->nullable();
             $table->foreignId('product_id')->constrained();
             $table->double('qty',3)->nullable()->default(0);
             $table->double('scale',3)->nullable()->default(0);

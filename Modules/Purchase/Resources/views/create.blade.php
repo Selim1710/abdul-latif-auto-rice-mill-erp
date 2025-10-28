@@ -210,8 +210,14 @@
                                                                 data-unit_id="purchase_0_unit_id"
                                                                 data-qty="purchase_0_qty" data-price="purchase_0_price"
                                                                 data-sub_total="purchase_0_sub_total" /> </td>
-                                                        <td><input class="form-control recQty" id="purchase_0_rec_qty"
-                                                                name="purchase[0][rec_qty]" /> </td>
+                                                        {{-- receive qty --}}
+                                                        <td>
+                                                            <input class="form-control recQty" id="purchase_0_rec_qty"
+                                                                name="purchase[0][rec_qty]"
+                                                                data-load_unload_rate="purchase_0_load_unload_rate"
+                                                                data-load_unload_amount="purchase_0_load_unload_amount" />
+                                                        </td>
+
                                                         <th rowspan="3">
                                                             <button type = "button"
                                                                 class="btn btn-primary btn-sm addRaw"><i
@@ -232,7 +238,10 @@
                                                         <th><button type="button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Load Unload Rate') }}</button>
                                                         </th>
-                                                        <th colspan="4"><button type="button"
+                                                        <th><button type="button"
+                                                                class="btn btn-primary btn-block">{{ __('file.Load Unload Amount') }}</button>
+                                                        </th>
+                                                        <th colspan="3"><button type="button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Note') }}</button>
                                                         </th>
                                                     </tr>
@@ -254,7 +263,13 @@
                                                                 id="purchase_0_load_unload_rate"
                                                                 name="purchase[0][load_unload_rate]" readonly />
                                                         </td>
-                                                        <td colspan="4"><input class="form-control text-center"
+                                                        <td>
+                                                            <input
+                                                                class="form-control bg-primary load_unload_amount text-center"
+                                                                id="purchase_0_load_unload_amount"
+                                                                name="purchase[0][load_unload_amount]" readonly />
+                                                        </td>
+                                                        <td colspan="3"><input class="form-control text-center"
                                                                 id="purchase_0_note" name="purchase[0][note]" /> </td>
                                                     </tr>
                                                 </tbody>
@@ -265,6 +280,13 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <table class="table">
+                                        <tr>
+                                            <td><button type="button"
+                                                    class="btn btn-primary btn-block">{{ __('file.Total Load Unload') }}</button>
+                                            </td>
+                                            <td><input type="text" class="form-control bg-primary text-center"
+                                                    id="total_load_unload" name="total_load_unload" readonly /></td>
+                                        </tr>
                                         <tr>
                                             <td><button type="button"
                                                     class="btn btn-primary btn-block">{{ __('file.Total Quantity') }}</button>
@@ -420,6 +442,12 @@
         });
 
         $(document).on('input', '.recQty', function() {
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+            let receive_qty = $(this).val();
+
+            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+
             calculation();
         });
 
@@ -472,7 +500,8 @@
                 `_product_id" data-unit_id="purchase_` + i + `_unit_id" data-qty="purchase_` + i +
                 `_qty" data-price="purchase_` + i + `_price" data-sub_total="purchase_` + i + `_sub_total"/> </td>
                                <td><input class="form-control recQty text-center" id="purchase_` + i +
-                `_rec_qty" name="purchase[` + i + `][rec_qty]"/></td>
+                `_rec_qty" name="purchase[` + i + `][rec_qty]" data-load_unload_rate="purchase_` + i + `_load_unload_rate"
+                                                                data-load_unload_amount="purchase_` + i + `_load_unload_amount" /></td>
                                <th  rowspan="3">
                                  <button type = "button" class="btn btn-primary btn-sm addRaw text-center"><i class="fas fa-plus-circle"></i></button><br/>
                                  <button type = "button" class = "btn btn-danger btn-sm deleteRaw text-center" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -482,6 +511,7 @@
                                <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Price') }}</button></th>
                                <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Sub Total') }}</button></th>
                                <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Load Unload Rate') }}</button></th>
+                               <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Load Unload Amount') }}</button></th>
                                <th colspan="4"><button type="button" class="btn btn-primary btn-block">{{ __('file.Note') }}</button></th>
                            </tr>
                            <tr>
@@ -498,7 +528,10 @@
                     <input class="form-control bg-primary load_unload_rate text-center" id="purchase_` + i +
                 `_load_unload_rate" name="purchase[` + i + `][load_unload_rate]" readonly/>
                  </td>
-                              
+                 <td>
+                 <input class="form-control bg-primary load_unload_amount text-center" id="purchase_` + i +
+                `_load_unload_amount" name="purchase[` + i + `][load_unload_amount]" readonly />
+                 </td>     
                 <td colspan="4"><input class="form-control text-center" id="purchase_` + i +
                 `_note" name="purchase[` + i + `][note]"/> </td>
                            </tr>
@@ -626,6 +659,18 @@
                     qty += +$(this).val();
                 }
             });
+            
+            // load unload
+            let total_load_unload = 0;
+            $('.load_unload_amount').each(function() {
+                if ($(this).val() == '') {
+                    total_load_unload += +0;
+                } else {
+                    total_load_unload += +$(this).val();
+                }
+            });
+            _('total_load_unload').value = total_load_unload;
+
             $('.sub_total').each(function() {
                 if ($(this).val() == '') {
                     subTotal += +0;

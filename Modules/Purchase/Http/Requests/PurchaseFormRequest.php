@@ -18,6 +18,7 @@ class PurchaseFormRequest extends FormRequest {
         $this->rules['payment_status']                      = ['required'];
         $this->rules['total_purchase_sub_total']            = ['required'];
         $this->rules['total_purchase_qty']                  = ['required'];
+        $this->rules['total_load_unload']                  = ['nullable'];
 
         if(request()->party_type == 1) {
 

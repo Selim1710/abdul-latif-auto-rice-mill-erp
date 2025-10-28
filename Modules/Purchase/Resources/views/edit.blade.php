@@ -237,10 +237,13 @@
                                                                         data-price="purchase_{{ $key }}_price"
                                                                         data-sub_total="purchase_{{ $key }}_sub_total"
                                                                         value="{{ $product->scale }}" /> </td>
-                                                                <td><input class="form-control"
+                                                                <td><input class="form-control recQty"
                                                                         id="purchase_{{ $key }}_rec_qty"
                                                                         name="purchase[{{ $key }}][rec_qty]"
-                                                                        value="{{ $product->rec_qty }}" /> </td>
+                                                                        value="{{ $product->rec_qty }}"
+                                                                        data-load_unload_rate="purchase_{{ $key }}_load_unload_rate"
+                                                                        data-load_unload_amount="purchase_{{ $key }}_load_unload_amount" />
+                                                                </td>
                                                                 <th rowspan="3">
                                                                     <button type = "button"
                                                                         class="btn btn-primary btn-sm addRaw"><i
@@ -261,7 +264,10 @@
                                                                 <th><button type="button"
                                                                         class="btn btn-primary btn-block">{{ __('file.Load Unload Rate') }}</button>
                                                                 </th>
-                                                                <th colspan="4"><button
+                                                                <th><button type="button"
+                                                                        class="btn btn-primary btn-block">{{ __('file.Load Unload Amount') }}</button>
+                                                                </th>
+                                                                <th colspan="3"><button
                                                                         class="btn btn-primary btn-block">{{ __('file.Note') }}</button>
                                                                 </th>
                                                             </tr>
@@ -283,9 +289,19 @@
                                                                     <input
                                                                         class="form-control bg-primary load_unload_rate text-center"
                                                                         id="purchase_{{ $key }}_load_unload_rate"
-                                                                        name="purchase[{{ $key }}][load_unload_rate]" value="{{ $product->load_unload_rate ?? '' }}" readonly />
+                                                                        name="purchase[{{ $key }}][load_unload_rate]"
+                                                                        value="{{ $product->load_unload_rate ?? '' }}"
+                                                                        readonly />
                                                                 </td>
-                                                                <td colspan="4"><input class="form-control text-center"
+                                                                <td>
+                                                                    <input
+                                                                        class="form-control bg-primary load_unload_amount text-center"
+                                                                        id="purchase_{{ $key }}_load_unload_amount"
+                                                                        name="purchase[{{ $key }}][load_unload_amount]"
+                                                                        value="{{ $product->load_unload_amount ?? '' }}"
+                                                                        readonly />
+                                                                </td>
+                                                                <td colspan="3"><input class="form-control text-center"
                                                                         id="purchase_{{ $key }}_note"
                                                                         name="purchase[{{ $key }}][note]"
                                                                         value="{{ $product->note }}" /> </td>
@@ -300,6 +316,15 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <table class="table">
+                                        <tr>
+                                            <td><button type="button"
+                                                    class="btn btn-primary btn-block">{{ __('file.Total Load Unload') }}</button>
+                                            </td>
+                                            <td><input type="text" class="form-control bg-primary text-center"
+                                                    id="total_load_unload" name="total_load_unload"
+                                                    value="{{ $edit->total_load_unload ?? '' }}" readonly /></td>
+                                        </tr>
+
                                         <tr>
                                             <td><button type="button"
                                                     class="btn btn-primary btn-block">{{ __('file.Total Quantity') }}</button>
@@ -443,6 +468,21 @@
             }
             calculation();
         });
+
+        $(document).on('input', '.recQty', function() {
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+            let receive_qty = $(this).val();
+
+            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+
+            console.log('load_unload_rate: ' + load_unload_rate);
+            console.log('load_unload_amount: ' + load_unload_amount);
+            console.log('receive_qty: ' + receive_qty);
+
+            calculation();
+        });
+
         $(document).on('input', '.price', function() {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let qty = $(this).data('qty');
@@ -457,7 +497,8 @@
         });
         $(document).on('click', '.addRaw', function() {
             let html;
-            html = `<table class="table">
+            html =
+                `<table class="table">
                        <tbody>
                            <tr class="text-center" style="border-top: 2px solid cadetblue;">
                                <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Company') }}</button></th>
@@ -471,7 +512,8 @@
                            </tr>
                            <tr class="text-center">
                                <td>
-                                 <select class="form-control selectpicker text-center labor_warehouse_id" id="purchase_` + i +
+                                 <select class="form-control selectpicker text-center labor_warehouse_id" id="purchase_` +
+                i +
                 `_warehouse_id" name="purchase[` + i + `][warehouse_id]" index_no="` + i + `" data-live-search = "true">
                                  <option value="">{{ __('Please Select') }}</option>
                                  @foreach ($warehouses as $warehouse)
@@ -501,8 +543,9 @@
                 `_scale" name="purchase[` + i + `][scale]" data-product_id="purchase_` + i +
                 `_product_id" data-unit_id="purchase_` + i + `_unit_id" data-qty="purchase_` + i +
                 `_qty" data-price="purchase_` + i + `_price" data-sub_total="purchase_` + i + `_sub_total"/> </td>
-                               <td><input class="form-control text-center" id="purchase_` + i +
-                `_rec_qty" name="purchase[` + i + `][rec_qty]"/></td>
+                               <td><input class="form-control text-center recQty" id="purchase_` + i +
+                `_rec_qty" name="purchase[` + i + `][rec_qty]"  data-load_unload_rate="purchase_` + i + `_load_unload_rate"
+                                                                data-load_unload_amount="purchase_` + i + `_load_unload_amount"/></td>
                                <th  rowspan="3">
                                  <button type = "button" class="btn btn-primary btn-sm addRaw text-center"><i class="fas fa-plus-circle"></i></button><br/>
                                  <button type = "button" class = "btn btn-danger btn-sm deleteRaw text-center" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -511,7 +554,8 @@
                            <tr class="text-center">
                                <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Price') }}</button></th>
                                <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Sub Total') }}</button></th>
-                               <th colspan="5"><button type="button" class="btn btn-primary btn-block">{{ __('file.Note') }}</button></th>
+                                 <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Load Unload Amount') }}</button></th>
+                               <th colspan="4"><button type="button" class="btn btn-primary btn-block">{{ __('file.Note') }}</button></th>
                            </tr>
                            <tr>
                                <td><input class="form-control price text-center" id="purchase_` + i +
@@ -519,7 +563,11 @@
                 `_product_id" data-qty="purchase_` + i + `_qty" data-sub_total="purchase_` + i + `_sub_total"/> </td>
                                <td><input class="form-control bg-primary sub_total text-center" id="purchase_` + i +
                 `_sub_total" name="purchase[` + i + `][sub_total]" readonly/> </td>
-                               <td colspan="5"><input class="form-control text-center" id="purchase_` + i +
+                  <td>
+                 <input class="form-control bg-primary load_unload_amount text-center" id="purchase_` + i +
+                `_load_unload_amount" name="purchase[` + i + `][load_unload_amount]" readonly />
+                 </td> 
+                               <td colspan="4"><input class="form-control text-center" id="purchase_` + i +
                 `_note" name="purchase[` + i + `][note]"/> </td>
                            </tr>
                        </tbody>
@@ -651,6 +699,19 @@
                     subTotal += +$(this).val();
                 }
             });
+
+            // load unload
+            let total_load_unload = 0;
+            $('.load_unload_amount').each(function() {
+                if ($(this).val() == '') {
+                    total_load_unload += +0;
+                } else {
+                    total_load_unload += +$(this).val();
+                }
+            });
+            _('total_load_unload').value = total_load_unload;
+
+
             if (paymentStatus == 1) {
                 _('total_purchase_qty').value = qty;
                 _('total_purchase_sub_total').value = subTotal - _('discount').value;

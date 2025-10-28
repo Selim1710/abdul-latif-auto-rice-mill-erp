@@ -153,6 +153,7 @@ class PurchaseController extends BaseController
                             $purchase[]  = [
                                 'warehouse_id' => $value['warehouse_id'],
                                 'load_unload_rate' => $value['load_unload_rate'],
+                                'load_unload_amount' => $value['load_unload_amount'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -238,6 +239,7 @@ class PurchaseController extends BaseController
                             $purchase[Str::random(5)]  = [
                                 'warehouse_id' => $value['warehouse_id'],
                                 'load_unload_rate' => $value['load_unload_rate'],
+                                'load_unload_amount' => $value['load_unload_amount'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -295,7 +297,7 @@ class PurchaseController extends BaseController
                     // labour-bill-generate
                     foreach ($purchase->purchaseProductList as $key => $purchase_product) {
                         $labor_head = LaborHead::find(1); // load-unload
-                        $amount  = ($purchase_product->qty ?? 0) * ($purchase_product->load_unload_rate ?? 0);
+                        $amount  = ($purchase_product->rec_qty ?? 0) * ($purchase_product->load_unload_rate ?? 0);
                         $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                         $note = "Purchase";
                         $this->labour_head_Credit($coh->id, $purchase_product->id, $note, $amount);
