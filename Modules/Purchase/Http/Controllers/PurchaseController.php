@@ -297,7 +297,7 @@ class PurchaseController extends BaseController
                     // labour-bill-generate
                     foreach ($purchase->purchaseProductList as $key => $purchase_product) {
                         $labor_head = LaborHead::find(1); // load-unload
-                        $amount  = ($purchase_product->rec_qty ?? 0) * ($purchase_product->load_unload_rate ?? 0);
+                        $amount  = ($purchase_product->load_unload_amount ?? 0);
                         $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                         $note = "Purchase";
                         $this->labour_head_Credit($coh->id, $purchase_product->id, $note, $amount);

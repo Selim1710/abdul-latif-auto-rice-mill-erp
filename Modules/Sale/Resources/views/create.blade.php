@@ -231,7 +231,10 @@
                                                                 data-sub_total="sale_0_sub_total" /> </td>
                                                         <td><input class="form-control selQty text-center"
                                                                 id="sale_0_sel_qty" name="sale[0][sel_qty]"
-                                                                data-available_qty="sale_0_available_qty" /> </td>
+                                                                data-available_qty="sale_0_available_qty"
+                                                                data-load_unload_rate="sale_0_load_unload_rate"
+                                                                data-load_unload_amount="sale_0_load_unload_amount" />
+                                                        </td>
                                                         <th rowspan="3">
                                                             <button type="button"
                                                                 class="btn btn-primary btn-sm addRaw"><i
@@ -252,7 +255,10 @@
                                                         <th><button type="button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Load Unload Rate') }}</button>
                                                         </th>
-                                                        <th colspan="5"><button type = "button"
+                                                        <th><button type="button"
+                                                                class="btn btn-primary btn-block">{{ __('file.Load Unload Amount') }}</button>
+                                                        </th>
+                                                        <th colspan="4"><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Note') }}</button>
                                                         </th>
                                                     </tr>
@@ -270,7 +276,13 @@
                                                                 id="sale_0_load_unload_rate"
                                                                 name="sale[0][load_unload_rate]" readonly />
                                                         </td>
-                                                        <td colspan="5"><input class="form-control text-center"
+                                                        <td>
+                                                            <input
+                                                                class="form-control bg-primary load_unload_amount text-center"
+                                                                id="sale_0_load_unload_amount"
+                                                                name="sale[0][load_unload_amount]" readonly />
+                                                        </td>
+                                                        <td colspan="4"><input class="form-control text-center"
                                                                 id="sale_0_note" name="sale[0][note]" /> </td>
                                                     </tr>
                                                 </tbody>
@@ -281,6 +293,13 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <table class="table">
+                                        <tr>
+                                            <td><button type="button"
+                                                    class="btn btn-primary btn-block">{{ __('file.Total Load Unload') }}</button>
+                                            </td>
+                                            <td><input type="text" class="form-control bg-primary text-center"
+                                                    id="total_load_unload" name="total_load_unload" readonly /></td>
+                                        </tr>
                                         <tr>
                                             <td><button type="button"
                                                     class="btn btn-primary btn-block">{{ __('file.Total Quantity') }}</button>
@@ -298,7 +317,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col-md-12 text-center pt-5">
-                                    <a class = "btn btn-danger btn-sm mr-3" href="{{ route('purchase.add') }}"><i
+                                    <a class = "btn btn-danger btn-sm mr-3" href="{{ route('sale.add') }}"><i
                                             class="fas fa-sync-alt"></i>{{ __('file.Reset') }}</a>
                                     <button type="button" class="btn btn-primary btn-sm mr-3" id="save-btn"
                                         onclick="storeData()"><i class="fas fa-save"></i>{{ __('file.Save') }}</button>
@@ -455,6 +474,13 @@
                 notification('error', 'Quantity Can\'t Be Greater Then Stock Quantity');
                 return;
             }
+
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+            let receive_qty = $(this).val();
+
+            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+
             calculation();
         });
         $(document).on('input', '.price', function() {
@@ -485,7 +511,8 @@
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Action') }}</button></th>
                           </tr>
                           <tr class="text-center">
-                             <td>
+
+                            <td>
                                  <select class="form-control selectpicker text-center labor_warehouse_id" id="sale_` +
                 i +
                 `_warehouse_id" name="sale[` + i + `][warehouse_id]" index_no="` + i + `"  data-live-search = "true">
@@ -495,6 +522,7 @@
                                  @endforeach
                                  </select>
                                </td>
+
                              <td>
                              <select class="form-control selectpicker category text-center" id="sale_` + i +
                 `_category_id" data-warehouse_id="sale_` + i + `_warehouse_id" data-product_id="sale_` + i + `_product_id" data-live-search = "true">
@@ -520,7 +548,8 @@
                 `_unit_id" data-available_qty="sale_` + i + `_available_qty" data-qty="sale_` + i +
                 `_qty" data-price="sale_` + i + `_price" data-sub_total="sale_` + i + `_sub_total"/> </td>
                              <td><input class="form-control selQty text-center" id="sale_` + i +
-                `_sel_qty" name="sale[` + i + `][sel_qty]" data-available_qty="sale_` + i + `_available_qty"/> </td>
+                `_sel_qty" name="sale[` + i + `][sel_qty]" data-available_qty="sale_` + i + `_available_qty"  data-load_unload_rate="sale_` + i + `_load_unload_rate"
+                                                                data-load_unload_amount="sale_` + i + `_load_unload_amount" /> </td>
                              <th  rowspan="3">
                              <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                              <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -529,7 +558,9 @@
                           <tr class="text-center">
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Price') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Sub Total') }}</button></th>
-                             <th colspan="6"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Note') }}</button></th>
+                              <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Load Unload Rate') }}</button></th>
+                               <th><button type="button" class="btn btn-primary btn-block">{{ __('file.Load Unload Amount') }}</button></th>
+                             <th colspan="4"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Note') }}</button></th>
                           </tr>
                           <tr>
                              <td><input class="form-control price text-center" id="sale_` + i + `_price" name="sale[` +
@@ -537,7 +568,15 @@
                 `_qty" data-sub_total="sale_` + i + `_sub_total"/> </td>
                              <td><input class="form-control bg-primary sub_total text-center" id="sale_` + i +
                 `_sub_total" name="sale[` + i + `][sub_total]" readonly/> </td>
-                             <td colspan="6"><input class="form-control text-center" id="sale_` + i +
+                                 <td>
+                    <input class="form-control bg-primary load_unload_rate text-center" id="sale_` + i +
+                `_load_unload_rate" name="sale[` + i + `][load_unload_rate]" readonly/>
+                 </td>
+                 <td>
+                 <input class="form-control bg-primary load_unload_amount text-center" id="sale_` + i +
+                `_load_unload_amount" name="sale[` + i + `][load_unload_amount]" readonly />
+                 </td> 
+                <td colspan="4"><input class="form-control text-center" id="sale_` + i +
                 `_note" name="sale[` + i + `][note]"/> </td>
                           </tr>
                        </tbody>
@@ -655,6 +694,19 @@
             let qty = 0;
             let subTotal = 0;
             let paymentStatus = $('#payment_status').find('option:selected').val();
+
+            // load unload
+            let total_load_unload = 0;
+            $('.load_unload_amount').each(function() {
+                if ($(this).val() == '') {
+                    total_load_unload += +0;
+                } else {
+                    total_load_unload += +$(this).val();
+                }
+            });
+            _('total_load_unload').value = total_load_unload;
+
+
             $('.selQty').each(function() {
                 if ($(this).val() == '') {
                     qty += +0;

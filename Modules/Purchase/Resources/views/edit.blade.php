@@ -476,10 +476,6 @@
 
             _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
 
-            console.log('load_unload_rate: ' + load_unload_rate);
-            console.log('load_unload_amount: ' + load_unload_amount);
-            console.log('receive_qty: ' + receive_qty);
-
             calculation();
         });
 
@@ -545,7 +541,7 @@
                 `_product_id" data-unit_id="purchase_` + i + `_unit_id" data-qty="purchase_` + i +
                 `_qty" data-price="purchase_` + i + `_price" data-sub_total="purchase_` + i + `_sub_total"/> </td>
                                <td><input class="form-control text-center recQty" id="purchase_` + i +
-                `_rec_qty" name="purchase[` + i + `][rec_qty]"  data-load_unload_rate="purchase_` + i + `_load_unload_rate"
+                `_rec_qty" name="purchase[` + i + `][rec_qty]" data-load_unload_rate="purchase_` + i + `_load_unload_rate"
                                                                 data-load_unload_amount="purchase_` + i + `_load_unload_amount"/></td>
                                <th  rowspan="3">
                                  <button type = "button" class="btn btn-primary btn-sm addRaw text-center"><i class="fas fa-plus-circle"></i></button><br/>
@@ -575,7 +571,8 @@
                  <input class="form-control bg-primary load_unload_amount text-center" id="purchase_` + i +
                 `_load_unload_amount" name="purchase[` + i + `][load_unload_amount]" readonly />
                  </td> 
-                               <td colspan="3"><input class="form-control text-center" id="purchase_` + i +
+
+                <td colspan="3"><input class="form-control text-center" id="purchase_` + i +
                 `_note" name="purchase[` + i + `][note]"/> </td>
                            </tr>
                        </tbody>
