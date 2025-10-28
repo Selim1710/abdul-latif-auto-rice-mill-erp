@@ -22,6 +22,16 @@ class Warehouse extends BaseModel
         return $this->hasOne(LaborBillRateDetail::class, 'warehouse_id', 'id')->where('labor_head_id', 1);
     }
 
+    public function labour_cutting_head()
+    {
+        return $this->hasOne(LaborBillRateDetail::class, 'warehouse_id', 'id')->where('labor_head_id', 2);
+    }
+
+    public function labour_packing_head()
+    {
+        return $this->hasOne(LaborBillRateDetail::class, 'warehouse_id', 'id')->where('labor_head_id', 3);
+    }
+
     public function setName($name)
     {
         $this->name = $name;

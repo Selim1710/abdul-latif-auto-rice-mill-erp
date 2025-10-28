@@ -257,6 +257,7 @@
                                                                 id="purchase_0_sub_total" name="purchase[0][sub_total]"
                                                                 readonly />
                                                         </td>
+
                                                         <td>
                                                             <input
                                                                 class="form-control bg-primary load_unload_rate text-center"
@@ -269,6 +270,7 @@
                                                                 id="purchase_0_load_unload_amount"
                                                                 name="purchase[0][load_unload_amount]" readonly />
                                                         </td>
+                                                        
                                                         <td colspan="3"><input class="form-control text-center"
                                                                 id="purchase_0_note" name="purchase[0][note]" /> </td>
                                                     </tr>

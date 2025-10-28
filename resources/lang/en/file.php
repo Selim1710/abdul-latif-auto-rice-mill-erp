@@ -1982,6 +1982,8 @@ return [
     'Labour Head'                       => 'Labour Head',
     'Load Unload Rate'                       => 'Load Unload Rate',
     'Load Unload Amount'                       => 'Load Unload Amount',
+    'Cutting Rate'                       => 'Cutting Rate',
+    'Cutting Amount'                       => 'Cutting Amount',
     'Total Load Unload'                       => 'Total Load Unload',
 
 

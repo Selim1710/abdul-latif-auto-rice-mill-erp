@@ -67,6 +67,11 @@
                                                     <th>{{ __('file.Qty') }}</th>
                                                     <th>{{ __('file.Scale') }}</th>
                                                     <th>{{ __('file.Pro Qty') }}</th>
+                                                    <th>{{ __('file.Load Unload Rate') }}</th>
+                                                    <th>{{ __('file.Load Unload Amount') }}</th>
+
+                                                    <th>{{ __('file.Cutting Rate') }}</th>
+                                                    <th>{{ __('file.Cutting Amount') }}</th>
                                                     <th>{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -128,6 +133,30 @@
                                                     <td><input class="form-control proQty text-center"
                                                             id="production_0_pro_qty" name="production[0][pro_qty]"
                                                             data-available_qty="production_0_available_qty" /> </td>
+
+                                                    <td>
+                                                        <input class="form-control bg-primary load_unload_rate text-center"
+                                                            id="production_0_load_unload_rate"
+                                                            name="production[0][load_unload_rate]" readonly />
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            class="form-control bg-primary load_unload_amount text-center"
+                                                            id="production_0_load_unload_amount"
+                                                            name="production[0][load_unload_amount]" readonly />
+                                                    </td>
+
+                                                    <td>
+                                                        <input class="form-control bg-primary cutting_rate text-center"
+                                                            id="production_0_cutting_rate"
+                                                            name="production[0][cutting_rate]" readonly />
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control bg-primary cutting_amount text-center"
+                                                            id="production_0_cutting_amount"
+                                                            name="production[0][cutting_amount]" readonly />
+                                                    </td>
+
                                                     <td>
                                                         <button type="button" class="btn btn-primary btn-sm addRaw"><i
                                                                 class="fas fa-plus-circle"></i></button><br />
