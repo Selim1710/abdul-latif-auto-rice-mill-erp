@@ -181,6 +181,17 @@ class PurchaseController extends BaseController
                         $cohId       = 28;
                         $name        = 'Walking Party';
                     }
+
+
+                    // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $result->purchaseProductList()->sum('load_unload_amount');
+
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Purchase";
+                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+
+
                     $narration = $name . ' purchase paid amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
                     $this->balanceCredit($request->account_id, $request->invoice_no, $narration, $request->purchase_date, abs($request->paid_amount));
                     $this->balanceCredit($cohId, $request->invoice_no, $narration, $request->purchase_date, abs($request->paid_amount));
@@ -293,16 +304,14 @@ class PurchaseController extends BaseController
             try {
                 $purchase = $this->model->with('purchaseProductList')->findOrFail($request->purchase_id);
 
-                if (!empty($purchase->purchaseProductList) && $request->purchase_status == 4) {
-                    // labour-bill-generate
-                    foreach ($purchase->purchaseProductList as $key => $purchase_product) {
-                        $labor_head = LaborHead::find(1); // load-unload
-                        $amount  = ($purchase_product->load_unload_amount ?? 0);
-                        $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
-                        $note = "Purchase";
-                        $this->labour_head_Credit($coh->id, $purchase_product->id, $note, $amount);
-                    }
-                }
+                // labour-bill-generate
+                $labor_head = LaborHead::find(1); // load-unload
+                $amount = $purchase->purchaseProductList()->sum('load_unload_amount');
+
+                $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                $note = "Purchase";
+                $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+
 
                 abort_if($purchase->purchase_status == 4, 404);
                 $purchase->update(['purchase_status' => $request->purchase_status]);

@@ -180,6 +180,15 @@ class SaleController extends BaseController
                         $cohId       = 22;
                         $name        = 'Walking Party';
                     }
+
+                    // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $sale->saleProductList()->sum('load_unload_amount');
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Sale";
+                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+
+
                     $narration = $name . ' sale receive amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
                     $this->balanceDebit($cohId, $request->invoice_no, $narration, $request->sale_date, abs($request->paid_amount));
                     $this->balanceDebit($request->account_id, $request->invoice_no, $narration, $request->sale_date, abs($request->paid_amount));
@@ -293,16 +302,13 @@ class SaleController extends BaseController
             try {
                 $sale     = $this->model->findOrFail($request->sale_id);
 
-                if (!empty($sale->saleProductList) && $request->sale_status == 4) {
-                    // labour-bill-generate
-                    foreach ($sale->saleProductList as $key => $sale_product) {
-                        $labor_head = LaborHead::find(1); // load-unload
-                        $amount  = ($sale_product->load_unload_amount ?? 0);
-                        $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
-                        $note = "Sale";
-                        $this->labour_head_Credit($coh->id, $sale_product->id, $note, $amount);
-                    }
-                }
+                // labour-bill-generate
+                $labor_head = LaborHead::find(1); // load-unload
+                $amount = $sale->saleProductList()->sum('load_unload_amount');
+                $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                $note = "Sale";
+                $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+
 
                 $party    = ChartOfHead::firstWhere(['master_head' => 1, 'party_id' => $sale->party_id]);
                 $sale->update(['sale_status' => $request->sale_status]);
