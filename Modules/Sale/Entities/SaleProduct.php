@@ -8,7 +8,7 @@ use Modules\Setting\Entities\Warehouse;
 use Modules\Stock\Entities\WarehouseProduct;
 
 class SaleProduct extends BaseModel {
-    protected $fillable = ['sale_id', 'warehouse_id', 'product_id','qty','scale','sel_qty', 'price','sub_total','delivery_scale','delivery_qty','return_scale','return_qty','sale_date','note'];
+    protected $fillable = ['sale_id', 'warehouse_id','load_unload_rate', 'product_id','qty','scale','sel_qty', 'price','sub_total','delivery_scale','delivery_qty','return_scale','return_qty','sale_date','note'];
     public function sale(){
         return $this->belongsTo(Sale::class,'sale_id','id');
     }

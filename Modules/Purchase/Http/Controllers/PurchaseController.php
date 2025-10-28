@@ -16,6 +16,9 @@ use Modules\Party\Entities\Party;
 use Modules\Product\Entities\Product;
 use Modules\Purchase\Entities\Purchase;
 use Illuminate\Support\Str;
+use Modules\LaborHead\Entities\LaborBillRate;
+use Modules\LaborHead\Entities\LaborBillRateDetail;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\Purchase\Entities\PurchaseProduct;
 use Modules\Purchase\Entities\PurchaseProductReceive;
 use Modules\Purchase\Entities\PurchaseProductReturn;
@@ -149,6 +152,7 @@ class PurchaseController extends BaseController
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['price']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['rec_qty'])) {
                             $purchase[]  = [
                                 'warehouse_id' => $value['warehouse_id'],
+                                'load_unload_rate' => $value['load_unload_rate'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -233,6 +237,7 @@ class PurchaseController extends BaseController
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['price']) && !empty($value['qty']) && !empty($value['rec_qty'])) {
                             $purchase[Str::random(5)]  = [
                                 'warehouse_id' => $value['warehouse_id'],
+                                'load_unload_rate' => $value['load_unload_rate'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -279,10 +284,23 @@ class PurchaseController extends BaseController
     }
     public function changeStatus(Request $request)
     {
+        // return $request;
+
         if ($request->ajax() && permission('purchase-status-change')) {
             DB::beginTransaction();
             try {
-                $purchase = $this->model->findOrFail($request->purchase_id);
+                $purchase = $this->model->with('purchaseProductList')->findOrFail($request->purchase_id);
+
+                if (!empty($purchase->purchaseProductList) && $request->purchase_status == 4) {
+                    // labour-bill-generate
+                    foreach ($purchase->purchaseProductList as $key => $purchase_product) {
+                        $labor_head = LaborHead::find(1); // load-unload
+                        $amount  = $purchase_product->sub_total ?? 0;
+                        $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                        $this->labour_head_Credit($coh->id, $purchase_product->id, $purchase_product->note, $amount);
+                    }
+                }
+
                 abort_if($purchase->purchase_status == 4, 404);
                 $purchase->update(['purchase_status' => $request->purchase_status]);
                 $this->model->flushCache();
@@ -310,6 +328,23 @@ class PurchaseController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    {
+        Transaction::create([
+            'chart_of_head_id' => $cohId,
+            'date'             => date('Y-m-d'),
+            'voucher_no'       => $invoiceNo,
+            'voucher_type'     => "LABOR-BILL",
+            'narration'        => $narration,
+            'debit'            => 0,
+            'credit'           => $paidAmount,
+            'status'           => 1,
+            'is_opening'       => 2,
+            'created_by'       => auth()->user()->name,
+        ]);
+    }
+
     public function delete(Request $request)
     {
         if ($request->ajax() && permission('purchase-delete')) {

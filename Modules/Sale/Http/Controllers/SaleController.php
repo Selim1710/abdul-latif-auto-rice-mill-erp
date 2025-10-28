@@ -144,6 +144,7 @@ class SaleController extends BaseController{
                         if(!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['price']) && !empty($value['qty']) && !empty($value['scale'])  && !empty($value['sel_qty']) && !empty($value['sub_total'])){
                             $saleProduct[]    = [
                                 'warehouse_id'           => $value['warehouse_id'],
+                                'load_unload_rate'           => $value['load_unload_rate'],
                                 'product_id'             => $value['product_id'],
                                 'qty'                    => $value['qty'],
                                 'scale'                  => $value['scale'],
@@ -228,6 +229,7 @@ class SaleController extends BaseController{
                         if(!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['price']) && !empty($value['qty']) && !empty($value['scale'])  && !empty($value['sel_qty']) && !empty($value['sub_total'])){
                             $saleProduct[Str::random(5)]    = [
                                 'warehouse_id'           => $value['warehouse_id'],
+                                'load_unload_rate'           => $value['load_unload_rate'],
                                 'product_id'             => $value['product_id'],
                                 'qty'                    => $value['qty'],
                                 'scale'                  => $value['scale'],
