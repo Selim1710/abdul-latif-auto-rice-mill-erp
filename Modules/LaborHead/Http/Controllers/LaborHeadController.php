@@ -49,12 +49,16 @@ class LaborHeadController extends BaseController
             foreach ($list as $value) {
                 $no++;
                 $action      = '';
-                if (permission('labor-head-edit')) {
-                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '" data-warehouse_id="' . ($value->warehouse_id ?? '') . '"  data-labour_type_id="' . ($value->labour_type_id ?? '') . '"  data-name="' . $value->name . '" data-mobile="' . $value->mobile . '" data-previous_balance="' . $value->previous_balance . '">' . $this->actionButton('Edit') . '</a>';
-                }
-                if (permission('labor-head-delete')) {
-                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">' . $this->actionButton('Delete') . '</a>';
-                }
+                // if (permission('labor-head-edit')) {
+                //     $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '" data-warehouse_id="' . ($value->warehouse_id ?? '') . '"  data-labour_type_id="' . ($value->labour_type_id ?? '') . '"  data-name="' . $value->name . '" data-mobile="' . $value->mobile . '" data-previous_balance="' . $value->previous_balance . '">' . $this->actionButton('Edit') . '</a>';
+                // }
+                // if (permission('labor-head-delete')) {
+                //     $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->name . '">' . $this->actionButton('Delete') . '</a>';
+                // }
+
+                // do not edit or delete any head because this head code are used in purchase, sale, production
+                $action .= ' <a class="dropdown-item">Not Allowed</a>';
+
                 $row    = [];
                 $row[]  = $no;
                 // $row[]  = $value->warehouse->name ?? '';
