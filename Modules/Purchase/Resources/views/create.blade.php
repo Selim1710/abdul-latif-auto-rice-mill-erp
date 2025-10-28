@@ -477,6 +477,7 @@
                                  @endforeach
                                  </select>
                                </td>
+                               
                                <td>
                                  <select class="form-control selectpicker category text-center" id="purchase_` + i +
                 `_category_id" data-product_id="purchase_` + i + `_product_id" data-live-search = "true">
