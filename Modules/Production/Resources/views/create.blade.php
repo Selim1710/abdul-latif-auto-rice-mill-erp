@@ -78,12 +78,16 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <select class="form-control selectpicker text-center"
-                                                            id="production_0_warehouse_id"
-                                                            name="production[0][warehouse_id]" data-live-search = "true">
+                                                        <select
+                                                            class="form-control selectpicker text-center labor_warehouse_id"
+                                                            id="production_0_warehouse_id" name="production[0][warehouse_id]"
+                                                            index_no="0" data-live-search = "true">
                                                             <option value="">{{ __('Please Select') }}</option>
                                                             @foreach ($warehouses as $warehouse)
-                                                                <option value="{{ $warehouse->id }}">
+                                                                <option value="{{ $warehouse->id }}"
+                                                                    labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}"
+                                                                    labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}"
+                                                                    >
                                                                     {{ $warehouse->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -286,6 +290,25 @@
                 return;
             }
         });
+
+        $(document).on('change', '.labor_warehouse_id', function() {
+            let index_no = $(this).attr("index_no");
+            if (index_no) {
+                // console.log("index_no: " + index_no);
+
+                let selectedOption = $(this).find(':selected');
+                let load_unload_rate = selectedOption.attr('labour_load_unload_head') || 0;
+                $('#production_' + index_no + '_load_unload_rate').val(load_unload_rate);
+                
+                let cutting_rate = selectedOption.attr('labour_cutting_head') || 0;
+                $('#production_' + index_no + '_cutting_rate').val(cutting_rate);
+
+                console.log("rateInput: " + rateInput);
+
+            }
+        });
+
+
         $(document).on('click', '.addRaw', function() {
             let html;
             html = `<tr>
