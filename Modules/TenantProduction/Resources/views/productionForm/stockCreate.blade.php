@@ -26,11 +26,11 @@
                                 <input type="hidden" name="tenant_id" value="{{$production->tenant_id}}">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{__('file.Invoice No')}}.</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="tenant">{{__('file.Tenant')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" value="{{$production->tenant->name}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" value="{{$production->tenant->name}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="sale_date">{{__('file.Date')}}</label>
@@ -74,7 +74,7 @@
                                                     <td colspan="2">
                                                         <select class="form-control selectpicker product text-center" id="production_product_0_product_id" name="production_product[0][product_id]" data-category_id="production_product_0_category_id" data-unit_show="production_product_0_unit_show" data-unit_id="production_product_0_unit_id" data-live-search = "true"></select>
                                                     </td>
-                                                    <td><input class="form-control bg-primary text-white text-center" id="production_product_0_unit_show" readonly/><input type="hidden" id="production_product_0_unit_id"/></td>
+                                                    <td><input class="form-control bg-primary text-center" id="production_product_0_unit_show" readonly/><input type="hidden" id="production_product_0_unit_id"/></td>
                                                     <td><input class="form-control qty text-center" id="production_product_0_qty" name="production_product[0][qty]" data-product_id="production_product_0_product_id" data-unit_id="production_product_0_unit_id" data-scale="production_product_0_scale"/></td>
                                                     <td><input class="form-control scale text-center" id="production_product_0_scale" name="production_product[0][scale]" data-product_id="production_product_0_product_id" data-unit_id="production_product_0_unit_id" data-qty="production_product_0_qty"/> </td>
                                                     <td><input class="form-control proQty text-center" id="production_product_0_production_qty" name="production_product[0][production_qty]"/> </td>
@@ -114,8 +114,8 @@
                                                             <option value="">{{__('Please Select')}}</option>
                                                         </select>
                                                     </td>
-                                                    <td><input class="form-control bg-primary text-white text-center" id="production_product_0_use_unit_show" readonly/><input type="hidden" id="production_product_0_use_unit_id"/></td>
-                                                    <td><input class="form-control bg-primary available_qty text-center text-white" id="production_product_0_use_available_qty" readonly/></td>
+                                                    <td><input class="form-control bg-primary text-center" id="production_product_0_use_unit_show" readonly/><input type="hidden" id="production_product_0_use_unit_id"/></td>
+                                                    <td><input class="form-control bg-primary available_qty text-center" id="production_product_0_use_available_qty" readonly/></td>
                                                     <td><input class="form-control useQty text-center" id="production_product_0_use_qty" name="production_product[0][use_qty]" data-product_id="production_product_0_use_product_id" data-unit_id="production_product_0_use_unit_id" data-available_qty="production_product_0_use_available_qty"/></td>
                                                 </tr>
                                                 <tr><td colspan = "8"><button type="button" class="btn btn-success btn-block">{{__('file.Merge')}}</button></td></tr>
@@ -151,11 +151,11 @@
                                                             <option value="">{{__('Please Select')}}</option>
                                                         </select>
                                                     </td>
-                                                    <td><input class="form-control bg-primary text-white text-center" id="production_product_0_merge_unit_show" readonly/><input type="hidden" id="production_product_0_merge_unit_id"/></td>
-                                                    <td><input class="form-control bg-primary available_qty text-center text-white" id="production_product_0_merge_available_qty" readonly/></td>
+                                                    <td><input class="form-control bg-primary text-center" id="production_product_0_merge_unit_show" readonly/><input type="hidden" id="production_product_0_merge_unit_id"/></td>
+                                                    <td><input class="form-control bg-primary available_qty text-center" id="production_product_0_merge_available_qty" readonly/></td>
                                                     <td><input class="form-control mergeQty text-center" id="production_product_0_merge_qty" name="production_product[0][merge_qty]" data-product_id="production_product_0_merge_product_id" data-unit_id="production_product_0_merge_unit_id" data-available_qty="production_product_0_merge_available_qty" data-price="production_product_0_merge_price" data-sub_total="production_product_0_merge_sub_total"/></td>
                                                     <td><input class="form-control mergePrice text-center" id="production_product_0_merge_price" name="production_product[0][merge_price]" data-qty="production_product_0_merge_qty" data-product_id="production_product_0_merge_product_id" data-sub_total="production_product_0_merge_sub_total"/></td>
-                                                    <td><input class="form-control mergeSubTotal bg-primary text-white text-center" id="production_product_0_merge_sub_total" name="production_product[0][merge_sub_total]" readonly/></td>
+                                                    <td><input class="form-control mergeSubTotal bg-primary text-center" id="production_product_0_merge_sub_total" name="production_product[0][merge_sub_total]" readonly/></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -423,7 +423,7 @@
                              <option value="">{{__('Please Select')}}</option>
                              </select>
                              </td>
-                             <td><input class="form-control bg-primary text-white text-center" id="production_product_`+ i +`_unit_show" readonly/><input type="hidden" id="production_product_`+ i +`_unit_id"/></td>
+                             <td><input class="form-control bg-primary text-center" id="production_product_`+ i +`_unit_show" readonly/><input type="hidden" id="production_product_`+ i +`_unit_id"/></td>
                              <td><input class="form-control qty text-center" id="production_product_`+ i +`_qty" name="production_product[`+ i +`][qty]" data-product_id="production_product_`+ i +`_product_id" data-unit_id="production_product_`+ i +`_unit_id" data-scale="production_product_`+ i +`_scale"/></td>
                              <td><input class="form-control scale text-center" id="production_product_`+ i +`_scale" name="production_product[`+ i +`][scale]" data-product_id="production_product_`+ i +`_product_id" data-unit_id="production_product_`+ i +`_unit_id" data-qty="production_product_`+ i +`_qty"/> </td>
                              <td><input class="form-control proQty text-center" id="production_product_`+ i +`_production_qty" name="production_product[`+ i +`][production_qty]"/> </td>
@@ -463,8 +463,8 @@
                              <option value="">{{__('Please Select')}}</option>
                              </select>
                              </td>
-                             <td><input class="form-control bg-primary text-white text-center" id="production_product_`+ i +`_use_unit_show" readonly/><input type="hidden" id="production_product_`+ i +`_use_unit_id"/></td>
-                             <td><input class="form-control bg-primary available_qty text-center text-white" id="production_product_`+ i +`_use_available_qty" readonly/></td>
+                             <td><input class="form-control bg-primary text-center" id="production_product_`+ i +`_use_unit_show" readonly/><input type="hidden" id="production_product_`+ i +`_use_unit_id"/></td>
+                             <td><input class="form-control bg-primary available_qty text-center" id="production_product_`+ i +`_use_available_qty" readonly/></td>
                              <td><input class="form-control useQty text-center" id="production_product_`+ i +`_use_qty" name="production_product[`+ i +`][use_qty]" data-product_id="production_product_`+ i +`_use_product_id" data-unit_id="production_product_`+ i +`_use_unit_id" data-available_qty="production_product_`+ i +`_use_available_qty"/></td>
                          </tr>
                          <tr><td colspan = "8"><button type="button" class="btn btn-success btn-block">{{__('file.Merge')}}</button></td></tr>
@@ -500,11 +500,11 @@
                              <option value="">{{__('Please Select')}}</option>
                              </select>
                              </td>
-                             <td><input class="form-control bg-primary text-white text-center" id="production_product_`+ i +`_merge_unit_show" readonly/><input type="hidden" id="production_product_`+ i +`_merge_unit_id"/></td>
-                             <td><input class="form-control bg-primary available_qty text-center text-white" id="production_product_`+ i +`_merge_available_qty" readonly/></td>
+                             <td><input class="form-control bg-primary text-center" id="production_product_`+ i +`_merge_unit_show" readonly/><input type="hidden" id="production_product_`+ i +`_merge_unit_id"/></td>
+                             <td><input class="form-control bg-primary available_qty text-center" id="production_product_`+ i +`_merge_available_qty" readonly/></td>
                              <td><input class="form-control mergeQty text-center" id="production_product_`+ i +`_merge_qty" name="production_product[`+ i +`][merge_qty]" data-product_id="production_product_`+ i +`_merge_product_id" data-unit_id="production_product_`+ i +`_merge_unit_id" data-available_qty="production_product_`+ i +`_merge_available_qty" data-price="production_product_`+ i +`_merge_price" data-sub_total="production_product_`+ i +`_merge_sub_total"/></td>
                              <td><input class="form-control mergePrice text-center" id="production_product_`+ i +`_merge_price" name="production_product[`+ i +`][merge_price]" data-qty="production_product_`+ i +`_merge_qty" data-product_id="production_product_`+ i +`_merge_product_id" data-sub_total="production_product_`+ i +`_merge_sub_total"/></td>
-                             <td><input class="form-control mergeSubTotal bg-primary text-white text-center" id="production_product_`+ i +`_merge_sub_total" name="production_product[`+ i +`][merge_sub_total]" readonly/></td>
+                             <td><input class="form-control mergeSubTotal bg-primary text-center" id="production_product_`+ i +`_merge_sub_total" name="production_product[`+ i +`][merge_sub_total]" readonly/></td>
                          </tr>
                        </tbody>
                    </table>`;

@@ -25,7 +25,7 @@
             <tfoot>
             <tr>
                 <td colspan="2"><button type="button" class="btn btn-primary btn-block">{{__('Total')}}</button></td>
-                <td><input type="text" class="bg-primary text-white form-control" id = "total_expense_show" readonly/></td>
+                <td><input type="text" class="bg-primary form-control" id = "total_expense_show" readonly/></td>
             </tr>
             </tfoot>
         </table>

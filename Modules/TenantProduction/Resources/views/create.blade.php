@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="form-group col-md-3 required">
                                     <label for="invoice_no">{{__('file.Invoice No')}}</label>
-                                    <input type="text" class="form-control bg-primary text-white text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
+                                    <input type="text" class="form-control bg-primary text-center" id="invoice_no" name="invoice_no" value="{{$invoice_no}}" readonly/>
                                 </div>
                                 <div class="form-group col-md-3 required">
                                     <label for="mill_id">{{__('file.Tenant')}}</label>
@@ -92,8 +92,8 @@
                                                     <select class="form-control selectpicker product text-center" id="production_0_product_id" name="production[0][product_id]" data-warehouse_id="production_0_warehouse_id" data-price="production_0_price" data-unit_show="production_0_unit_show" data-unit_id="production_0_unit_id" data-available_qty="production_0_available_qty" data-live-search = "true"></select>
                                                     <input type="hidden" id = "production_0_price" name = "production[0][price]" />
                                                 </td>
-                                                <td><input class="form-control bg-primary text-white text-center" id="production_0_unit_show" readonly/><input type="hidden" id="production_0_unit_id"/></td>
-                                                <td><input class="form-control bg-primary available_qty text-center text-white" id="production_0_available_qty" readonly/></td>
+                                                <td><input class="form-control bg-primary text-center" id="production_0_unit_show" readonly/><input type="hidden" id="production_0_unit_id"/></td>
+                                                <td><input class="form-control bg-primary available_qty text-center" id="production_0_available_qty" readonly/></td>
                                                 <td><input class="form-control qty text-center" id="production_0_qty" name="production[0][qty]" data-product_id="production_0_product_id" data-unit_id="production_0_unit_id" data-available_qty="production_0_available_qty" data-scale="production_0_scale"/></td>
                                                 <td><input class="form-control scale text-center" id="production_0_scale" name="production[0][scale]" data-product_id="production_0_product_id" data-unit_id="production_0_unit_id" data-available_qty="production_0_available_qty" data-qty="production_0_qty"/> </td>
                                                 <td><input class="form-control proQty text-center" id="production_0_pro_qty" name="production[0][pro_qty]" data-available_qty="production_0_available_qty"/> </td>
@@ -241,8 +241,8 @@
                         <select class="form-control selectpicker product text-center" id="production_`+ i +`_product_id" name="production[`+ i +`][product_id]" data-warehouse_id="production_`+ i +`_warehouse_id" data-price="production_`+ i +`_price" data-unit_show="production_`+ i +`_unit_show" data-unit_id="production_`+ i +`_unit_id" data-available_qty="production_`+ i +`_available_qty" data-live-search = "true"></select>
                         <input type="hidden" id = "production_`+ i +`_price" name = "production[`+ i +`][price]" />
                         </td>
-                        <td><input class="form-control bg-primary text-white text-center" id="production_`+ i +`_unit_show" readonly/><input type="hidden" id="production_`+ i +`_unit_id"/></td>
-                        <td><input class="form-control bg-primary available_qty text-center text-white" id="production_`+ i +`_available_qty" readonly/></td>
+                        <td><input class="form-control bg-primary text-center" id="production_`+ i +`_unit_show" readonly/><input type="hidden" id="production_`+ i +`_unit_id"/></td>
+                        <td><input class="form-control bg-primary available_qty text-center" id="production_`+ i +`_available_qty" readonly/></td>
                         <td><input class="form-control qty text-center" id="production_`+ i +`_qty" name="production[`+ i +`][qty]" data-product_id="production_`+ i +`_product_id" data-unit_id="production_`+ i +`_unit_id" data-available_qty="production_`+ i +`_available_qty" data-scale="production_`+ i +`_scale"/></td>
                         <td><input class="form-control scale text-center" id="production_`+ i +`_scale" name="production[`+ i +`][scale]" data-product_id="production_`+ i +`_product_id" data-unit_id="production_`+ i +`_unit_id" data-available_qty="production_`+ i +`_available_qty" data-qty="production_`+ i +`_qty"/> </td>
                         <td><input class="form-control proQty text-center" id="production_`+ i +`_pro_qty" name="production[`+ i +`][pro_qty]" data-available_qty="production_`+ i +`_available_qty"/> </td>
