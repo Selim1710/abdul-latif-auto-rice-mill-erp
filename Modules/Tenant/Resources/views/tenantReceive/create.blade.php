@@ -41,7 +41,7 @@
 
                                 <div class="form-group col-md-3 required">
                                     <label for="batch_no">{{ __('file.Batch No') }}</label>
-                                    <input type="text" class="form-control" id="batch_no" name="batch_no" readonly/>
+                                    <input type="text" class="form-control" id="batch_no" name="batch_no" readonly />
                                 </div>
 
                                 <div class="form-group col-md-3 required">
@@ -153,6 +153,23 @@
         function _(x) {
             return document.getElementById(x);
         }
+
+        $(document).on('change', '#tenant_id', function() {
+            let tenant_id = $(this).find(":selected").val();
+            if (tenant_id != '') {
+                $.ajax({
+                    url: "{{ route('tenant-batch-no') }}",
+                    data: {
+                        tenant_id: tenant_id
+                    },
+                    method: 'GET',
+                    success: function(data) {
+                        $('#batch_no').val(data);
+                    }
+                });
+            }
+        });
+
         $(document).on('change', '.category', function() {
             let html;
             let categoryId = $(this).find(":selected").val();
@@ -180,6 +197,7 @@
                 });
             }
         });
+
         $(document).on('change', '.product', function() {
             let productId = $(this).find(":selected").val();
             let unitId = $(this).data('unit_id');

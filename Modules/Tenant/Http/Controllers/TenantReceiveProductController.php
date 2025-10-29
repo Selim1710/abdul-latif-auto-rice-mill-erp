@@ -64,6 +64,7 @@ class TenantReceiveProductController extends BaseController
                 $row    = [];
                 $row[]  = $no;
                 $row[]  = $value->invoice_no;
+                $row[]  = $value->batch_no ?? '';
                 $row[]  = $value->tenant->name . '(' . $value->tenant->mobile . ')';
                 $row[]  = $value->date;
                 $row[]  = STATUS_LABEL[$value->status];
@@ -92,6 +93,15 @@ class TenantReceiveProductController extends BaseController
             return $this->access_blocked();
         }
     }
+
+    public function batchNo(Request $request)
+    {
+        $tenant_id = $request->tenant_id;
+        $tenant_received_count = TenantReceiveProduct::where('tenant_id', $tenant_id)->count();
+        $batch_no = date('Y') . '-' . ($tenant_received_count + 1);
+        return $batch_no;
+    }
+
     public function store(TenantReceiveProductFormRequest $request)
     {
         if ($request->ajax() && permission('tenant-receive-add')) {
@@ -125,6 +135,7 @@ class TenantReceiveProductController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function show($id)
     {
         if (permission('tenant-receive-show')) {
@@ -137,6 +148,7 @@ class TenantReceiveProductController extends BaseController
             return $this->access_blocked();
         }
     }
+
     public function edit($id)
     {
         if (permission('tenant-receive-edit')) {
@@ -153,6 +165,7 @@ class TenantReceiveProductController extends BaseController
             return $this->access_blocked();
         }
     }
+
     public function update(TenantReceiveProductFormRequest $request)
     {
         if ($request->ajax() && permission('tenant-receive-edit')) {
@@ -187,6 +200,7 @@ class TenantReceiveProductController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function changeStatus(Request $request)
     {
         if ($request->ajax() && permission('tenant-receive-status-change')) {
@@ -226,6 +240,7 @@ class TenantReceiveProductController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function delete(Request $request)
     {
         if ($request->ajax() && permission('tenant-receive-delete')) {
@@ -246,10 +261,12 @@ class TenantReceiveProductController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function categoryProduct(Request $request)
     {
         return Product::where(['category_id' => $request->categoryId])->get();
     }
+
     public function productDetails(Request $request)
     {
         return Product::with('unit')->findOrFail($request->productId);

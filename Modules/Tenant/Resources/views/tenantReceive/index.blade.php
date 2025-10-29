@@ -42,6 +42,7 @@
                                     <tr>
                                         <th>{{__('file.SL')}}</th>
                                         <th>{{__('file.Invoice No')}}</th>
+                                        <th>{{__('file.Batch No')}}</th>
                                         <th>{{__('file.Name')}}</th>
                                         <th>{{__('file.Date')}}</th>
                                         <th>{{__('file.Status')}}</th>
