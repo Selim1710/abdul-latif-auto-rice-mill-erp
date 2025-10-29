@@ -213,6 +213,7 @@ class TenantReceiveProductController extends BaseController
                     if (empty($tenantWarehouseProduct)) {
                         TenantWarehouseProduct::create([
                             'tenant_id'           => $tenantReceive->tenant_id,
+                            'batch_no'        => $tenantReceive->batch_no ?? '',
                             'warehouse_id'        => $value->warehouse_id,
                             'product_id'          => $value->product_id,
                             'qty'                 => $value->rec_qty,
