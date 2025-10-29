@@ -202,7 +202,7 @@ class TenantProductionController extends BaseController
             $setTitle = __('file.Tenant Production Edit');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $edit     = $this->model->with('tenant', 'mill', 'rawList', 'rawList.warehouse', 'rawList.product', 'rawList.product.category', 'rawList.product.unit')->findOrFail($id);
-        //    return $edit;
+            //    return $edit;
             abort_if($edit->production_status == 4, 404);
             $data = [
                 'edit'        => $edit,
@@ -231,7 +231,7 @@ class TenantProductionController extends BaseController
                             $production[Str::random(5)] = [
                                 'date'         => $request->date,
                                 'warehouse_id' => $value['warehouse_id'],
-                                 'batch_no' => $value['batch_no'],
+                                'batch_no' => $value['batch_no'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -264,7 +264,7 @@ class TenantProductionController extends BaseController
                 $data       = $this->model->with('rawList')->findOrFail($request->production_id);
                 if ($request->production_status == 3) {
                     foreach ($data->rawList as $value) {
-                        $warehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $data->tenant_id, 'warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
+                        $warehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $data->tenant_id, 'batch_no' => $value->batch_no, 'warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
                         $warehouseProduct->update([
                             'scale'        => $warehouseProduct->scale - $value->scale,
                             'qty'          => $warehouseProduct->qty - $value->pro_qty,
