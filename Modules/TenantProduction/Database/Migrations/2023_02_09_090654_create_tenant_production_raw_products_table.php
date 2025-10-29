@@ -18,14 +18,15 @@ class CreateTenantProductionRawProductsTable extends Migration
             $table->foreignId('tenant_production_id')->constrained();
             $table->date('date')->nullable();
             $table->foreignId('warehouse_id')->constrained();
+            $table->string('batch_no')->nullable();
             $table->foreignId('product_id')->constrained();
-            $table->double('qty',3)->nullable();
-            $table->double('use_qty',3)->nullable();
-            $table->double('scale',3)->nullable();
-            $table->double('use_scale',3)->nullable();
-            $table->double('pro_qty',3)->nullable();
-            $table->double('use_pro_qty',3)->nullable();
-            $table->double('milling',3)->nullable();
+            $table->double('qty', 3)->nullable();
+            $table->double('use_qty', 3)->nullable();
+            $table->double('scale', 3)->nullable();
+            $table->double('use_scale', 3)->nullable();
+            $table->double('pro_qty', 3)->nullable();
+            $table->double('use_pro_qty', 3)->nullable();
+            $table->double('milling', 3)->nullable();
             $table->timestamps();
         });
     }

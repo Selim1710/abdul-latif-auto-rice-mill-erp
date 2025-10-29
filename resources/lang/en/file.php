@@ -1985,6 +1985,7 @@ return [
     'Cutting Rate'                       => 'Cutting Rate',
     'Cutting Amount'                       => 'Cutting Amount',
     'Total Load Unload'                       => 'Total Load Unload',
+    'Tenant Production Edit'                       => 'Tenant Production Edit',
 
 
 ];
