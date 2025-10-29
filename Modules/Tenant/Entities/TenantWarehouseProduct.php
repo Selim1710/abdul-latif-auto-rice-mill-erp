@@ -9,13 +9,14 @@ use Modules\Setting\Entities\Warehouse;
 
 class TenantWarehouseProduct extends BaseModel
 {
-    protected $fillable = ['tenant_id', 'warehouse_id', 'product_id', 'qty', 'scale', 'tenant_product_type','batch_no'];
+    protected $fillable = ['tenant_id', 'warehouse_id', 'product_id', 'qty', 'scale', 'tenant_product_type', 'batch_no'];
     protected $table    = 'tenant_warehouse_products';
     protected $order    = ['twp.id' => 'asc'];
     protected $_tenant_id;
     protected $_warehouse_id;
     protected $_product_id;
     protected $_category_id;
+    
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
@@ -50,7 +51,7 @@ class TenantWarehouseProduct extends BaseModel
             ->join('categories as c', 'p.category_id', '=', 'c.id')
             ->join('units as u', 'p.unit_id', '=', 'u.id')
             ->where([['twp.qty', '!=', 0]])
-            ->select('t.name as tenantName', 'twp.tenant_product_type as tenant_product_type', 'w.name as warehouseName', 'p.product_name as productName', 'p.product_code as productCode', 'c.category_name as categoryName', 'u.unit_code as unitCode', 'u.unit_name as unitName', 'twp.qty as qty', 'twp.scale as scale');
+            ->select('t.name as tenantName','twp.batch_no as batch_no',  'twp.tenant_product_type as tenant_product_type', 'w.name as warehouseName', 'p.product_name as productName', 'p.product_code as productCode', 'c.category_name as categoryName', 'u.unit_code as unitCode', 'u.unit_name as unitName', 'twp.qty as qty', 'twp.scale as scale');
         if ($this->_tenant_id != 0) {
             $query->where('twp.tenant_id', $this->_tenant_id);
         }

@@ -209,7 +209,7 @@ class TenantReceiveProductController extends BaseController
                 $tenantReceive = $this->model->with('tenantReceiveProductList')->findOrFail($request->id);
                 abort_if($tenantReceive->status == 1, 404);
                 foreach ($tenantReceive->tenantReceiveProductList as $value) {
-                    $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantReceive->tenant_id, 'warehouse_id' => $value->warehouse_id, 'product_id' => $value->product_id, 'tenant_product_type' => 1]);
+                    $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantReceive->tenant_id, 'warehouse_id' => $value->warehouse_id, 'batch_no' => $value->batch_no, 'product_id' => $value->product_id, 'tenant_product_type' => 1]);
                     if (empty($tenantWarehouseProduct)) {
                         TenantWarehouseProduct::create([
                             'tenant_id'           => $tenantReceive->tenant_id,
