@@ -70,8 +70,9 @@
                                             <thead class="bg-primary">
                                                 <tr class="text-center">
                                                     <th>{{ __('file.Company') }}</th>
-                                                    <th>{{ __('file.Category') }}</th>
+                                                    {{-- <th>{{ __('file.Category') }}</th> --}}
                                                     <th>{{ __('file.Product') }}</th>
+                                                    <th>{{ __('file.Batch No') }}</th>
                                                     <th>{{ __('file.Unit') }}</th>
                                                     <th>{{ __('file.Available Qty') }}</th>
                                                     <th>{{ __('file.Qty') }}</th>
@@ -81,71 +82,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <select class="form-control selectpicker text-center"
-                                                            id="production_0_warehouse_id"
-                                                            name="production[0][warehouse_id]" data-live-search = "true">
-                                                            <option value="">{{ __('Please Select') }}</option>
-                                                            @foreach ($warehouses as $warehouse)
-                                                                <option value="{{ $warehouse->id }}">
-                                                                    {{ $warehouse->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control selectpicker category text-center"
-                                                            id="production_0_category_id"
-                                                            data-warehouse_id="production_0_warehouse_id"
-                                                            data-product_id="production_0_product_id"
-                                                            data-live-search = "true">
-                                                            <option value="">{{ __('Please Select') }}</option>
-                                                            @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}">
-                                                                    {{ $category->category_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control selectpicker product text-center"
-                                                            id="production_0_product_id" name="production[0][product_id]"
-                                                            data-warehouse_id="production_0_warehouse_id"
-                                                            data-price="production_0_price"
-                                                            data-unit_show="production_0_unit_show"
-                                                            data-unit_id="production_0_unit_id"
-                                                            data-available_qty="production_0_available_qty"
-                                                            data-live-search = "true"></select>
-                                                        <input type="hidden" id = "production_0_price"
-                                                            name = "production[0][price]" />
-                                                    </td>
-                                                    <td><input class="form-control bg-primary text-center"
-                                                            id="production_0_unit_show" readonly /><input type="hidden"
-                                                            id="production_0_unit_id" /></td>
-                                                    <td><input class="form-control bg-primary available_qty text-center"
-                                                            id="production_0_available_qty" readonly /></td>
-                                                    <td><input class="form-control qty text-center" id="production_0_qty"
-                                                            name="production[0][qty]"
-                                                            data-product_id="production_0_product_id"
-                                                            data-unit_id="production_0_unit_id"
-                                                            data-available_qty="production_0_available_qty"
-                                                            data-scale="production_0_scale" /></td>
-                                                    <td><input class="form-control scale text-center"
-                                                            id="production_0_scale" name="production[0][scale]"
-                                                            data-product_id="production_0_product_id"
-                                                            data-unit_id="production_0_unit_id"
-                                                            data-available_qty="production_0_available_qty"
-                                                            data-qty="production_0_qty" /> </td>
-                                                    <td><input class="form-control proQty text-center"
-                                                            id="production_0_pro_qty" name="production[0][pro_qty]"
-                                                            data-available_qty="production_0_available_qty" /> </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary btn-sm addRaw"><i
-                                                                class="fas fa-plus-circle"></i></button><br />
-                                                        <button type = "button" class = "btn btn-danger btn-sm deleteRaw"
-                                                            style="margin-top:3px"><i
-                                                                class = "fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -171,6 +108,30 @@
         function _(x) {
             return document.getElementById(x);
         }
+
+        $(document).on('change', '#tenant_id', function() {
+            let tenant_id = $('#tenant_id').find(":selected").val();
+
+            if (tenant_id != '') {
+                $.ajax({
+                    url: "{{ url('tenant-wise-production-detail') }}",
+                    data: {
+                        tenant_id: tenant_id
+                    },
+                    method: 'GET',
+                    success: function(html) {
+                        if (html != '') {
+                            $('#productionTable tbody').html("");
+                            $('#productionTable tbody').html(html);
+                             $('.selectpicker').selectpicker('refresh');
+                        }
+                    }
+                });
+            } else {
+                notification('error', 'Tenant Or Warehouse Or Category Not Selected');
+            }
+        });
+
         $(document).on('change', '.category', function() {
             let html;
             let tenantId = $('#tenant_id').find(":selected").val();
@@ -198,6 +159,7 @@
                 notification('error', 'Tenant Or Warehouse Or Category Not Selected');
             }
         });
+
         $(document).on('change', '.product', function() {
             let tenantId = $('#tenant_id').find(":selected").val();
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
@@ -224,6 +186,7 @@
                 notification('error', 'Tenant Or Warehouse Or Product Not Selected')
             }
         });
+
         $(document).on('input', '.qty', function() {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let availableQty = $(this).data('available_qty');
@@ -242,6 +205,7 @@
             }
             _(scale).value = $(this).val() * _(unitId).value;
         });
+
         $(document).on('input', '.scale', function() {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let availableQty = $(this).data('available_qty');
@@ -261,6 +225,7 @@
                 return;
             }
         });
+
         $(document).on('input', '.proQty', function() {
             let availableQty = $(this).data('available_qty');
             if (parseFloat($(this).val()) > parseFloat(_(availableQty).value)) {
@@ -269,6 +234,7 @@
                 return;
             }
         });
+
         $(document).on('click', '.addRaw', function() {
             let html;
             html = `<tr>
@@ -320,6 +286,7 @@
             $('.selectpicker').selectpicker('refresh');
             i++;
         });
+
         $(document).on('click', '.deleteRaw', function() {
             $(this).parent().parent().remove();
         });

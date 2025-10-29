@@ -7,6 +7,7 @@ use Modules\TenantProduction\Http\Controllers\TenantProductionProductController;
 
 Route::group(['middleware' => ['auth','language']], function () {
     Route::get('tenant-production',  [TenantProductionController::class,'index'])->name('tenant.production');
+    Route::get('tenant-wise-production-detail',  [TenantProductionController::class,'tenant_wise_production_detail'])->name('tenant-wise-production-detail');
     Route::group(['prefix' => 'tenant-production', 'as'=>'tenant.production.'], function () {
         Route::post('datatable-data', [TenantProductionController::class,'getDataTableData'])->name('datatable.data');
         Route::get('add', [TenantProductionController::class,'create'])->name('add');

@@ -137,6 +137,18 @@ class TenantProductionController extends BaseController
             return $this->access_blocked();
         }
     }
+    public function tenant_wise_production_detail(Request $request)
+    {
+        if (permission('tenant-production-add')) {
+            $data = [
+                'tenant_warehouse_products' => TenantWarehouseProduct::where('tenant_id', $request->tenant_id)->get(),
+                // 'categories'  => Category::all(),
+            ];
+            return view('tenantproduction::tenant_wise_production_detail', $data);
+        } else {
+            return $this->access_blocked();
+        }
+    }
     public function store(TenantProductionFormRequest $request)
     {
         if ($request->ajax() && permission('tenant-production-add')) {
