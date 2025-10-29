@@ -122,12 +122,15 @@ class TenantProductionController extends BaseController
         if (permission('tenant-production-add')) {
             $setTitle = __('file.Tenant Production');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+            $latest_production = TenantProduction::orderBy('id', 'desc')->first();
+            $batch_no = date('Y') . '-' . (($latest_production->id ?? 0) + 1);
             $data = [
                 'invoice_no'  => self::tp . '-' . round(microtime(true) * 1000),
                 'tenants'     => Tenant::all(),
                 'mills'       => Mill::all(),
                 'warehouses'  => Warehouse::all(),
                 'categories'  => Category::all(),
+                'batch_no'  => $batch_no,
             ];
             return view('tenantproduction::create', $data);
         } else {
