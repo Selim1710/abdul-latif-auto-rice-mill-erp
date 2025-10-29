@@ -80,14 +80,14 @@
                                                     <td>
                                                         <select
                                                             class="form-control selectpicker text-center labor_warehouse_id"
-                                                            id="production_0_warehouse_id" name="production[0][warehouse_id]"
-                                                            index_no="0" data-live-search = "true">
+                                                            id="production_0_warehouse_id"
+                                                            name="production[0][warehouse_id]" index_no="0"
+                                                            data-live-search = "true">
                                                             <option value="">{{ __('Please Select') }}</option>
                                                             @foreach ($warehouses as $warehouse)
                                                                 <option value="{{ $warehouse->id }}"
                                                                     labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}"
-                                                                    labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}"
-                                                                    >
+                                                                    labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}">
                                                                     {{ $warehouse->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -136,7 +136,11 @@
                                                             data-qty="production_0_qty" /> </td>
                                                     <td><input class="form-control proQty text-center"
                                                             id="production_0_pro_qty" name="production[0][pro_qty]"
-                                                            data-available_qty="production_0_available_qty" /> </td>
+                                                            data-available_qty="production_0_available_qty"
+                                                            data-load_unload_rate="production_0_load_unload_rate"
+                                                            data-load_unload_amount="production_0_load_unload_amount"
+                                                            data-cutting_rate="production_0_cutting_rate"
+                                                            data-cutting_amount="production_0_cutting_amount" /> </td>
 
                                                     <td>
                                                         <input class="form-control bg-primary load_unload_rate text-center"
@@ -289,6 +293,19 @@
                 notification('error', 'Quantity Can\'t Be Greater Then Stock Quantity');
                 return;
             }
+
+            let receive_qty = $(this).val();
+
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+
+            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+
+            let cutting_rate = $(this).data('cutting_rate');
+            let cutting_amount = $(this).data('cutting_amount');
+
+            _(cutting_amount).value = _(cutting_rate).value * receive_qty;
+
         });
 
         $(document).on('change', '.labor_warehouse_id', function() {
@@ -299,12 +316,9 @@
                 let selectedOption = $(this).find(':selected');
                 let load_unload_rate = selectedOption.attr('labour_load_unload_head') || 0;
                 $('#production_' + index_no + '_load_unload_rate').val(load_unload_rate);
-                
+
                 let cutting_rate = selectedOption.attr('labour_cutting_head') || 0;
                 $('#production_' + index_no + '_cutting_rate').val(cutting_rate);
-
-                console.log("rateInput: " + rateInput);
-
             }
         });
 
@@ -312,15 +326,17 @@
         $(document).on('click', '.addRaw', function() {
             let html;
             html = `<tr>
-                        <td>
-                        <select class="form-control selectpicker text-center" id="production_` + i +
-                `_warehouse_id" name="production[` + i + `][warehouse_id]" data-live-search = "true">
-                        <option value="">{{ __('Please Select') }}</option>
-                        @foreach ($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                        @endforeach
-                        </select>
-                        </td>
+                       <td>
+                        <select class="form-control selectpicker text-center labor_warehouse_id" id="production_` +
+                i +
+                `_warehouse_id" name="production[` + i + `][warehouse_id]" index_no="` + i + `"  data-live-search = "true">
+                                 <option value="">{{ __('Please Select') }}</option>
+                                 @foreach ($warehouses as $warehouse)
+                                 <option value="{{ $warehouse->id }}" labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}" labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}">{{ $warehouse->name }}</option>
+                                 @endforeach
+                                 </select>
+                               </td>
+
                         <td>
                         <select class="form-control selectpicker category text-center" id="production_` + i +
                 `_category_id" data-warehouse_id="production_` + i + `_warehouse_id" data-product_id="production_` +
@@ -350,7 +366,32 @@
                 `_product_id" data-unit_id="production_` + i + `_unit_id" data-available_qty="production_` + i +
                 `_available_qty" data-qty="production_` + i + `_qty"/> </td>
                         <td><input class="form-control proQty text-center" id="production_` + i +
-                `_pro_qty" name="production[` + i + `][pro_qty]" data-available_qty="production_` + i + `_available_qty"/> </td>
+                `_pro_qty" name="production[` + i + `][pro_qty]" data-available_qty="production_` + i + `_available_qty"  data-load_unload_rate="production_` + i + `_load_unload_rate"
+                                                            data-load_unload_amount="production_` + i + `_load_unload_amount"
+                                                            data-cutting_rate="production_` + i + `_cutting_rate"
+                                                            data-cutting_amount="production_` + i + `_cutting_amount"/> </td>
+                <td>
+                                                        <input class="form-control bg-primary load_unload_rate text-center"
+                                                            id="production_` + i + `_load_unload_rate"
+                                                            name="production[` + i + `][load_unload_rate]" readonly />
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            class="form-control bg-primary load_unload_amount text-center"
+                                                            id="production_` + i + `_load_unload_amount"
+                                                            name="production[` + i + `][load_unload_amount]" readonly />
+                                                    </td>
+
+                                                    <td>
+                                                        <input class="form-control bg-primary cutting_rate text-center"
+                                                            id="production_` + i + `_cutting_rate"
+                                                            name="production[` + i + `][cutting_rate]" readonly />
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control bg-primary cutting_amount text-center"
+                                                            id="production_` + i + `_cutting_amount"
+                                                            name="production[` + i + `][cutting_amount]" readonly />
+                                                    </td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                             <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -360,6 +401,7 @@
             $('.selectpicker').selectpicker('refresh');
             i++;
         });
+
         $(document).on('click', '.deleteRaw', function() {
             $(this).parent().parent().remove();
         });
