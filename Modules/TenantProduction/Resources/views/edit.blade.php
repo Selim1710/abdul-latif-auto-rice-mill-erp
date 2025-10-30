@@ -83,6 +83,8 @@
                                                     <th>{{ __('file.Qty') }}</th>
                                                     <th>{{ __('file.Scale') }}</th>
                                                     <th>{{ __('file.Pro Qty') }}</th>
+                                                    <th>{{ __('file.Load Unload Rate') }}</th>
+                                                    <th>{{ __('file.Load Unload Amount') }}</th>
                                                     <th>{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -149,7 +151,7 @@
                                                             <td><input
                                                                     class="form-control bg-primary available_qty text-center"
                                                                     id="production_{{ $key }}_available_qty"
-                                                                    value="{{ $item->availableQty($edit->tenant_id,($item->batch_no ?? ''), $item->warehouse_id, $item->product_id)->qty ?? 0 }}"
+                                                                    value="{{ $item->availableQty($edit->tenant_id, $item->batch_no ?? '', $item->warehouse_id, $item->product_id)->qty ?? 0 }}"
                                                                     readonly /></td>
                                                             <td><input class="form-control qty text-center"
                                                                     id="production_{{ $key }}_qty"
@@ -171,7 +173,28 @@
                                                                     id="production_{{ $key }}_pro_qty"
                                                                     name="production[{{ $key }}][pro_qty]"
                                                                     data-available_qty="production_{{ $key }}_available_qty"
-                                                                    value="{{ $item->pro_qty }}" /> </td>
+                                                                    value="{{ $item->pro_qty }}"
+                                                                    data-load_unload_rate="production_{{ $key }}_load_unload_rate"
+                                                                    data-load_unload_amount="production_{{ $key }}_load_unload_amount" />
+                                                            </td>
+
+
+                                                            <td>
+                                                                <input
+                                                                    class="form-control bg-primary load_unload_rate text-center"
+                                                                    id="production_{{ $key }}_load_unload_rate"
+                                                                    name="production[{{ $key }}][load_unload_rate]"
+                                                                    value="{{ $item->load_unload_rate ?? 0 }}" readonly />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    class="form-control bg-primary loadUnload text-center"
+                                                                    id="production_{{ $key }}_load_unload_amount"
+                                                                    name="production[{{ $key }}][load_unload_amount]"
+                                                                    value="{{ $item->load_unload_amount ?? 0 }}"
+                                                                    readonly />
+                                                            </td>
+
                                                             <td>
                                                                 {{-- <button type="button"
                                                                     class="btn btn-primary btn-sm addRaw"><i
@@ -314,6 +337,14 @@
                 return;
             }
             calculation();
+
+            let receive_qty = $(this).val();
+
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+
+            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+
         });
         $(document).on('click', '.addRaw', function() {
             let html;

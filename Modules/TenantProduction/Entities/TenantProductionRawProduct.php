@@ -10,7 +10,7 @@ use Modules\Tenant\Entities\TenantWarehouseProduct;
 
 class TenantProductionRawProduct extends BaseModel
 {
-    protected $fillable  = ['tenant_production_id', 'date', 'warehouse_id', 'product_id', 'qty', 'use_qty', 'scale', 'use_scale', 'pro_qty', 'use_pro_qty', 'milling','batch_no'];
+    protected $fillable  = ['tenant_production_id', 'date', 'warehouse_id', 'product_id', 'qty', 'use_qty', 'scale', 'use_scale', 'pro_qty', 'use_pro_qty', 'milling','batch_no','load_unload_rate','load_unload_amount'];
     protected $table     = 'tenant_production_raw_products';
     public function production(): BelongsTo
     {

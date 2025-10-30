@@ -78,6 +78,8 @@
                                                     <th>{{ __('file.Qty') }}</th>
                                                     <th>{{ __('file.Scale') }}</th>
                                                     <th>{{ __('file.Pro Qty') }}</th>
+                                                    <th>{{ __('file.Load Unload Rate') }}</th>
+                                                    <th>{{ __('file.Load Unload Amount') }}</th>
                                                     <th>{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -106,6 +108,19 @@
         function _(x) {
             return document.getElementById(x);
         }
+        $(document).on('change', '.labor_warehouse_id', function() {
+            let index_no = $(this).attr("index_no");
+            if (index_no) {
+                // console.log("index_no: " + index_no);
+
+                let selectedOption = $(this).find(':selected');
+                let load_unload_rate = selectedOption.attr('labour_load_unload_head') || 0;
+                $('#production_' + index_no + '_load_unload_rate').val(load_unload_rate);
+
+                // let cutting_rate = selectedOption.attr('labour_cutting_head') || 0;
+                // $('#production_' + index_no + '_cutting_rate').val(cutting_rate);
+            }
+        });
 
         $(document).on('change', '#tenant_id', function() {
             let tenant_id = $('#tenant_id').find(":selected").val();
@@ -232,6 +247,14 @@
                 return;
             }
             calculation();
+
+            let receive_qty = $(this).val();
+
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+
+            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+
         });
 
         $(document).on('click', '.addRaw', function() {
@@ -335,6 +358,7 @@
         }
 
         function calculation() {
+
             // total_product_qty
             let total_product_qty = 0;
             $('.proQty').each(function() {
@@ -345,6 +369,22 @@
                 }
             });
             _('total_product_qty').value = total_product_qty;
+
+            // total_load_unload
+            // let total_load_unload = 0;
+            // $('.loadUnload').each(function() {
+
+            //     console.log('load_unload: ' + $(this).val());
+
+            //     if ($(this).val() == '') {
+            //         total_load_unload += +0;
+            //     } else {
+            //         total_load_unload += +$(this).val();
+            //     }
+            // });
+            //  console.log('total_load_unload: ' + total_load_unload);
+            // _('total_load_unload').value = total_load_unload;
+
         }
     </script>
 @endpush

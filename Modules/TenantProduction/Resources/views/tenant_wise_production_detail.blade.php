@@ -3,10 +3,11 @@
           @if ($tenant_warehouse_product->qty != 0)
               <tr>
                   <td>
-                      <select class="form-control selectpicker text-center"
+                      <select class="form-control selectpicker text-center labor_warehouse_id"
                           id="production_{{ $key }}_warehouse_id"
                           name="production[{{ $key }}][warehouse_id]" data-live-search = "true">
-                          <option value="{{ $tenant_warehouse_product->warehouse_id }}">
+                          <option value="{{ $tenant_warehouse_product->warehouse_id }}"
+                              labour_load_unload_head="{{ $tenant_warehouse_product->warehouse->labour_load_unload_head->rate ?? 0 }}">
                               {{ $tenant_warehouse_product->warehouse->name ?? '' }}
                           </option>
                       </select>
@@ -85,7 +86,21 @@
                   <td>
                       <input class="form-control proQty text-center" id="production_{{ $key }}_pro_qty"
                           name="production[{{ $key }}][pro_qty]"
-                          data-available_qty="production_{{ $key }}_available_qty" />
+                          data-available_qty="production_{{ $key }}_available_qty"
+                          data-load_unload_rate="production_{{ $key }}_load_unload_rate"
+                          data-load_unload_amount="production_{{ $key }}_load_unload_amount" />
+                  </td>
+                  <td>
+                      <input class="form-control bg-primary load_unload_rate text-center"
+                          id="production_{{ $key }}_load_unload_rate"
+                          name="production[{{ $key }}][load_unload_rate]"
+                          value="{{ $tenant_warehouse_product->warehouse->labour_load_unload_head->rate ?? 0 }}"
+                          readonly />
+                  </td>
+                  <td>
+                      <input class="form-control bg-primary loadUnload text-center"
+                          id="production_{{ $key }}_load_unload_amount"
+                          name="production[{{ $key }}][load_unload_amount]" readonly />
                   </td>
                   <td>
                       {{-- <button type="button" class="btn btn-primary btn-sm addRaw"><i
@@ -102,5 +117,8 @@
           <td colspan="7" class="text-right"> <b>Total : </b></td>
           <td> <input type="number" name="total_product_qty" class="form-control text-center" id="total_product_qty"
                   readonly></td>
+          {{-- <td></td>
+          <td> <input type="number" class="form-control text-center" id="total_load_unload"
+                  readonly></td> --}}
       </tr>
   @endif

@@ -11,6 +11,7 @@ use Modules\Account\Entities\Transaction;
 use Modules\Category\Entities\Category;
 use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\Expense\Entities\ExpenseItem;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\Mill\Entities\Mill;
 use Modules\Product\Entities\Product;
 use Modules\Setting\Entities\Warehouse;
@@ -167,7 +168,9 @@ class TenantProductionController extends BaseController
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'pro_qty'      => $value['pro_qty']
+                                'pro_qty'      => $value['pro_qty'],
+                                'load_unload_rate'      => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount'      => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
@@ -236,7 +239,9 @@ class TenantProductionController extends BaseController
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'pro_qty'      => $value['pro_qty']
+                                'pro_qty'      => $value['pro_qty'],
+                                'load_unload_rate'      => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount'      => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
@@ -263,6 +268,19 @@ class TenantProductionController extends BaseController
             try {
                 $collection = collect($request->all())->only('production_status');
                 $data       = $this->model->with('rawList')->findOrFail($request->production_id);
+
+
+                if ($request->production_status == 3) {
+                    // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $data->rawList()->sum('load_unload_amount');
+
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Tenant Production In";
+                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                }
+
+
                 if ($request->production_status == 3) {
                     foreach ($data->rawList as $value) {
                         $warehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $data->tenant_id, 'batch_no' => $value->batch_no, 'warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
@@ -286,6 +304,23 @@ class TenantProductionController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
+     public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    {
+        Transaction::create([
+            'chart_of_head_id' => $cohId,
+            'date'             => date('Y-m-d'),
+            'voucher_no'       => $invoiceNo,
+            'voucher_type'     => "LABOR-BILL",
+            'narration'        => $narration,
+            'debit'            => 0,
+            'credit'           => $paidAmount,
+            'status'           => 1,
+            'is_opening'       => 2,
+            'created_by'       => auth()->user()->name,
+        ]);
+    }
+
     public function production($id)
     {
         if (permission('tenant-production-product')) {
