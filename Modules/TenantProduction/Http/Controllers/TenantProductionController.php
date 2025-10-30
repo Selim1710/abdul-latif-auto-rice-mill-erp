@@ -151,11 +151,12 @@ class TenantProductionController extends BaseController
     }
     public function store(TenantProductionFormRequest $request)
     {
+        // return $request;
         if ($request->ajax() && permission('tenant-production-add')) {
             DB::beginTransaction();
             try {
                 $production = [];
-                $collection = collect($request->all())->except('_token', 'production')->merge(['created_by' => auth()->user()->name]);
+                $collection = collect($request->all())->except('_token', 'production', 'total_product_qty')->merge(['created_by' => auth()->user()->name]);
                 if ($request->has('production')) {
                     foreach ($request->production as $value) {
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])) {
@@ -222,7 +223,7 @@ class TenantProductionController extends BaseController
             DB::beginTransaction();
             try {
                 $production = [];
-                $collection = collect($request->all())->except('_token', 'production')->merge(['modified_by' => auth()->user()->name]);
+                $collection = collect($request->all())->except('_token', 'production', 'total_product_qty')->merge(['modified_by' => auth()->user()->name]);
                 $data       = $this->model->findOrFail($request->update_id);
                 abort_if($data->production_status == 4, 404);
                 if ($request->has('production')) {

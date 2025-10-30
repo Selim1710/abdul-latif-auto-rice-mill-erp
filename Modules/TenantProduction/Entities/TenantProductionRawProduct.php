@@ -24,8 +24,8 @@ class TenantProductionRawProduct extends BaseModel
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
-    public function availableQty(int $tenantId, int $warehouseId, int $productId)
+    public function availableQty(int $tenantId,$batch_no=null, int $warehouseId, int $productId)
     {
-        return TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'warehouse_id' => $warehouseId, 'product_id' => $productId]);
+        return TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'batch_no' => $batch_no, 'warehouse_id' => $warehouseId, 'product_id' => $productId]);
     }
 }

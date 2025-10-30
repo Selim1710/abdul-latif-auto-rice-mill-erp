@@ -81,9 +81,7 @@
                                                     <th>{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-
-                                            </tbody>
+                                            <tbody></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -123,7 +121,7 @@
                         if (html != '') {
                             $('#productionTable tbody').html("");
                             $('#productionTable tbody').html(html);
-                             $('.selectpicker').selectpicker('refresh');
+                            $('.selectpicker').selectpicker('refresh');
                         }
                     }
                 });
@@ -233,6 +231,7 @@
                 notification('error', 'Quantity Can\'t Be Greater Then Stock Quantity');
                 return;
             }
+            calculation();
         });
 
         $(document).on('click', '.addRaw', function() {
@@ -289,6 +288,7 @@
 
         $(document).on('click', '.deleteRaw', function() {
             $(this).parent().parent().remove();
+            calculation();
         });
 
         function storeData() {
@@ -332,6 +332,19 @@
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
+        }
+
+        function calculation() {
+            // total_product_qty
+            let total_product_qty = 0;
+            $('.proQty').each(function() {
+                if ($(this).val() == '') {
+                    total_product_qty += +0;
+                } else {
+                    total_product_qty += +$(this).val();
+                }
+            });
+            _('total_product_qty').value = total_product_qty;
         }
     </script>
 @endpush

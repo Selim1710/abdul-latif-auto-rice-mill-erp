@@ -137,7 +137,7 @@
                                                                 <input class="form-control text-center"
                                                                     id="production_{{ $key }}_batch_no"
                                                                     name="production[{{ $key }}][batch_no]"
-                                                                    value="{{ $item->batch_no ?? '' }}" readonly/>
+                                                                    value="{{ $item->batch_no ?? '' }}" readonly />
                                                             </td>
 
                                                             <td><input class="form-control bg-primary text-center"
@@ -149,7 +149,7 @@
                                                             <td><input
                                                                     class="form-control bg-primary available_qty text-center"
                                                                     id="production_{{ $key }}_available_qty"
-                                                                    value="{{ $item->availableQty($edit->tenant_id, $item->warehouse_id, $item->product_id)->qty ?? 0 }}"
+                                                                    value="{{ $item->availableQty($edit->tenant_id,($item->batch_no ?? ''), $item->warehouse_id, $item->product_id)->qty ?? 0 }}"
                                                                     readonly /></td>
                                                             <td><input class="form-control qty text-center"
                                                                     id="production_{{ $key }}_qty"
@@ -183,6 +183,14 @@
                                                             </td>
                                                         </tr>
                                                     @endforeach
+
+                                                    <tr>
+                                                        <td colspan="7" class="text-right"> <b>Total : </b></td>
+                                                        <td> <input type="number" name="total_product_qty"
+                                                                class="form-control text-center" id="total_product_qty"
+                                                                readonly></td>
+                                                    </tr>
+
                                                 @endif
                                             </tbody>
                                         </table>
@@ -305,6 +313,7 @@
                 notification('error', 'Quantity Can\'t Be Greater Then Stock Quantity');
                 return;
             }
+            calculation();
         });
         $(document).on('click', '.addRaw', function() {
             let html;
@@ -359,6 +368,7 @@
         });
         $(document).on('click', '.deleteRaw', function() {
             $(this).parent().parent().remove();
+            calculation();
         });
 
         function updateData() {
@@ -402,6 +412,21 @@
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
+        }
+
+        calculation();
+
+        function calculation() {
+            // total_product_qty
+            let total_product_qty = 0;
+            $('.proQty').each(function() {
+                if ($(this).val() == '') {
+                    total_product_qty += +0;
+                } else {
+                    total_product_qty += +$(this).val();
+                }
+            });
+            _('total_product_qty').value = total_product_qty;
         }
     </script>
 @endpush

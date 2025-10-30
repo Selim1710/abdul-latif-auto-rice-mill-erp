@@ -23,7 +23,7 @@
                       @endforeach
                   </select>
                   </td> --}}
-                  
+
                   <td>
                       <select class="form-control selectpicker product text-center"
                           id="production_{{ $key }}_product_id"
@@ -97,4 +97,10 @@
               </tr>
           @endif
       @endforeach
+
+      <tr>
+          <td colspan="7" class="text-right"> <b>Total : </b></td>
+          <td> <input type="number" name="total_product_qty" class="form-control text-center" id="total_product_qty"
+                  readonly></td>
+      </tr>
   @endif
