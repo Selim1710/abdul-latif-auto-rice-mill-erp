@@ -683,10 +683,9 @@
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Available Qty') }}</button></td>
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Qty') }}</button></td>
                                 <td><button type="button" class="btn btn-primary btn-block">{{ __('file.Packing & Load Rate') }}</button>
-                                                        </td>
-                                                        <td><button type="button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Packing & Load Amount') }}</button>
-                                                        </td>
+                                </td>
+                                <td><button type="button" class="btn btn-primary btn-block">{{ __('file.Packing & Load Amount') }}</button>
+                                </td>
 
                          </tr>
                          <tr>
@@ -735,10 +734,9 @@
                 `_use_qty" name="production_product[` + i + `][use_qty]" data-product_id="production_product_` + i +
                 `_use_product_id" data-unit_id="production_product_` + i +
                 `_use_unit_id" data-available_qty="production_product_` + i +
-                `_use_available_qty" data-packing_load_rate="production_` + i + `_packing_load_rate"
-                                                                data-packing_load_amount="production_` + i + `_packing_load_amount"/></td>
+                `_use_available_qty" data-packing_load_rate="production_` + i + `_packing_load_rate" data-packing_load_amount="production_` + i + `_packing_load_amount"/></td>
 
-                                                                <td>
+                                                        <td>
                                                             <input
                                                                 class="form-control bg-primary packing_load_rate text-center"
                                                                 id="production_` + i + `_packing_load_rate"

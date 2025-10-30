@@ -54,7 +54,7 @@ class TenantProductionProductController extends BaseController
                     $totalPackingLoadAmount = collect($productions)->sum('packing_load_amount');
                     $amount = (float) $totalPackingLoadAmount;
                     // labour-bill-generate
-                    $labor_head = LaborHead::find(3); // load-unload
+                    $labor_head = LaborHead::find(3); // packing and load
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Tenant Production Out";
