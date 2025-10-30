@@ -64,8 +64,8 @@ class LaborHeadController extends BaseController
                 // $row[]  = $value->warehouse->name ?? '';
                 // $row[]  = $value->labourType->name ?? '';
                 $row[]  = $value->name;
-                $row[]  = $value->mobile;
-                $row[]  = $value->previous_balance;
+                // $row[]  = $value->mobile;
+                // $row[]  = $value->previous_balance;
                 $row[]  = STATUS_LABEL[$value->status];
                 $row[]  = $value->created_by;
                 $row[]  = action_button($action);

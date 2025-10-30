@@ -23,7 +23,7 @@
                     <form method="POST" id="form-filter" class="col-md-12 px-0">
                         <div class="row">
                             <x-form.textbox labelName="{{ __('file.Name') }}" name="name" col="col-md-3" />
-                            <x-form.textbox labelName="{{ __('file.Mobile') }}" name="mobile" col="col-md-3" />
+                            {{-- <x-form.textbox labelName="{{ __('file.Mobile') }}" name="mobile" col="col-md-3" /> --}}
                             <x-form.selectbox labelName="{{ __('file.Status') }}" name="status" col="col-md-3"
                                 class="selectpicker">
                                 @foreach (STATUS as $key => $value)
@@ -55,8 +55,8 @@
                                             {{-- <th>{{ __('file.Warehouse') }}</th> --}}
                                             {{-- <th>{{ __('file.Labour Type') }}</th> --}}
                                             <th>{{ __('file.Name') }}</th>
-                                            <th>{{ __('file.Mobile') }}</th>
-                                            <th>{{ __('file.Previous Balance') }}</th>
+                                            {{-- <th>{{ __('file.Mobile') }}</th> --}}
+                                            {{-- <th>{{ __('file.Previous Balance') }}</th> --}}
                                             <th>{{ __('file.Status') }}</th>
                                             <th>{{ __('file.Created By') }}</th>
                                             <th>{{ __('file.Action') }}</th>
@@ -111,7 +111,7 @@
                     }
                 },
                 "columnDefs": [{
-                    "targets": [0, 1, 2, 3, 4, 5, 6],
+                    "targets": [0, 1, 2, 3, 4],
                     "orderable": false,
                     "className": "text-center"
                 }, ],

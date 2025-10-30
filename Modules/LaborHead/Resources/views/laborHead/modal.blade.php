@@ -46,16 +46,16 @@
                             <label for="name">{{ __('file.Name') }}</label>
                             <input type="text" class="form-control" id="labor_name" name="name" />
                         </div>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <br />
                             <label for="name">{{ __('file.Mobile') }}</label>
                             <input type="text" class="form-control" id="labor_mobile" name="mobile" />
-                        </div>
-                        <div class="col-md-12">
+                        </div> --}}
+                        <div class="col-md-12 d-none">
                             <br />
                             <label for="name">{{ __('file.Previous Balance') }}</label>
                             <input type="text" class="form-control" id="labor_previous_balance"
-                                name="previous_balance" />
+                                name="previous_balance" value="0" />
                         </div>
                     </div>
                 </div>
