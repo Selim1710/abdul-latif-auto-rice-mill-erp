@@ -70,8 +70,8 @@
                                                     <th>{{ __('file.Load Unload Rate') }}</th>
                                                     <th>{{ __('file.Load Unload Amount') }}</th>
 
-                                                    <th>{{ __('file.Cutting Rate') }}</th>
-                                                    <th>{{ __('file.Cutting Amount') }}</th>
+                                                    {{-- <th>{{ __('file.Cutting Rate') }}</th>
+                                                    <th>{{ __('file.Cutting Amount') }}</th> --}}
                                                     <th>{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -138,9 +138,7 @@
                                                             id="production_0_pro_qty" name="production[0][pro_qty]"
                                                             data-available_qty="production_0_available_qty"
                                                             data-load_unload_rate="production_0_load_unload_rate"
-                                                            data-load_unload_amount="production_0_load_unload_amount"
-                                                            data-cutting_rate="production_0_cutting_rate"
-                                                            data-cutting_amount="production_0_cutting_amount" /> </td>
+                                                            data-load_unload_amount="production_0_load_unload_amount" /> </td>
 
                                                     <td>
                                                         <input class="form-control bg-primary load_unload_rate text-center"
@@ -154,7 +152,7 @@
                                                             name="production[0][load_unload_amount]" readonly />
                                                     </td>
 
-                                                    <td>
+                                                    {{-- <td>
                                                         <input class="form-control bg-primary cutting_rate text-center"
                                                             id="production_0_cutting_rate"
                                                             name="production[0][cutting_rate]" readonly />
@@ -163,7 +161,7 @@
                                                         <input class="form-control bg-primary cutting_amount text-center"
                                                             id="production_0_cutting_amount"
                                                             name="production[0][cutting_amount]" readonly />
-                                                    </td>
+                                                    </td> --}}
 
                                                     <td>
                                                         <button type="button" class="btn btn-primary btn-sm addRaw"><i
@@ -301,10 +299,9 @@
 
             _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
 
-            let cutting_rate = $(this).data('cutting_rate');
-            let cutting_amount = $(this).data('cutting_amount');
-
-            _(cutting_amount).value = _(cutting_rate).value * receive_qty;
+            // let cutting_rate = $(this).data('cutting_rate');
+            // let cutting_amount = $(this).data('cutting_amount');
+            // _(cutting_amount).value = _(cutting_rate).value * receive_qty;
 
         });
 
@@ -335,7 +332,7 @@
                                  <option value="{{ $warehouse->id }}" labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}" labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}">{{ $warehouse->name }}</option>
                                  @endforeach
                                  </select>
-                               </td>
+                        </td>
 
                         <td>
                         <select class="form-control selectpicker category text-center" id="production_` + i +
@@ -366,12 +363,12 @@
                 `_product_id" data-unit_id="production_` + i + `_unit_id" data-available_qty="production_` + i +
                 `_available_qty" data-qty="production_` + i + `_qty"/> </td>
                         <td><input class="form-control proQty text-center" id="production_` + i +
-                `_pro_qty" name="production[` + i + `][pro_qty]" data-available_qty="production_` + i + `_available_qty"  data-load_unload_rate="production_` + i + `_load_unload_rate"
+                `_pro_qty" name="production[` + i + `][pro_qty]" data-available_qty="production_` + i + `_available_qty" 
+                                                            data-load_unload_rate="production_` + i + `_load_unload_rate"
                                                             data-load_unload_amount="production_` + i + `_load_unload_amount"
-                                                            data-cutting_rate="production_` + i + `_cutting_rate"
-                                                            data-cutting_amount="production_` + i + `_cutting_amount"/> </td>
+                                                            /> </td>
                 <td>
-                                                        <input class="form-control bg-primary load_unload_rate text-center"
+                <input class="form-control bg-primary load_unload_rate text-center"
                                                             id="production_` + i + `_load_unload_rate"
                                                             name="production[` + i + `][load_unload_rate]" readonly />
                                                     </td>
@@ -380,17 +377,6 @@
                                                             class="form-control bg-primary load_unload_amount text-center"
                                                             id="production_` + i + `_load_unload_amount"
                                                             name="production[` + i + `][load_unload_amount]" readonly />
-                                                    </td>
-
-                                                    <td>
-                                                        <input class="form-control bg-primary cutting_rate text-center"
-                                                            id="production_` + i + `_cutting_rate"
-                                                            name="production[` + i + `][cutting_rate]" readonly />
-                                                    </td>
-                                                    <td>
-                                                        <input class="form-control bg-primary cutting_amount text-center"
-                                                            id="production_` + i + `_cutting_amount"
-                                                            name="production[` + i + `][cutting_amount]" readonly />
                                                     </td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>

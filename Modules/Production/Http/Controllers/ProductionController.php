@@ -142,7 +142,7 @@ class ProductionController extends BaseController
     }
     public function store(ProductionFormRequest $request)
     {
-        return $request;
+        // return $request;
         if ($request->ajax() && permission('production-add')) {
             DB::beginTransaction();
             try {
@@ -159,11 +159,8 @@ class ProductionController extends BaseController
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
                                 'pro_qty'      => $value['pro_qty'],
-
                                 'load_unload_rate'      => $value['load_unload_rate'] ?? '',
                                 'load_unload_amount'      => $value['load_unload_amount'] ?? '',
-                                'cutting_rate'      => $value['cutting_rate'] ?? '',
-                                'cutting_amount'      => $value['cutting_amount'] ?? '',
                             ];
                         }
                     }
@@ -230,7 +227,9 @@ class ProductionController extends BaseController
                                 'price'        => $value['price'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'pro_qty'      => $value['pro_qty']
+                                'pro_qty'      => $value['pro_qty'],
+                                'load_unload_rate'      => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount'      => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
@@ -250,6 +249,7 @@ class ProductionController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function changeStatus(Request $request)
     {
         if ($request->ajax() && permission('production-status-change')) {
