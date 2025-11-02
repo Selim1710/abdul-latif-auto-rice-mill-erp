@@ -8,19 +8,24 @@ use Modules\Product\Entities\Product;
 use Modules\Setting\Entities\Warehouse;
 use Modules\Tenant\Entities\TenantWarehouseProduct;
 
-class TenantProductionRawProduct extends BaseModel {
-    protected $fillable  = ['tenant_production_id','date','warehouse_id','product_id','qty','use_qty','scale','use_scale','pro_qty','use_pro_qty','milling'];
+class TenantProductionRawProduct extends BaseModel
+{
+    protected $fillable  = ['tenant_production_id', 'date', 'warehouse_id', 'product_id', 'qty', 'use_qty', 'scale', 'use_scale', 'pro_qty', 'use_pro_qty', 'milling','batch_no','load_unload_rate','load_unload_amount'];
     protected $table     = 'tenant_production_raw_products';
-    public function production() : BelongsTo {
-        return $this->belongsTo(TenantProductionRawProduct::class,'tenant_production_id','id');
+    public function production(): BelongsTo
+    {
+        return $this->belongsTo(TenantProductionRawProduct::class, 'tenant_production_id', 'id');
     }
-    public function warehouse() : BelongsTo {
-        return $this->belongsTo(Warehouse::class,'warehouse_id','id');
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
-    public function product() : BelongsTo {
-        return $this->belongsTo(Product::class,'product_id','id');
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
-    public function availableQty(int $tenantId, int $warehouseId , int $productId){
-        return TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId,'warehouse_id' => $warehouseId , 'product_id' => $productId]);
+    public function availableQty(int $tenantId,$batch_no=null, int $warehouseId, int $productId)
+    {
+        return TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'batch_no' => $batch_no, 'warehouse_id' => $warehouseId, 'product_id' => $productId]);
     }
 }

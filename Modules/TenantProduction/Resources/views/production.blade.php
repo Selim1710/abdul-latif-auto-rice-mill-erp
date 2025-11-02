@@ -365,16 +365,16 @@
                        <select class="form-control product selectpicker mergeProduct" id="merge_`+ i +`_product_id" data-warehouse_id="merge_`+ i +`_warehouse_id" data-unit_id_show = "merge_`+ i +`_unit_id_show" data-unit_id = "merge_`+ i +`_unit_id" data-price = "merge_`+ i +`_price" data-available_qty = "merge_`+ i +`_available_qty" name="merge[`+ i +`][product_id]" data-live-search="true"></select>
                        </td>
                        <td>
-                       <input type="text" class="form-control bg-primary text-white" id="merge_`+ i +`_unit_id_show" readonly/>
-                       <input type="hidden" class="form-control bg-primary text-white" id="merge_`+ i +`_unit_id" readonly/>
+                       <input type="text" class="form-control bg-primary" id="merge_`+ i +`_unit_id_show" readonly/>
+                       <input type="hidden" class="form-control bg-primary" id="merge_`+ i +`_unit_id" readonly/>
                        <input type="hidden" id="merge_`+ i +`_price" name="merge[`+ i +`][price]"/>
                        </td>
-                       <td><input type="text" class="form-control bg-primary text-white" id="merge_`+ i +`_available_qty" readonly/></td>
+                       <td><input type="text" class="form-control bg-primary" id="merge_`+ i +`_available_qty" readonly/></td>
                        <td><input type="text" class="form-control qty" id="merge_`+ i +`_qty" name="merge[`+ i +`][qty]" data-product_id = "merge_`+ i +`_product_id" data-available_qty = "merge_`+ i +`_available_qty" data-unit_id = "merge_`+ i +`_unit_id" data-scale="merge_`+ i +`_scale"/></td>
                        <td><input type="text" class="form-control merScale" id="merge_`+ i +`_scale" name="merge[`+ i +`][scale]" data-product_id = "merge_`+ i +`_product_id" data-available_qty = "merge_`+ i +`_available_qty" data-unit_id = "merge_`+ i +`_unit_id" data-qty="merge_`+ i +`_qty"/></td>
                        <td><input type="text" class="form-control merQty" id="merge_`+ i +`_mer_qty" name="merge[`+ i +`][mer_qty]" data-product_id = "merge_`+ i +`_product_id" data-available_qty = "merge_`+ i +`_available_qty"/></td>
                        <td><input type="text" class="form-control merRate" id="merge_`+ i +`_rate" name="merge[`+ i +`][rate]" data-use_scale="merge_`+ i +`_scale" data-milling="merge_`+ i +`_milling"/></td>
-                       <td><input type="text" class="form-control milling bg-primary text-white" id="merge_`+ i +`_milling" name="merge[`+ i +`][milling]" readonly/> </td>
+                       <td><input type="text" class="form-control milling bg-primary" id="merge_`+ i +`_milling" name="merge[`+ i +`][milling]" readonly/> </td>
                        <td><button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/><button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button></td>
                    </tr>`;
             $('#millingTableAppend tbody').append(html);

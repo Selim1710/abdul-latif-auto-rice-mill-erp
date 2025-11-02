@@ -17,6 +17,7 @@ class CreateTenantWarehouseProductsTable extends Migration
             $table->id();
             $table->foreignId('tenant_id')->constrained();
             $table->foreignId('warehouse_id')->constrained();
+            $table->string('batch_no')->nullable();
             $table->foreignId('product_id')->constrained();
             $table->double('qty',4);
             $table->double('scale',5)->nullable()->default(0);

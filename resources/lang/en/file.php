@@ -1976,5 +1976,19 @@ return [
     'Salary Payment'                       => 'Salary Payment',
     'Leave Category'                       => 'Leave Category',
     'Manage Leave'                       => 'Manage Leave',
+    'Labour Type'                       => 'Labour Type',
+
+    // new
+    'Labour Head'                       => 'Labour Head',
+    'Load Unload Rate'                       => 'Load Unload Rate',
+    'Load Unload Amount'                       => 'Load Unload Amount',
+    'Cutting Rate'                       => 'Cutting Rate',
+    'Cutting Amount'                       => 'Cutting Amount',
+    'Total Load Unload'                       => 'Total Load Unload',
+    'Tenant Production Edit'                       => 'Tenant Production Edit',
+    'Packing & Load Rate'                       => 'Packing & Load Rate',
+    'Packing & Load Amount'                       => 'Packing & Load Amount',
+
+
 
 ];

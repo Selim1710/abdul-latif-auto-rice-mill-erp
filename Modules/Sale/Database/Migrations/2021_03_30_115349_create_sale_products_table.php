@@ -17,6 +17,7 @@ class CreateSaleProductsTable extends Migration
             $table->id();
             $table->foreignId('sale_id')->constrained();
             $table->foreignId('warehouse_id')->constrained();
+             $table->double('load_unload_rate')->nullable();
             $table->foreignId('product_id')->constrained();
             $table->double('qty',3)->nullable()->default(0);
             $table->double('scale',3)->nullable()->default(0);

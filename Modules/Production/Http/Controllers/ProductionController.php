@@ -11,6 +11,7 @@ use Modules\Account\Entities\Transaction;
 use Modules\Category\Entities\Category;
 use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\Expense\Entities\ExpenseItem;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\Mill\Entities\Mill;
 use Modules\Product\Entities\Product;
 use Modules\Production\Entities\Production;
@@ -20,25 +21,29 @@ use Modules\Production\Http\Requests\ProductionFormRequest;
 use Modules\Setting\Entities\Warehouse;
 use Modules\Stock\Entities\WarehouseProduct;
 
-class ProductionController extends BaseController {
+class ProductionController extends BaseController
+{
     private const p = 'PRODUCTION';
-    public function __construct(Production $model){
+    public function __construct(Production $model)
+    {
         return $this->model = $model;
     }
-    public function index(){
-        if(permission('production-access')){
+    public function index()
+    {
+        if (permission('production-access')) {
             $setTitle = __('file.Production');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $data = [
-              'mills' => Mill::all()
+                'mills' => Mill::all()
             ];
-            return view('production::index',$data);
-        }else{
+            return view('production::index', $data);
+        } else {
             return $this->access_blocked();
         }
     }
-    public function getDataTableData(Request $request){
-        if($request->ajax() && permission('production-access')){
+    public function getDataTableData(Request $request)
+    {
+        if ($request->ajax() && permission('production-access')) {
             if (!empty($request->invoice_no)) {
                 $this->model->setInvoiceNo($request->invoice_no);
             }
@@ -59,39 +64,39 @@ class ProductionController extends BaseController {
                 $no++;
                 $action = '';
                 if (permission('production-show')) {
-                    $action .= ' <a class="dropdown-item view_data" href="'.route("production.show",$value->id).'">'.$this->actionButton('View').'</a>';
+                    $action .= ' <a class="dropdown-item view_data" href="' . route("production.show", $value->id) . '">' . $this->actionButton('View') . '</a>';
                 }
                 if (permission('production-edit') and $value->production_status == 1) {
-                    $action .= ' <a class="dropdown-item" href="'.route("production.edit",$value->id).'">'.$this->actionButton('Edit').'</a>';
+                    $action .= ' <a class="dropdown-item" href="' . route("production.edit", $value->id) . '">' . $this->actionButton('Edit') . '</a>';
                 }
                 if (permission('production-status-change') and $value->production_status == 1) {
-                    $action .= ' <a class="dropdown-item change_status" data-id="' . $value->id .'" data-status="' . $value->production_status .'">'.$this->actionButton('Change Status').'</a>';
+                    $action .= ' <a class="dropdown-item change_status" data-id="' . $value->id . '" data-status="' . $value->production_status . '">' . $this->actionButton('Change Status') . '</a>';
                 }
                 if (permission('production') and $value->production_status == 3) {
-                    $action .= ' <a class="dropdown-item" href="'.route("production.product",$value->id).'">'.$this->actionButton('Production Product').'</a>';
+                    $action .= ' <a class="dropdown-item" href="' . route("production.product", $value->id) . '">' . $this->actionButton('Production Product') . '</a>';
                 }
-                if (permission('production-sale-details') and isset($value->productionSaleList)){
-                    foreach ($value->productionSaleList as $sale){
-                        $action .=  '<a class="dropdown-item" href="'.route("production.sale.show",$sale->id).'">'.$this->actionButton('Sale').'('.$sale->sale_date.')'.'</a>'.
-                                    '<a class="dropdown-item" href="'.route("production.sale.gate.pass",$sale->id).'">'.$this->actionButton('Gate Pass').'('.$sale->sale_date.')'.'</a>'.
-                                    '<a class="dropdown-item" href="'.route("production.sale.packing",$sale->id).'">'.$this->actionButton('Packing').'('.$sale->sale_date.')'.'</a>';
+                if (permission('production-sale-details') and isset($value->productionSaleList)) {
+                    foreach ($value->productionSaleList as $sale) {
+                        $action .=  '<a class="dropdown-item" href="' . route("production.sale.show", $sale->id) . '">' . $this->actionButton('Sale') . '(' . $sale->sale_date . ')' . '</a>' .
+                            '<a class="dropdown-item" href="' . route("production.sale.gate.pass", $sale->id) . '">' . $this->actionButton('Gate Pass') . '(' . $sale->sale_date . ')' . '</a>' .
+                            '<a class="dropdown-item" href="' . route("production.sale.packing", $sale->id) . '">' . $this->actionButton('Packing') . '(' . $sale->sale_date . ')' . '</a>';
                     }
                 }
-                if (permission('production-product-details') and isset($value->productionProductInvoice)){
-                    foreach ($value->productionProductInvoice as $product){
-                        $action .= '<a class="dropdown-item" href="'.route("production.product.show",$product->invoice_no).'">'.$this->actionButton('Stock').'('.$product->date.')'.'</a>'.
-                                   '<a class="dropdown-item" href="'.route("production.product.packing",$product->invoice_no).'">'.$this->actionButton('Stock Packing').'('.$product->date.')'.'</a>'.
-                                   '<a class="dropdown-item" href="'.route("production.product.gate.pass",$product->invoice_no).'">'.$this->actionButton('Stock Gate Pass').'('.$product->date.')'.'</a>';
+                if (permission('production-product-details') and isset($value->productionProductInvoice)) {
+                    foreach ($value->productionProductInvoice as $product) {
+                        $action .= '<a class="dropdown-item" href="' . route("production.product.show", $product->invoice_no) . '">' . $this->actionButton('Stock') . '(' . $product->date . ')' . '</a>' .
+                            '<a class="dropdown-item" href="' . route("production.product.packing", $product->invoice_no) . '">' . $this->actionButton('Stock Packing') . '(' . $product->date . ')' . '</a>' .
+                            '<a class="dropdown-item" href="' . route("production.product.gate.pass", $product->invoice_no) . '">' . $this->actionButton('Stock Gate Pass') . '(' . $product->date . ')' . '</a>';
                     }
                 }
                 if (permission('production-summary') and $value->production_status == 4) {
-                    $action .= ' <a class="dropdown-item" href="'.route("production.summary",$value->id).'">'.$this->actionButton('Summary').'</a>';
+                    $action .= ' <a class="dropdown-item" href="' . route("production.summary", $value->id) . '">' . $this->actionButton('Summary') . '</a>';
                 }
                 if (permission('production-report') and $value->production_status == 4) {
-                    $action .= ' <a class="dropdown-item" href="'.route("production.report.details",$value->id).'">'.$this->actionButton('Report').'</a>';
+                    $action .= ' <a class="dropdown-item" href="' . route("production.report.details", $value->id) . '">' . $this->actionButton('Report') . '</a>';
                 }
                 if (permission('production-delete') and $value->production_status == 1) {
-                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->invoice_no . '">'.$this->actionButton('Delete').'</a>';
+                    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->invoice_no . '">' . $this->actionButton('Delete') . '</a>';
                 }
                 $row    = [];
                 $row[]  = $no;
@@ -110,43 +115,53 @@ class ProductionController extends BaseController {
                 $row[]  = action_button($action);
                 $data[] = $row;
             }
-            return $this->datatable_draw($request->input('draw'),$this->model->count_all(), $this->model->count_filtered(), $data);
-        }else{
+            return $this->datatable_draw($request->input('draw'), $this->model->count_all(), $this->model->count_filtered(), $data);
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function create(){
-        if(permission('production-add')){
+    public function create()
+    {
+        if (permission('production-add')) {
             $setTitle = __('file.Production');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+            $latest_production = $this->model->orderBy('id', 'desc')->first();
+
+            $batch_no = date('Y') . '-' . (($latest_production->id ?? 0) + 1);
+
             $data = [
-              'invoice_no'  => self::p.'-'.round(microtime(true)*1000),
-              'mills'       => Mill::all(),
-              'warehouses'  => Warehouse::all(),
-              'categories'  => Category::all(),
+                'invoice_no'  => self::p . '-' . round(microtime(true) * 1000),
+                'mills'       => Mill::all(),
+                'warehouses'  => Warehouse::all(),
+                'categories'  => Category::all(),
+                'batch_no'  => $batch_no
             ];
-            return view('production::create',$data);
-        }else{
+            return view('production::create', $data);
+        } else {
             return $this->access_blocked();
         }
     }
-    public function store(ProductionFormRequest $request){
-        if($request->ajax() && permission('production-add')){
+    public function store(ProductionFormRequest $request)
+    {
+        // return $request;
+        if ($request->ajax() && permission('production-add')) {
             DB::beginTransaction();
-            try{
+            try {
                 $production = [];
-                $collection = collect($request->all())->except('_token','production')->merge(['created_by' => auth()->user()->name]);
-                if($request->has('production')){
-                    foreach ($request->production as $value){
-                        if(!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])){
+                $collection = collect($request->all())->except('_token', 'production')->merge(['created_by' => auth()->user()->name]);
+                if ($request->has('production')) {
+                    foreach ($request->production as $value) {
+                        if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])) {
                             $production[] = [
-                              'date'         => $request->date,
-                              'warehouse_id' => $value['warehouse_id'],
-                              'product_id'   => $value['product_id'],
-                              'price'        => $value['price'],
-                              'qty'          => $value['qty'],
-                              'scale'        => $value['scale'],
-                              'pro_qty'      => $value['pro_qty']
+                                'date'         => $request->date,
+                                'warehouse_id' => $value['warehouse_id'],
+                                'product_id'   => $value['product_id'],
+                                'price'        => $value['price'],
+                                'qty'          => $value['qty'],
+                                'scale'        => $value['scale'],
+                                'pro_qty'      => $value['pro_qty'],
+                                'load_unload_rate'      => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount'      => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
@@ -154,55 +169,58 @@ class ProductionController extends BaseController {
                 $data = $this->model->create($collection->all());
                 $data->productionRawProduct()->attach($production);
                 $this->model->flushCache();
-                $output = ['status' => 'success' , 'message' => $this->responseMessage('Data Saved')];
+                $output = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
                 DB::commit();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 DB::rollBack();
-                $output = ['status' => 'error' , 'message' => $e->getMessage()];
+                $output = ['status' => 'error', 'message' => $e->getMessage()];
             }
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function show($id){
-        if(permission('production-show')){
+    public function show($id)
+    {
+        if (permission('production-show')) {
             $setTitle = __('file.Production Details');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
-            $data = $this->model->with('mill','productionRawProductList','productionRawProductList.warehouse','productionRawProductList.product','productionRawProductList.product.unit')->findOrFail($id);
-            return view('production::details',compact('data'));
-        }else{
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+            $data = $this->model->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit')->findOrFail($id);
+            return view('production::details', compact('data'));
+        } else {
             return $this->access_blocked();
         }
     }
-    public function edit($id){
-        if(permission('production-edit')){
+    public function edit($id)
+    {
+        if (permission('production-edit')) {
             $setTitle = __('file.Production Edit');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
-            $edit     = $this->model->with('mill','productionRawProductList','productionRawProductList.warehouse','productionRawProductList.product','productionRawProductList.product.category','productionRawProductList.product.unit')->findOrFail($id);
-            abort_if($edit->production_status == 4,404);
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+            $edit     = $this->model->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.category', 'productionRawProductList.product.unit')->findOrFail($id);
+            abort_if($edit->production_status == 4, 404);
             $data = [
                 'edit'        => $edit,
                 'mills'       => Mill::all(),
                 'warehouses'  => Warehouse::all(),
                 'categories'  => Category::all(),
             ];
-            return view('production::edit',$data);
-        }else{
+            return view('production::edit', $data);
+        } else {
             return $this->access_blocked();
         }
     }
-    public function update(ProductionFormRequest $request){
-        if($request->ajax() && permission('production-edit')){
+    public function update(ProductionFormRequest $request)
+    {
+        if ($request->ajax() && permission('production-edit')) {
             DB::beginTransaction();
-            try{
+            try {
                 $production = [];
-                $collection = collect($request->all())->except('_token','production')->merge(['modified_by' => auth()->user()->name]);
+                $collection = collect($request->all())->except('_token', 'production')->merge(['modified_by' => auth()->user()->name]);
                 $data       = $this->model->findOrFail($request->update_id);
-                abort_if($data->production_status == 4 , 404);
-                if($request->has('production')){
-                    foreach ($request->production as $value){
-                        if(!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])){
+                abort_if($data->production_status == 4, 404);
+                if ($request->has('production')) {
+                    foreach ($request->production as $value) {
+                        if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])) {
                             $production[Str::random(5)] = [
                                 'date'         => $request->date,
                                 'warehouse_id' => $value['warehouse_id'],
@@ -210,7 +228,9 @@ class ProductionController extends BaseController {
                                 'price'        => $value['price'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'pro_qty'      => $value['pro_qty']
+                                'pro_qty'      => $value['pro_qty'],
+                                'load_unload_rate'      => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount'      => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
@@ -219,26 +239,39 @@ class ProductionController extends BaseController {
                 $data->productionRawProduct()->sync($production);
                 $data->touch();
                 $this->model->flushCache();
-                $output = ['status' => 'success' , 'message' => $this->responseMessage('Data Update')];
+                $output = ['status' => 'success', 'message' => $this->responseMessage('Data Update')];
                 DB::commit();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 DB::rollBack();
-                $output = ['status' => 'error' , 'message' => $e->getMessage()];
+                $output = ['status' => 'error', 'message' => $e->getMessage()];
             }
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function changeStatus(Request $request){
-        if($request->ajax() && permission('production-status-change')){
+
+    public function changeStatus(Request $request)
+    {
+        if ($request->ajax() && permission('production-status-change')) {
             DB::beginTransaction();
-            try{
+            try {
                 $collection = collect($request->all())->only('production_status');
                 $data       = $this->model->with('productionRawProductList')->findOrFail($request->production_id);
-                if($request->production_status == 3){
-                    foreach ($data->productionRawProductList as $value){
-                        $warehouseProduct  = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'],'product_id' => $value['product_id']]);
+
+                if ($request->production_status == 3) {
+                    // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $data->productionRawProductList()->sum('load_unload_amount');
+
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Production In";
+                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                }
+
+                if ($request->production_status == 3) {
+                    foreach ($data->productionRawProductList as $value) {
+                        $warehouseProduct  = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
                         $warehouseProduct->update([
                             'scale'        => $warehouseProduct->scale - $value->scale,
                             'qty'          => $warehouseProduct->qty - $value->pro_qty,
@@ -248,175 +281,213 @@ class ProductionController extends BaseController {
                 }
                 $data->update($collection->all());
                 $this->model->flushCache();
-                $output = ['status' => 'success' , 'message' => $this->responseMessage('Status Changed')];
+                $output = ['status' => 'success', 'message' => $this->responseMessage('Status Changed')];
                 DB::commit();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 DB::rollBack();
-                $output = ['status' => 'error' , 'message' => $e->getMessage()];
+                $output = ['status' => 'error', 'message' => $e->getMessage()];
             }
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function production($id){
-        if(permission('production')){
+
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    {
+        Transaction::create([
+            'chart_of_head_id' => $cohId,
+            'date'             => date('Y-m-d'),
+            'voucher_no'       => $invoiceNo,
+            'voucher_type'     => "LABOR-BILL",
+            'narration'        => $narration,
+            'debit'            => 0,
+            'credit'           => $paidAmount,
+            'status'           => 1,
+            'is_opening'       => 2,
+            'created_by'       => auth()->user()->name,
+        ]);
+    }
+    
+    public function production($id)
+    {
+        if (permission('production')) {
             $setTitle = __('file.Production');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $data = [
-              'production'        => $this->model
-                                  ->with('mill','productionRawProductList','productionRawProductList.warehouse','productionRawProductList.product','productionRawProductList.product.unit')
-                                  ->findOrFail($id),
-              'productionSale'    => DB::table('production_sales as sp')
-                                  ->join('production_sale_products as psp','sp.id','=','psp.id')
-                                  ->where(['sp.production_id' => $id])
-                                  ->select(
-                                      DB::raw('SUM(psp.scale) as scale'),
-                                      DB::raw('SUM(psp.sub_total) as subTotal'),
-                                      DB::raw('SUM(psp.use_qty) as productionSaleProductUseQty'),
-                                      DB::raw('SUM(psp.use_sub_total) as productionSaleProductUseSubTotal'),
-                                     )->get(),
-              'productionProduct' => DB::table('production_products as pp')
-                                  ->where(['production_id' => $id])
-                                  ->select(
-                                      DB::raw('SUM(pp.scale) as scale'),
-                                      DB::raw('SUM(pp.sub_total) as subTotal'),
-                                      DB::raw('SUM(pp.use_qty) as productionProductUseQty'),
-                                      DB::raw('SUM(pp.use_sub_total) as productionProductUseSubTotal')
-                                     )->get(),
-              'expenses'          => ExpenseItem::ProductionExpense()->get()
+                'production'        => $this->model
+                    ->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit')
+                    ->findOrFail($id),
+                'productionSale'    => DB::table('production_sales as sp')
+                    ->join('production_sale_products as psp', 'sp.id', '=', 'psp.id')
+                    ->where(['sp.production_id' => $id])
+                    ->select(
+                        DB::raw('SUM(psp.scale) as scale'),
+                        DB::raw('SUM(psp.sub_total) as subTotal'),
+                        DB::raw('SUM(psp.use_qty) as productionSaleProductUseQty'),
+                        DB::raw('SUM(psp.use_sub_total) as productionSaleProductUseSubTotal'),
+                    )->get(),
+                'productionProduct' => DB::table('production_products as pp')
+                    ->where(['production_id' => $id])
+                    ->select(
+                        DB::raw('SUM(pp.scale) as scale'),
+                        DB::raw('SUM(pp.sub_total) as subTotal'),
+                        DB::raw('SUM(pp.use_qty) as productionProductUseQty'),
+                        DB::raw('SUM(pp.use_sub_total) as productionProductUseSubTotal')
+                    )->get(),
+                'expenses'          => ExpenseItem::ProductionExpense()->get()
             ];
-            return view('production::production',$data);
-        }else{
+            return view('production::production', $data);
+        } else {
             return $this->access_blocked();
         }
     }
-    public function complete(ProductionCompleteFormRequest $request){
-        if ($request->ajax() && permission('production-complete')){
+    public function complete(ProductionCompleteFormRequest $request)
+    {
+        if ($request->ajax() && permission('production-complete')) {
             DB::beginTransaction();
-            try{
+            try {
                 $expense    = [];
-                $collection = collect($request->all())->except('_token','production_id','raws','expense')->merge(['end_date' => date('Y-m-d'),'production_status' => 4]);
+                $collection = collect($request->all())->except('_token', 'production_id', 'raws', 'expense')->merge(['end_date' => date('Y-m-d'), 'production_status' => 4]);
                 $data       = $this->model->findOrFail($request->production_id);
                 $millCohId  = ChartOfHead::firstWhere(['mill_id' => $data->mill_id]);
                 $narration  = 'Production Milling Cost';
-                if($request->has('raws')){
-                    foreach ($request->raws as $value){
-                        $productionProductRaw = ProductionRawProduct::firstWhere(['production_id' => $request->production_id,'warehouse_id' => $value['warehouse_id'] , 'product_id' => $value['product_id']]);
-                        $warehouseProduct     = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'] , 'product_id' => $value['product_id']]);
+                if ($request->has('raws')) {
+                    foreach ($request->raws as $value) {
+                        $productionProductRaw = ProductionRawProduct::firstWhere(['production_id' => $request->production_id, 'warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
+                        $warehouseProduct     = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
                         $productionProductRaw->update([
-                           'use_qty'     => $value['use_qty'],
-                           'use_scale'   => $value['use_scale'],
-                           'use_pro_qty' => $value['use_pro_qty'],
-                           'milling'     => $value['milling']
+                            'use_qty'     => $value['use_qty'],
+                            'use_scale'   => $value['use_scale'],
+                            'use_pro_qty' => $value['use_pro_qty'],
+                            'milling'     => $value['milling']
                         ]);
                         $warehouseProduct->update([
-                           'qty'   => $warehouseProduct->qty + $value['pro_qty'] - $value['use_pro_qty'],
-                           'scale' => $warehouseProduct->scale + $value['scale'] - $value['use_scale']
+                            'qty'   => $warehouseProduct->qty + $value['pro_qty'] - $value['use_pro_qty'],
+                            'scale' => $warehouseProduct->scale + $value['scale'] - $value['use_scale']
                         ]);
                     }
                 }
-                if($request->has('expense')){
-                    foreach ($request->expense as $value){
-                        if(!empty($value['expense_id']) && !empty($value['expense_cost'])){
-                            $expense [] = [
+                if ($request->has('expense')) {
+                    foreach ($request->expense as $value) {
+                        if (!empty($value['expense_id']) && !empty($value['expense_cost'])) {
+                            $expense[] = [
                                 'expense_item_id' => $value['expense_id'],
                                 'expense_cost'    => $value['expense_cost']
                             ];
-                            $narration        = 'Production Expense Cost Invoice No -'.$data->invoice_no;
-                            $expenseItemCohId = ChartOfHead::firstWhere(['master_head' => 7,'expense_item_id' => $value['expense_id']]);
-                            $this->balanceDebit($expenseItemCohId->id,$data->invoice_no,$narration,$data->date,$value['expense_cost']);
-                            $this->balanceCredit(24,$data->invoice_no,$narration,$data->date,$value['expense_cost']);
+                            $narration        = 'Production Expense Cost Invoice No -' . $data->invoice_no;
+                            $expenseItemCohId = ChartOfHead::firstWhere(['master_head' => 7, 'expense_item_id' => $value['expense_id']]);
+                            $this->balanceDebit($expenseItemCohId->id, $data->invoice_no, $narration, $data->date, $value['expense_cost']);
+                            $this->balanceCredit(24, $data->invoice_no, $narration, $data->date, $value['expense_cost']);
                         }
                     }
                     $data->productionExpense()->attach($expense);
                 }
                 $data->update($collection->all());
-                $this->balanceCredit($millCohId->id,$data->invoice_no,$narration,$data->date,$request->total_milling);
+                $this->balanceCredit($millCohId->id, $data->invoice_no, $narration, $data->date, $request->total_milling);
                 $this->model->flushCache();
-                $output     = ['status' => 'success' , 'message' => $this->responseMessage('Data Saved')];
+                $output     = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
                 DB::commit();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 DB::rollBack();
-                $output = ['status' => 'error' , 'message' => $e->getMessage()];
+                $output = ['status' => 'error', 'message' => $e->getMessage()];
             }
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function reportDetails($id){
-        if(permission('production-report')){
+    public function reportDetails($id)
+    {
+        if (permission('production-report')) {
             $setTitle = __('file.Report');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
-            $data = $this->model->with('mill'
-                    ,'productionRawProductList.warehouse','productionRawProductList.product','productionRawProductList.product.unit'
-                    ,'productionExpenseList.expenseItem'
-                    ,'productionSaleList.productionSaleProductList.product','productionSaleList.productionSaleProductList.product.category','productionSaleList.productionSaleProductList.product.unit'
-                    ,'productionSaleList.productionSaleProductList.useWarehouse','productionSaleList.productionSaleProductList.useProduct','productionSaleList.productionSaleProductList.useProduct.unit'
-                    ,'productionProductList.warehouse','productionProductList.product','productionProductList.product.category','productionProductList.product.unit'
-                    ,'productionProductList.useWarehouse','productionProductList.useProduct','productionProductList.useProduct.unit'
-                )
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+            $data = $this->model->with(
+                'mill',
+                'productionRawProductList.warehouse',
+                'productionRawProductList.product',
+                'productionRawProductList.product.unit',
+                'productionExpenseList.expenseItem',
+                'productionSaleList.productionSaleProductList.product',
+                'productionSaleList.productionSaleProductList.product.category',
+                'productionSaleList.productionSaleProductList.product.unit',
+                'productionSaleList.productionSaleProductList.useWarehouse',
+                'productionSaleList.productionSaleProductList.useProduct',
+                'productionSaleList.productionSaleProductList.useProduct.unit',
+                'productionProductList.warehouse',
+                'productionProductList.product',
+                'productionProductList.product.category',
+                'productionProductList.product.unit',
+                'productionProductList.useWarehouse',
+                'productionProductList.useProduct',
+                'productionProductList.useProduct.unit'
+            )
                 ->findOrFail($id);
-            return view('production::report',compact('data'));
-        }else{
+            return view('production::report', compact('data'));
+        } else {
             return $this->access_blocked();
         }
     }
-    public function summary($id){
-        if(permission('production-summary')){
+    public function summary($id)
+    {
+        if (permission('production-summary')) {
             $setTitle = __('file.Summary');
-            $this->setPageData($setTitle,$setTitle,'fas fa-industry',[['name' => $setTitle]]);
+            $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $data = $this->model->with('mill')->findOrFail($id);
-            return view('production::summarize',compact('data'));
-        }else{
+            return view('production::summarize', compact('data'));
+        } else {
             return $this->access_blocked();
         }
     }
-    public function delete(Request $request){
-        if($request->ajax() && permission('production-delete')){
+    public function delete(Request $request)
+    {
+        if ($request->ajax() && permission('production-delete')) {
             DB::beginTransaction();
-            try{
+            try {
                 $production = $this->model->with('productionRawProductList')->findOrFail($request->id);
-                abort_if($production->production_status == 4,404);
+                abort_if($production->production_status == 4, 404);
                 $production->productionRawProductList()->delete();
                 $production->delete();
                 $this->model->flushCache();
-                $output = ['status' => 'success' , 'message' => 'Data Deleted Successfully'];
+                $output = ['status' => 'success', 'message' => 'Data Deleted Successfully'];
                 DB::commit();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 DB::rollBack();
-                $output = ['status' => 'error' , 'message' => $e->getMessage()];
+                $output = ['status' => 'error', 'message' => $e->getMessage()];
             }
             return response()->json($output);
-        }else{
+        } else {
             return response()->json($this->unauthorized());
         }
     }
-    public function categoryProduct($categoryId){
+    public function categoryProduct($categoryId)
+    {
         return Product::where(['category_id' => $categoryId])->get();
     }
-    public function productDetails($productId){
+    public function productDetails($productId)
+    {
         $product          = Product::with('unit')->findOrFail($productId);
-        return[
+        return [
             'unitId'      => $product->unit->unit_name,
-            'unitShow'    => $product->unit->unit_name.'('.$product->unit->unit_code.')',
+            'unitShow'    => $product->unit->unit_name . '(' . $product->unit->unit_code . ')',
             'salePrice'   => $product->sale_price,
         ];
     }
-    public function warehouseProduct($warehouseId,$productId){
+    public function warehouseProduct($warehouseId, $productId)
+    {
         $product          = Product::with('unit')->findOrFail($productId);
-        $warehouseProduct = WarehouseProduct::firstWhere(['warehouse_id' => $warehouseId , 'product_id' => $productId]);
-        return[
+        $warehouseProduct = WarehouseProduct::firstWhere(['warehouse_id' => $warehouseId, 'product_id' => $productId]);
+        return [
             'unitId'        => $product->unit->unit_name,
-            'unitShow'      => $product->unit->unit_name.'('.$product->unit->unit_code.')',
+            'unitShow'      => $product->unit->unit_name . '(' . $product->unit->unit_code . ')',
             'salePrice'     => $product->sale_price,
             'purchasePrice' => $product->purchase_price,
             'availableQty'  => !empty($warehouseProduct) ? $warehouseProduct->qty : 0,
             'scale'         => !empty($warehouseProduct) ? $warehouseProduct->scale : 0
         ];
     }
-    public function balanceDebit($cohId,$invoiceNo,$narration,$date,$paidAmount){
+    public function balanceDebit($cohId, $invoiceNo, $narration, $date, $paidAmount)
+    {
         Transaction::create([
             'chart_of_head_id' => $cohId,
             'date'             => $date,
@@ -430,7 +501,8 @@ class ProductionController extends BaseController {
             'created_by'       => auth()->user()->name,
         ]);
     }
-    public function balanceCredit($cohId,$invoiceNo,$narration,$date,$paidAmount){
+    public function balanceCredit($cohId, $invoiceNo, $narration, $date, $paidAmount)
+    {
         Transaction::create([
             'chart_of_head_id' => $cohId,
             'date'             => $date,

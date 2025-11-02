@@ -16,6 +16,7 @@ class CreateTenantReceiveProductsTable extends Migration
         Schema::create('tenant_receive_products', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_no')->unique();
+            $table->string('batch_no')->nullable();
             $table->foreignId('tenant_id')->constrained();
             $table->date('date');
             $table->enum('status',['1','2'])->default(2)->comment = " 1 = Active , 2 = InActive";

@@ -13,6 +13,7 @@ Route::group(['middleware' => ['auth','language']], function () {
         Route::post('change-status', 'TenantController@changeStatus')->name('change.status');
     });
     Route::get('tenant-receive-product', 'TenantReceiveProductController@index')->name('tenant.receive.product');
+    Route::get('tenant-batch-no', 'TenantReceiveProductController@batchNo')->name('tenant-batch-no');
     Route::group(['prefix' => 'tenant-receive-product', 'as'=>'tenant.receive.product.'], function () {
         Route::get('add', 'TenantReceiveProductController@create')->name('add');
         Route::post('datatable-data', 'TenantReceiveProductController@getDataTableData')->name('datatable.data');

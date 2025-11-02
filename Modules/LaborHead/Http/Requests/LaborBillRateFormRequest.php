@@ -4,21 +4,24 @@ namespace Modules\LaborHead\Http\Requests;
 
 use App\Http\Requests\FormRequest;
 
-class LaborBillRateFormRequest extends FormRequest{
+class LaborBillRateFormRequest extends FormRequest
+{
     protected $rules    = [];
     protected $messages = [];
-    public function rules(){
-        $this->rules['name']                = ['required','unique:labor_bill_rates,name'];
-        $this->rules['rate']                = ['required'];
-        if(request()->update_id){
-            $this->rules['name'][1]         = 'unique:labor_bill_rates,name,'.request()->update_id;
-        }
+    public function rules()
+    {
+        $this->rules['warehouse_id']        = ['nullable'];
+        $this->rules['labor_head_id']                = ['required'];
+        $this->rules['rate']                = ['nullable'];
+       
         return $this->rules;
     }
-    public function messages(){
+    public function messages()
+    {
         return $this->messages;
     }
-    public function authorize(){
+    public function authorize()
+    {
         return true;
     }
 }

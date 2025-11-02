@@ -16,6 +16,9 @@ use Modules\Party\Entities\Party;
 use Modules\Product\Entities\Product;
 use Modules\Purchase\Entities\Purchase;
 use Illuminate\Support\Str;
+use Modules\LaborHead\Entities\LaborBillRate;
+use Modules\LaborHead\Entities\LaborBillRateDetail;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\Purchase\Entities\PurchaseProduct;
 use Modules\Purchase\Entities\PurchaseProductReceive;
 use Modules\Purchase\Entities\PurchaseProductReturn;
@@ -126,9 +129,11 @@ class PurchaseController extends BaseController
             $data = [
                 'invoice_no'   => self::purchase . '-' . round(microtime(true) * 1000),
                 'parties'      => Party::latest()->get(),
-                'warehouses'   => Warehouse::latest()->get(),
+                'warehouses'   => Warehouse::with('labour_load_unload_head')->get(),
                 'categories'   => Category::latest()->get()
             ];
+            // return $data['warehouses'];
+
             return view('purchase::create', $data);
         } else {
             return $this->access_blocked();
@@ -147,6 +152,8 @@ class PurchaseController extends BaseController
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['price']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['rec_qty'])) {
                             $purchase[]  = [
                                 'warehouse_id' => $value['warehouse_id'],
+                                'load_unload_rate' => $value['load_unload_rate'],
+                                'load_unload_amount' => $value['load_unload_amount'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -174,6 +181,17 @@ class PurchaseController extends BaseController
                         $cohId       = 28;
                         $name        = 'Walking Party';
                     }
+
+
+                    // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $result->purchaseProductList()->sum('load_unload_amount');
+
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Purchase";
+                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+
+
                     $narration = $name . ' purchase paid amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
                     $this->balanceCredit($request->account_id, $request->invoice_no, $narration, $request->purchase_date, abs($request->paid_amount));
                     $this->balanceCredit($cohId, $request->invoice_no, $narration, $request->purchase_date, abs($request->paid_amount));
@@ -231,6 +249,8 @@ class PurchaseController extends BaseController
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['price']) && !empty($value['qty']) && !empty($value['rec_qty'])) {
                             $purchase[Str::random(5)]  = [
                                 'warehouse_id' => $value['warehouse_id'],
+                                'load_unload_rate' => $value['load_unload_rate'],
+                                'load_unload_amount' => $value['load_unload_amount'],
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -277,10 +297,22 @@ class PurchaseController extends BaseController
     }
     public function changeStatus(Request $request)
     {
+        // return $request;
+
         if ($request->ajax() && permission('purchase-status-change')) {
             DB::beginTransaction();
             try {
-                $purchase = $this->model->findOrFail($request->purchase_id);
+                $purchase = $this->model->with('purchaseProductList')->findOrFail($request->purchase_id);
+
+                // labour-bill-generate
+                $labor_head = LaborHead::find(1); // load-unload
+                $amount = $purchase->purchaseProductList()->sum('load_unload_amount');
+
+                $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                $note = "Purchase";
+                $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+
+
                 abort_if($purchase->purchase_status == 4, 404);
                 $purchase->update(['purchase_status' => $request->purchase_status]);
                 $this->model->flushCache();
@@ -308,6 +340,23 @@ class PurchaseController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    {
+        Transaction::create([
+            'chart_of_head_id' => $cohId,
+            'date'             => date('Y-m-d'),
+            'voucher_no'       => $invoiceNo,
+            'voucher_type'     => "LABOR-BILL",
+            'narration'        => $narration,
+            'debit'            => 0,
+            'credit'           => $paidAmount,
+            'status'           => 1,
+            'is_opening'       => 2,
+            'created_by'       => auth()->user()->name,
+        ]);
+    }
+
     public function delete(Request $request)
     {
         if ($request->ajax() && permission('purchase-delete')) {

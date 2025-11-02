@@ -15,10 +15,8 @@ class CreateLaborBillRatesTable extends Migration
     {
         Schema::create('labor_bill_rates', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->double('rate')->nullable();
-            $table->enum('status',['1','2'])->default('1')->comment = "1=Active, 2=Inactive";
-            $table->string('created_by')->nullable();
+            $table->integer('labor_head_id')->nullable();
+            $table->text('narration')->nullable();
             $table->timestamps();
         });
     }
