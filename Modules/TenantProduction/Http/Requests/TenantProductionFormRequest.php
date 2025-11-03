@@ -31,16 +31,16 @@ class TenantProductionFormRequest extends FormRequest
             }
         }
 
-        $this->rules['total_product_qty'] = [
-            function ($attribute, $value, $fail) {
-                $totalQty = collect(request()->input('production', []))
-                    ->sum('pro_qty');
+        // $this->rules['total_product_qty'] = [
+        //     function ($attribute, $value, $fail) {
+        //         $totalQty = collect(request()->input('production', []))
+        //             ->sum('pro_qty');
 
-                if ($totalQty < 22000 || $totalQty > 24000) {
-                    $fail("The total product quantity must be between 22,000 and 24,000. Current total: {$totalQty}");
-                }
-            }
-        ];
+        //         if ($totalQty < 22000 || $totalQty > 24000) {
+        //             $fail("The total product quantity must be between 22,000 and 24,000. Current total: {$totalQty}");
+        //         }
+        //     }
+        // ];
 
         return $this->rules;
     }

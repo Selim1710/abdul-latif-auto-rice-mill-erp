@@ -217,6 +217,9 @@
                 return;
             }
             _(scale).value = $(this).val() * _(unitId).value;
+
+            console.log('qty: ' + $(this).val());
+            console.log('unit: ' + _(unitId).value);
         });
 
         $(document).on('input', '.scale', function() {
