@@ -5,7 +5,7 @@
       <div class="modal-content">
 
         <!-- Modal Header -->
-        <div class="modal-header bg-dark-primary">
+        <div class="modal-header bg-primary">
           <h3 class="modal-title text-white" id="model-1"><i class="fas fa-eye text-white"></i> <span>{{__('file.User Details')}}</span></h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i aria-hidden="true" class="ki ki-close text-white"></i>

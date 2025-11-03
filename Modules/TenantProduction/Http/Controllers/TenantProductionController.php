@@ -372,7 +372,7 @@ class TenantProductionController extends BaseController
                             'use_qty'     => $value['use_qty'],
                             'use_scale'   => $value['use_scale'],
                             'use_pro_qty' => $value['use_pro_qty'],
-                            'milling'     => $value['milling']
+                            'milling'     => $value['milling'] ?? 0,
                         ]);
                         $tenantWarehouseProduct->update([
                             'qty'   => $tenantWarehouseProduct->qty + $value['pro_qty'] - $value['use_pro_qty'],
@@ -393,7 +393,7 @@ class TenantProductionController extends BaseController
                                 'scale'           => $value['scale'],
                                 'mer_qty'         => $value['mer_qty'],
                                 'sub_total'       => $value['qty'] * $value['price'],
-                                'milling'         => $value['milling'],
+                                'milling'         => $value['milling'] ?? 0,
                                 'type'            => 1,
                             ];
                             $warehouseProduct = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);

@@ -308,7 +308,7 @@ class ProductionController extends BaseController
             'created_by'       => auth()->user()->name,
         ]);
     }
-    
+
     public function production($id)
     {
         if (permission('production')) {
@@ -360,7 +360,7 @@ class ProductionController extends BaseController
                             'use_qty'     => $value['use_qty'],
                             'use_scale'   => $value['use_scale'],
                             'use_pro_qty' => $value['use_pro_qty'],
-                            'milling'     => $value['milling']
+                            'milling'     => $value['milling'] ?? 0,
                         ]);
                         $warehouseProduct->update([
                             'qty'   => $warehouseProduct->qty + $value['pro_qty'] - $value['use_pro_qty'],

@@ -22,7 +22,7 @@
   --gray: #6c757d;
   --gray-dark: #343a40;
   --primary: #3490dc;
-  /*--secondary: #6c757d;*/
+  --secondary: #6c757d;
   --success: #38c172;
   --info: #6cb2eb;
   --warning: #ffed4a;
@@ -6955,7 +6955,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #F8FAFC !important;
+  background-color: #3490dc !important;
 }
 
 a.bg-primary:hover,
