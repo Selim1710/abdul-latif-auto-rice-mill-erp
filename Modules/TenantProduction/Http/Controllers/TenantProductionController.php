@@ -305,7 +305,7 @@ class TenantProductionController extends BaseController
         }
     }
 
-     public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
@@ -513,11 +513,13 @@ class TenantProductionController extends BaseController
             'salePrice'   => $product->sale_price,
         ];
     }
-    public function warehouseProduct($tenantId, $warehouseId, $productId)
+    public function warehouseProduct($tenantId, $warehouseId, $productId, $batch_no)
     {
+        // return [$tenantId, $warehouseId, $productId, $batch_no];
         $product          = Product::with('unit')->findOrFail($productId);
-        $warehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'warehouse_id' => $warehouseId, 'product_id' => $productId]);
-        return [
+        $warehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'warehouse_id' => $warehouseId, 'product_id' => $productId, 'batch_no' => $batch_no]);
+
+            return [
             'unitId'        => $product->unit->unit_name,
             'unitShow'      => $product->unit->unit_name . '(' . $product->unit->unit_code . ')',
             'availableQty'  => !empty($warehouseProduct) ? $warehouseProduct->qty : 0,

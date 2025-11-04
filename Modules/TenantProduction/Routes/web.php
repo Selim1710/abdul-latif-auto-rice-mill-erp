@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth','language']], function () {
     });
     Route::get('tenant-category-product/{categoryId}',  [TenantProductionController::class,'categoryProduct'])->name('tenant.category.product');
     Route::get('tenant-product-details/{productId}',  [TenantProductionController::class,'productDetails'])->name('tenant.product.details');
-    Route::get('tenant-warehouse-product/{tenantId}/{warehouseId}/{productId}',  [TenantProductionController::class,'warehouseProduct'])->name('tenant.warehouse.product');
+    Route::get('tenant-warehouse-product/{tenantId}/{warehouseId}/{productId}/{batch_no}',  [TenantProductionController::class,'warehouseProduct'])->name('tenant.warehouse.product');
     Route::get('tenant-merge-category-product/{categoryId}',  [TenantProductionController::class,'mergeCategoryProduct'])->name('merge.category.product');
     Route::get('tenant-merge-product-details/{productId}',  [TenantProductionController::class,'mergeProductDetails'])->name('merge.product.details');
     Route::get('tenant-merge-warehouse-product/{warehouseId}/{productId}',  [TenantProductionController::class,'mergeWarehouseProduct'])->name('merge.warehouse.product');
