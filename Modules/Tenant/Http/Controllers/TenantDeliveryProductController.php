@@ -117,6 +117,7 @@ class TenantDeliveryProductController extends BaseController
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['del_qty'])) {
                             $tenantDelivery[] = [
                                 'warehouse_id' => $value['warehouse_id'],
+                                'batch_no' => $value['batch_no'] ?? '',
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -178,6 +179,7 @@ class TenantDeliveryProductController extends BaseController
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['del_qty'])) {
                             $tenantDelivery[Str::random(5)] = [
                                 'warehouse_id' => $value['warehouse_id'],
+                                'batch_no' => $value['batch_no'] ?? '',
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
@@ -205,9 +207,11 @@ class TenantDeliveryProductController extends BaseController
             DB::beginTransaction();
             try {
                 $tenantDelivery = $this->model->with('tenantDeliveryProductList')->findOrFail($request->id);
+                // return $tenantDelivery;
+
                 abort_if($tenantDelivery->status == 1, 404);
                 foreach ($tenantDelivery->tenantDeliveryProductList as $value) {
-                    $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantDelivery->tenant_id, 'warehouse_id' => $value->warehouse_id, 'product_id' => $value->product_id, 'tenant_product_type' => 2]);
+                    $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantDelivery->tenant_id, 'warehouse_id' => $value->warehouse_id, 'product_id' => $value->product_id, 'batch_no' => $value->batch_no, 'tenant_product_type' => 2]);
                     if ($value->del_qty > $tenantWarehouseProduct->qty || $value->scale > $tenantWarehouseProduct->scale) {
                         $output = ['status' => 'error', 'message' => 'Product Quantity Or Scale Not Enough'];
                         return response()->json($output);
