@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::get('details', 'TenantReceiveProductController@productDetails')->name('details');
     });
     Route::get('tenant-return-product', 'TenantReturnProductController@index')->name('tenant.return.product');
+    Route::get('tenant-return-product-data', 'TenantReturnProductController@returnData')->name('tenant.return.product.data');
     Route::group(['prefix' => 'tenant-return-product', 'as' => 'tenant.return.product.'], function () {
         Route::get('add', 'TenantReturnProductController@create')->name('add');
         Route::post('datatable-data', 'TenantReturnProductController@getDataTableData')->name('datatable.data');
