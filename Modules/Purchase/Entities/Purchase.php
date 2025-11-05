@@ -10,7 +10,7 @@ use Modules\Product\Entities\Product;
 
 class Purchase extends BaseModel
 {
-    protected $fillable           = ['invoice_no', 'purchase_date', 'transport_name', 'party_type', 'party_id', 'party_name', 'purchase_status', 'document', 'discount', 'total_purchase_qty', 'total_receive_qty', 'total_return_qty', 'total_purchase_sub_total', 'total_receive_sub_total', 'total_return_sub_total', 'previous_due', 'net_total', 'paid_amount', 'due_amount', 'payment_status', 'payment_method', 'account_id', 'created_by', 'modified_by','total_load_unload'];
+    protected $fillable           = ['invoice_no', 'purchase_date', 'transport_name', 'party_type', 'party_id', 'party_name', 'purchase_status', 'document', 'discount', 'total_purchase_qty', 'total_receive_qty', 'total_return_qty', 'total_purchase_sub_total', 'total_receive_sub_total', 'total_return_sub_total', 'previous_due', 'net_total', 'paid_amount', 'due_amount', 'payment_status', 'payment_method', 'account_id', 'created_by', 'modified_by', 'total_load_unload', 'transportation_cost', 'per_scale_transportation_cost'];
     protected $table              = 'purchases';
     protected const ALL_PURCHASES = '_purchases';
     protected $_invoice_no;

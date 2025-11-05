@@ -1989,6 +1989,8 @@ return [
     'Packing & Load Rate'                       => 'Packing & Load Rate',
     'Packing & Load Amount'                       => 'Packing & Load Amount',
     'Total Milling Cost'                       => 'Total Milling Cost',
+    'Transportation Cost'                       => 'Transportation Cost',
+    'Per Scale Transportation Cost'                       => 'Per Scale Transportation Cost',
 
 
 
