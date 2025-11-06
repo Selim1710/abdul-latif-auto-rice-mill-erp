@@ -68667,7 +68667,7 @@ code {
 }
 
 .form-group label {
-    font-size: 1rem;
+    font-size: 1.19rem;
     font-weight: 400;
     color: #3F4254;
 }
@@ -92631,7 +92631,7 @@ body {
 .aside-menu .menu-nav>.menu-item>.menu-heading .menu-text,
 .aside-menu .menu-nav>.menu-item>.menu-link .menu-text {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
     text-transform: initial;
 }
 
@@ -94019,7 +94019,7 @@ div.dt-button-collection.dropdown-menu {
 
 table.table-bordered.dataTable th,
 table.table-bordered.dataTable td {
-    font-size: 12px !important;
+    font-size: 15px !important;
 }
 
 .custom-dropdown {
