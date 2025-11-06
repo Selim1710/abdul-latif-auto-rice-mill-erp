@@ -4,7 +4,9 @@ namespace Modules\Stock\Entities;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
+use Modules\Party\Entities\Party;
 use Modules\Product\Entities\Product;
+use Modules\Purchase\Entities\Purchase;
 use Modules\Setting\Entities\Warehouse;
 
 class WarehouseProduct extends BaseModel
@@ -17,10 +19,21 @@ class WarehouseProduct extends BaseModel
     protected $_warehouse_id;
     protected $_party_id;
 
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class, 'purchase_id', 'id');
+    }
+
+    public function party()
+    {
+        return $this->belongsTo(Party::class, 'party_id', 'id');
+    }
+
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');

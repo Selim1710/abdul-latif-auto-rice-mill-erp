@@ -6,7 +6,7 @@ use App\Models\BaseModel;
 use Modules\Product\Entities\Product;
 
 class StockTransferWarehouseProduct extends BaseModel {
-    protected $fillable = ['stock_transfer_id','product_id','scale','qty'];
+    protected $fillable = ['stock_transfer_id','product_id','scale','qty', 'purchase_id','party_id','purchase_price'];
     protected $table    = 'stock_transfer_warehouse_products';
     public function stockTransfer(){
         return $this->belongsTo(StockTransfer::class,'stock_transfer_id','id');
