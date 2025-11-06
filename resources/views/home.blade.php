@@ -142,7 +142,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/customer.png') }}" class="dashboard-icon" alt="Party">
                         <div class="dashboard-value text-teal">{{ $party ?? 0 }} TK
-                            <p class="card-text"><small>Party</small></p>
+                            <p class="card-text">Party</p>
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/labor.png') }}" class="dashboard-icon" alt="labor">
                         <div class="dashboard-value text-pink">{{ $labor ?? 0 }} TK
-                            <p class="card-text"><small>Labor</small></p>
+                            <p class="card-text">Labor</p>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/categories.png') }}" class="dashboard-icon" alt="category">
                         <div class="dashboard-value text-green">{{ $category ?? 0 }}
-                            <p class="card-text"><small>Category</small></p>
+                            <p class="card-text">Category</p>
                         </div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/product.png') }}" class="dashboard-icon" alt="product">
                         <div class="dashboard-value text-purple">{{ $product ?? 0 }}
-                            <p class="card-text"><small>product</small></p>
+                            <p class="card-text">Product</p>
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/purchase.png') }}" class="dashboard-icon" alt="purchase">
                         <div class="dashboard-value text-orange">{{ number_format($purchases, 2) }}
-                            <p class="card-text"><small>purchase</small></p>
+                            <p class="card-text">Purchase</p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/sale.png') }}" class="dashboard-icon" alt="sale">
                         <div class="dashboard-value text-cyan">{{ number_format($sales, 2) }}
-                            <p class="card-text"><small>{{ __('file.Sale') }} </small></p>
+                            <p class="card-text">{{ __('file.Sale') }} </p>
                         </div>
                     </div>
                 </div>
@@ -196,7 +196,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/mill.png') }}" class="dashboard-icon" alt="{{ __('file.Mill') }}">
                         <div class="dashboard-value text-green-secondary">{{ $mill ?? 0 }}
-                            <p class="card-text"><small>{{ __('file.Mill') }}</small></p>
+                            <p class="card-text">{{ __('file.Mill') }}</p>
                         </div>
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                         <img src="{{ asset('icon/transport.png') }}" class="dashboard-icon"
                             alt="{{ __('file.Transport') }}">
                         <div class="dashboard-value text-purple-secondary">{{ $truck ?? 0 }}
-                            <p class="card-text"><small>{{ __('file.Transport') }}</small></p>
+                            <p class="card-text">{{ __('file.Transport') }}</p>
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/user.png') }}" class="dashboard-icon" alt="{{ __('file.User') }}">
                         <div class="dashboard-value text-ash-blue">{{ $user ?? 0 }}
-                            <p class="card-text"><small>{{ __('file.User') }}</small></p>
+                            <p class="card-text">{{ __('file.User') }}</p>
                         </div>
                     </div>
                 </div>
