@@ -1991,7 +1991,5 @@ return [
     'Total Milling Cost'                       => 'Total Milling Cost',
     'Transportation Cost'                       => 'Transportation Cost',
     'Per Scale Transportation Cost'                       => 'Per Scale Transportation Cost',
-
-
-
+    'All Party'                       => 'All Party',
 ];

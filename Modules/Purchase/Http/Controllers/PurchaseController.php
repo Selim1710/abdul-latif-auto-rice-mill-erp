@@ -394,6 +394,8 @@ class PurchaseController extends BaseController
     }
     public function receiveStore(Request $request)
     {
+        // return $request->receive;
+
         if ($request->ajax() && permission('purchase-receive')) {
             DB::beginTransaction();
             try {
@@ -422,6 +424,11 @@ class PurchaseController extends BaseController
                                 'receive_qty'    => $purchaseProduct->receive_qty + $value['receive_qty']
                             ]);
                             $warehouseProduct = WarehouseProduct::firstOrNew([
+                                'purchase_id'   => $purchase->id ?? '',
+                                'party_id'   =>  $purchase->party_id ?? '',
+                                'per_scale_transportation_cost'   =>  $purchase->per_scale_transportation_cost ?? '',
+                                'purchase_price'   => $value['price'] ?? '',
+
                                 'warehouse_id'   => $value['warehouse_id'],
                                 'product_id'     => $value['product_id']
                             ], [
