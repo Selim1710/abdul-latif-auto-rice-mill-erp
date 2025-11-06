@@ -161,6 +161,9 @@ class StockTransferController extends BaseController
                                 'product_id'        => $value['product_id'],
                                 'scale'             => $value['scale'],
                                 'qty'               => $value['qty'],
+                                'purchase_id'               => $value['purchase_id'] ?? '',
+                                'party_id'               => $value['party_id'] ?? '',
+                                'purchase_price'               => $value['purchase_price'] ?? '',
                             ];
                         }
                     }
@@ -189,7 +192,10 @@ class StockTransferController extends BaseController
                     foreach ($data->stockTransferWarehouseProductList as $value) {
                         $transferWarehouseProduct = WarehouseProduct::firstWhere([
                             'warehouse_id'     => $data->transfer_warehouse_id,
-                            'product_id'       => $value->product_id
+                            'product_id'       => $value->product_id,
+                            'party_id'       => $value->party_id,
+                            'purchase_id'       => $value->purchase_id,
+
                         ]);
                         if (($value->qty > $transferWarehouseProduct->qty) || ($value->scale > $transferWarehouseProduct->scale)) {
                             return response()->json(['status' => 'error', 'message' => 'Transfer Quantity Not Be Greater Then Stock Quantity']);
@@ -201,7 +207,9 @@ class StockTransferController extends BaseController
                         $receiveWarehouseProduct = WarehouseProduct::firstOrNew(
                             [
                                 'warehouse_id'  => $data->receive_warehouse_id,
-                                'product_id'    => $value->product_id
+                                'product_id'    => $value->product_id,
+                                'party_id'       => $value->party_id,
+                                'purchase_id'       => $value->purchase_id,
                             ],
                             [
                                 'scale'         => $value->scale,
