@@ -373,6 +373,17 @@
             });
             _('total_product_qty').value = total_product_qty;
 
+            // total_scale
+            let total_scale = 0;
+            $('.scale').each(function() {
+                if ($(this).val() == '') {
+                    total_scale += +0;
+                } else {
+                    total_scale += +$(this).val();
+                }
+            });
+            _('total_scale').value = total_scale;
+
             // total_load_unload
             // let total_load_unload = 0;
             // $('.loadUnload').each(function() {

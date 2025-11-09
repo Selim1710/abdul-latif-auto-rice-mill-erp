@@ -31,7 +31,7 @@ class TenantProductionFormRequest extends FormRequest
             }
         }
 
-        $this->rules['total_product_qty'] = [
+        $this->rules['total_scale'] = [
             function ($attribute, $value, $fail) {
                 $totalQty = collect(request()->input('production', []))
                     ->sum('scale');

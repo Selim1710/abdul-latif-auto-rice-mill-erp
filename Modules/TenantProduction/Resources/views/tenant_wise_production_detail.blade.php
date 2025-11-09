@@ -114,7 +114,11 @@
       @endforeach
 
       <tr>
-          <td colspan="7" class="text-right"> <b>Total : </b></td>
+          <td colspan="6" class="text-right"> <b>Total : </b></td>
+
+          <td> <input type="number" class="form-control text-center" name="total_scale" id="total_scale"
+                  readonly></td>
+
           <td> <input type="number" name="total_product_qty" class="form-control text-center" id="total_product_qty"
                   readonly></td>
           {{-- <td></td>
