@@ -96,19 +96,10 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <select class="form-control selectpicker text-center"
+                                                            <input class="form-control bg-primary text-center"
                                                                 id="production_product_0_batch_no"
-                                                                name="production_product[0][batch_no]"
-                                                                data-live-search = "true">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @if (!empty($production->rawList))
-                                                                    @foreach ($production->rawList as $rawList)
-                                                                        <option value="{{ $rawList->batch_no ?? '' }}">
-                                                                            {{ $rawList->batch_no ?? '' }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                @endif
-                                                            </select>
+                                                                name="production_product[0][batch_no]" readonly
+                                                                value="{{ $production->rawList[0]->batch_no ?? '' }}" />
                                                         </td>
                                                         <td>
                                                             <select class="form-control selectpicker category text-center"
@@ -211,19 +202,10 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <select class="form-control selectpicker text-center"
+                                                            <input class="form-control bg-primary text-center"
                                                                 id="production_product_0_use_batch_no"
-                                                                name="production_product[0][use_batch_no]"
-                                                                data-live-search = "true">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @if (!empty($production->rawList))
-                                                                    @foreach ($production->rawList as $rawList)
-                                                                        <option value="{{ $rawList->batch_no ?? '' }}">
-                                                                            {{ $rawList->batch_no ?? '' }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                @endif
-                                                            </select>
+                                                                name="production_product[0][use_batch_no]" readonly
+                                                                value="{{ $production->rawList[0]->batch_no ?? '' }}" />
                                                         </td>
                                                         <td>
                                                             <select
@@ -557,20 +539,11 @@
                              </td>
 
                              <td>
-                                <select class="form-control selectpicker text-center"
+                                  <input class="form-control bg-primary text-center"
                                     id="production_product_` + i + `_batch_no"
-                                    name="production_product[` + i + `][batch_no]"
-                                    data-live-search = "true">
-                                    <option value="">{{ __('Please Select') }}</option>
-                                    @if (!empty($production->rawList))
-                                        @foreach ($production->rawList as $rawList)
-                                            <option value="{{ $rawList->batch_no ?? '' }}">
-                                                {{ $rawList->batch_no ?? '' }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </td>
+                                    name="production_product[` + i + `][batch_no]" readonly
+                                    value="{{ $production->rawList[0]->batch_no ?? '' }}" />
+                             </td>
 
                              <td>
                              <select class="form-control selectpicker category text-center" id="production_product_` +
@@ -629,7 +602,7 @@
                                     class="form-control selectpicker text-center labor_warehouse_id"
                                     id="production_product_` + i + `_use_warehouse_id"
                                     name="production_product[` + i + `][use_warehouse_id]"
-                                    data-live-search = "true" index_no="` + i +`">
+                                    data-live-search = "true" index_no="` + i + `">
                                     <option value="">{{ __('Please Select') }}</option>
                                     @foreach ($warehouses as $warehouse)
                                         <option value="{{ $warehouse->id }}"
@@ -639,21 +612,12 @@
                                 </select>
                             </td>
 
-                            <td>
-                                <select class="form-control selectpicker text-center"
+                              <td>
+                                  <input class="form-control bg-primary text-center"
                                     id="production_product_` + i + `_use_batch_no"
-                                    name="production_product[` + i + `][use_batch_no]"
-                                    data-live-search = "true">
-                                    <option value="">{{ __('Please Select') }}</option>
-                                    @if (!empty($production->rawList))
-                                        @foreach ($production->rawList as $rawList)
-                                            <option value="{{ $rawList->batch_no ?? '' }}">
-                                                {{ $rawList->batch_no ?? '' }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </td>
+                                    name="production_product[` + i +`][use_batch_no]" readonly
+                                    value="{{ $production->rawList[0]->batch_no ?? '' }}" />
+                             </td>
 
                             <td>
                              <select class="form-control selectpicker useCategory text-center" id="production_product_` +
@@ -674,7 +638,8 @@
                 `][use_product_id]" data-warehouse_id="production_product_` + i +
                 `_use_warehouse_id" data-unit_show="production_product_` + i +
                 `_use_unit_show" data-unit_id="production_product_` + i +
-                `_use_unit_id" data-available_qty="production_product_` + i + `_use_available_qty" data-batch_no="production_product_` + i + `_use_batch_no" data-live-search = "true" onchange="tenantProductStock(this)">
+                `_use_unit_id" data-available_qty="production_product_` + i +
+                `_use_available_qty" data-batch_no="production_product_` + i + `_use_batch_no" data-live-search = "true" onchange="tenantProductStock(this)">
                              <option value="">{{ __('Please Select') }}</option>
                              </select>
                              </td>
@@ -783,7 +748,7 @@
         function tenantProductStock(el) {
             let warehouse_id = $('#' + $(el).data('warehouse_id') + '').find(":selected").val();
             let productId = $(el).find(":selected").val();
-            let batch_no = $('#' + $(el).data('batch_no') + '').find(":selected").val();
+            let batch_no = $('#' + $(el).data('batch_no') + '').val();
             let unitId = $(el).data('unit_id');
             let unitShow = $(el).data('unit_show');
             let availableQty = $(el).data('available_qty');

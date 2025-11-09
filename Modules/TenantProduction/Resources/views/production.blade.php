@@ -37,11 +37,11 @@
                     </div>
                     <div class="card-toolbar">
                         <div>
-                            @if (permission('tenant-production-delivery-add'))
+                            {{-- @if (permission('tenant-production-delivery-add'))
                                 <span><a href="{{ route('tenant.production.delivery.add', $production->id) }}"
                                         class="btn btn-danger btn-sm font-weight-bolder"><i
                                             class="fab fa-opencart"></i>&nbsp;{{ __('file.Delivery') }}</a></span>
-                            @endif
+                            @endif --}}
                             @if (permission('tenant-production-product-add'))
                                 <span><a href="{{ route('tenant.production.product.add', $production->id) }}"
                                         class="btn btn-info btn-sm font-weight-bolder"><i
