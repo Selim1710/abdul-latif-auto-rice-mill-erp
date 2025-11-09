@@ -37,7 +37,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3 required">
-                                    <label for="batch_no">{{ __('file.Batch No') }}</label>
+                                    <label for="production_batch_no">{{ __('file.Production Batch No') }}</label>
+                                    <input type="text" class="form-control" id="production_batch_no" name="production_batch_no"
+                                        value="{{ $production_batch_no ?? '' }}" readonly />
+                                </div>
+                                <div class="form-group col-md-3 required">
+                                    <label for="batch_no">{{ __('file.Tenant Production Batch No') }}</label>
                                     <input type="text" class="form-control" id="batch_no" name="batch_no"
                                         value="{{ $batch_no ?? '' }}" readonly />
                                 </div>

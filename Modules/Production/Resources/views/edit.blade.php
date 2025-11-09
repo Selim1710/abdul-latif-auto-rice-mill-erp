@@ -30,7 +30,7 @@
                                 <div class="form-group col-md-4 required">
                                     <label for="batch_no">{{ __('file.Batch No') }}</label>
                                     <input type="text" class="form-control" id="batch_no" name="batch_no"
-                                        value="{{ $edit->batch_no }}" />
+                                        value="{{ $edit->batch_no }}" readonly />
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="production_type">{{ __('file.Production Type') }}</label>

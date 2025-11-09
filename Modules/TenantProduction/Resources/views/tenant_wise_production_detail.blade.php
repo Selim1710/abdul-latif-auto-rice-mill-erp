@@ -52,7 +52,7 @@
                   {{-- unit --}}
                   <td>
                       <input class="form-control bg-primary text-center"
-                          value="{{ ($tenant_warehouse_product->product->unit->unit_name ?? '') }}"
+                          value="{{ ($tenant_warehouse_product->product->unit->unit_name ?? '').' ' .($tenant_warehouse_product->product->unit->unit_code ?? '') }}"
                           id="production_{{ $key }}_unit_show" readonly />
                       <input type="hidden" id="production_{{ $key }}_unit_id"
                           value="{{ $tenant_warehouse_product->product->unit->unit_name ?? '' }}" />

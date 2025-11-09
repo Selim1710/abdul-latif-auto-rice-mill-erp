@@ -11,7 +11,7 @@ use Modules\Tenant\Entities\Tenant;
 
 class TenantProduction extends BaseModel
 {
-    protected $fillable                       = ['invoice_no', 'batch_no', 'production_type', 'tenant_id', 'mill_id', 'date', 'start_date', 'end_date', 'total_raw_scale', 'total_merge_scale', 'total_use_product_qty', 'total_milling', 'total_expense', 'total_delivery_scale', 'total_stock_scale', 'production_status', 'note', 'created_by', 'modified_by'];
+    protected $fillable                       = ['invoice_no', 'batch_no', 'production_batch_no', 'production_type', 'tenant_id', 'mill_id', 'date', 'start_date', 'end_date', 'total_raw_scale', 'total_merge_scale', 'total_use_product_qty', 'total_milling', 'total_expense', 'total_delivery_scale', 'total_stock_scale', 'production_status', 'note', 'created_by', 'modified_by'];
     protected $table                          = 'tenant_productions';
     protected const ALL_TENANT_PRODUCTIONS    = '_tenant_productions';
     protected $_invoice_no;

@@ -1992,4 +1992,6 @@ return [
     'Transportation Cost'                       => 'Transportation Cost',
     'Per Scale Transportation Cost'                       => 'Per Scale Transportation Cost',
     'All Party'                       => 'All Party',
+    'Production Batch No'                       => 'Production Batch No',
+    'Tenant Production Batch No'                       => 'Tenant Production Batch No',
 ];

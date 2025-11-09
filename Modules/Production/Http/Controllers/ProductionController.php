@@ -15,6 +15,7 @@ use Modules\LaborHead\Entities\LaborHead;
 use Modules\Mill\Entities\Mill;
 use Modules\Product\Entities\Product;
 use Modules\Production\Entities\Production;
+use Modules\Production\Entities\ProductionBatch;
 use Modules\Production\Entities\ProductionRawProduct;
 use Modules\Production\Http\Requests\ProductionCompleteFormRequest;
 use Modules\Production\Http\Requests\ProductionFormRequest;
@@ -125,9 +126,9 @@ class ProductionController extends BaseController
         if (permission('production-add')) {
             $setTitle = __('file.Production');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
-            $latest_production = $this->model->orderBy('id', 'desc')->first();
 
-            $batch_no = date('Y') . '-' . (($latest_production->id ?? 0) + 1);
+            $production_batch_count = ProductionBatch::orderBy('id', 'asc')->count();
+            $batch_no = date('Y') . '-' . (($production_batch_count ?? 0) + 1);
 
             $data = [
                 'invoice_no'  => self::p . '-' . round(microtime(true) * 1000),
@@ -167,6 +168,13 @@ class ProductionController extends BaseController
                     }
                 }
                 $data = $this->model->create($collection->all());
+
+                $production_batch = ProductionBatch::create([
+                    'production_id' => $data->id,
+                    'batch_no' => $request->batch_no,
+                ]);
+
+
                 $data->productionRawProduct()->attach($production);
                 $this->model->flushCache();
                 $output = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
@@ -446,6 +454,9 @@ class ProductionController extends BaseController
             try {
                 $production = $this->model->with('productionRawProductList')->findOrFail($request->id);
                 abort_if($production->production_status == 4, 404);
+
+                $production_batch = ProductionBatch::where(['production_id' => $request->id])->delete();
+
                 $production->productionRawProductList()->delete();
                 $production->delete();
                 $this->model->flushCache();
