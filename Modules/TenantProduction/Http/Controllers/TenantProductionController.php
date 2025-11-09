@@ -211,7 +211,7 @@ class TenantProductionController extends BaseController
             $setTitle = __('file.Tenant Production Details');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $data = $this->model->with('tenant', 'mill', 'rawList', 'rawList.warehouse', 'rawList.product', 'rawList.product.unit')->findOrFail($id);
-        //    return $data ;
+            //    return $data ;
             return view('tenantproduction::details', compact('data'));
         } else {
             return $this->access_blocked();
@@ -503,6 +503,8 @@ class TenantProductionController extends BaseController
             try {
                 $production = $this->model->with('rawList')->findOrFail($request->id);
                 abort_if($production->production_status == 4, 404);
+                $production_batch = ProductionBatch::where(['tenant_production_id' => $request->id])->delete();
+
                 $production->rawList()->delete();
                 $production->delete();
                 $this->model->flushCache();
