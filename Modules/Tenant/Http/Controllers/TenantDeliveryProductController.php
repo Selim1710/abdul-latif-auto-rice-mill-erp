@@ -97,9 +97,8 @@ class TenantDeliveryProductController extends BaseController
     {
         $tenant_id = $request->tenant_id;
         if ($tenant_id) {
-            $data['tenant_warehouse_products'] =  TenantWarehouseProduct::where(['tenant_id' => $tenant_id, 'tenant_product_type' => 2])->get();
-            // return $data['tenant_warehouse_products'];
-
+            $data['tenant_warehouse_products'] =  TenantWarehouseProduct::with('warehouse', 'warehouse.labour_load_unload_head')->where(['tenant_id' => $tenant_id, 'tenant_product_type' => 2])->get();
+//            return $data;
             return view('tenant::tenantDelivery.data', $data);
         }
     }

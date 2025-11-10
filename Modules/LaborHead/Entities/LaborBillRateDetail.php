@@ -12,10 +12,15 @@ class LaborBillRateDetail extends Model
 
     protected $fillable = ['labor_bill_rate_id','labor_head_id', 'warehouse_id', 'rate'];
 
-     
+
     public function warehouse()
     {
         return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
+    }
+
+    public function laborHead()
+    {
+        return $this->hasOne(LaborHead::class, 'id', 'labor_head_id');
     }
 
 }
