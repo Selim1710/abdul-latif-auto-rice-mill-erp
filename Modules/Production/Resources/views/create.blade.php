@@ -57,25 +57,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <table class="table" id="productionTable">
-                                            <thead class="bg-primary">
-                                                <tr class="text-center">
-                                                    <th>{{ __('file.Company') }}</th>
-                                                    <th>{{ __('file.Category') }}</th>
-                                                    <th>{{ __('file.Product') }}</th>
-                                                    <th>{{ __('file.Unit') }}</th>
-                                                    <th>{{ __('file.Available Qty') }}</th>
-                                                    <th>{{ __('file.Qty') }}</th>
-                                                    <th>{{ __('file.Scale') }}</th>
-                                                    <th>{{ __('file.Pro Qty') }}</th>
-                                                    <th>{{ __('file.Load Unload Rate') }}</th>
-                                                    <th>{{ __('file.Load Unload Amount') }}</th>
-
-                                                    {{-- <th>{{ __('file.Cutting Rate') }}</th>
-                                                    <th>{{ __('file.Cutting Amount') }}</th> --}}
-                                                    <th>{{ __('file.Action') }}</th>
-                                                </tr>
-                                            </thead>
                                             <tbody>
+                                                <tr class="bg-primary text-center">
+                                                    <th>{{ __('file.Company') }}</th>
+                                                    <th>{{ __('file.Party') }}</th>
+                                                    <th>{{ __('file.Product') }}</th>
+                                                    <th colspan="3">{{ __('file.Purchase Invoice') }}</th>
+                                                    <th>{{ __('file.Unit') }}</th>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <select
@@ -93,35 +82,67 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <select class="form-control selectpicker category text-center"
-                                                            id="production_0_category_id"
+                                                        <select class="form-control selectpicker party text-center"
+                                                            id="production_0_party_id"
                                                             data-warehouse_id="production_0_warehouse_id"
                                                             data-product_id="production_0_product_id"
                                                             data-live-search = "true">
                                                             <option value="">{{ __('Please Select') }}</option>
-                                                            @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}">
-                                                                    {{ $category->category_name }}</option>
+                                                            @foreach ($parties as $party)
+                                                                <option value="{{ $party->id }}">
+                                                                    {{ $party->name }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </td>
                                                     <td>
                                                         <select class="form-control selectpicker product text-center"
                                                             id="production_0_product_id" name="production[0][product_id]"
+                                                            data-party_id="production_0_party_id"
                                                             data-warehouse_id="production_0_warehouse_id"
+                                                            data-purchase_id="production_0_purchase_id"
                                                             data-price="production_0_price"
                                                             data-unit_show="production_0_unit_show"
                                                             data-unit_id="production_0_unit_id"
                                                             data-available_qty="production_0_available_qty"
-                                                            data-live-search = "true"></select>
+                                                            data-live-search = "true">
+                                                        </select>
                                                         <input type="hidden" id = "production_0_price"
                                                             name = "production[0][price]" />
                                                     </td>
+
+                                                    {{-- purchase invoice --}}
+                                                    <td colspan="3">
+                                                        <select class="form-control selectpicker purchase_id text-center"
+                                                            onchange="purchase_warehouse_stock(this)"
+                                                            id="production_0_purchase_id"
+                                                            data-party_id="production_0_party_id"
+                                                            data-warehouse_id="production_0_warehouse_id"
+                                                            data-product_id="production_0_product_id"
+                                                            data-available_qty="production_0_available_qty"
+                                                            data-live-search = "true">
+                                                        </select>
+                                                    </td>
+
+
                                                     <td><input class="form-control bg-primary text-center"
                                                             id="production_0_unit_show" readonly /><input type="hidden"
                                                             id="production_0_unit_id" /></td>
+
+                                                </tr>
+                                                <tr class="bg-primary text-center">
+                                                    <th>{{ __('file.Available Qty') }}</th>
+                                                    <th>{{ __('file.Qty') }}</th>
+                                                    <th>{{ __('file.Scale') }}</th>
+                                                    <th>{{ __('file.Pro Qty') }}</th>
+                                                    <th>{{ __('file.Load Unload Rate') }}</th>
+                                                    <th>{{ __('file.Load Unload Amount') }}</th>
+                                                    <th>{{ __('file.Action') }}</th>
+                                                </tr>
+                                                <tr>
                                                     <td><input class="form-control bg-primary available_qty text-center"
                                                             id="production_0_available_qty" readonly /></td>
+
                                                     <td><input class="form-control qty text-center" id="production_0_qty"
                                                             name="production[0][qty]"
                                                             data-product_id="production_0_product_id"
@@ -138,7 +159,8 @@
                                                             id="production_0_pro_qty" name="production[0][pro_qty]"
                                                             data-available_qty="production_0_available_qty"
                                                             data-load_unload_rate="production_0_load_unload_rate"
-                                                            data-load_unload_amount="production_0_load_unload_amount" /> </td>
+                                                            data-load_unload_amount="production_0_load_unload_amount" />
+                                                    </td>
 
                                                     <td>
                                                         <input class="form-control bg-primary load_unload_rate text-center"
@@ -152,23 +174,13 @@
                                                             name="production[0][load_unload_amount]" readonly />
                                                     </td>
 
-                                                    {{-- <td>
-                                                        <input class="form-control bg-primary cutting_rate text-center"
-                                                            id="production_0_cutting_rate"
-                                                            name="production[0][cutting_rate]" readonly />
-                                                    </td>
-                                                    <td>
-                                                        <input class="form-control bg-primary cutting_amount text-center"
-                                                            id="production_0_cutting_amount"
-                                                            name="production[0][cutting_amount]" readonly />
-                                                    </td> --}}
-
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary btn-sm addRaw"><i
-                                                                class="fas fa-plus-circle"></i></button><br />
-                                                        <button type = "button" class = "btn btn-danger btn-sm deleteRaw"
-                                                            style="margin-top:3px"><i
-                                                                class = "fas fa-minus-circle"></i></button>
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary addRaw"><i
+                                                                    class="fas fa-plus-circle"></i></button><br />
+                                                            <button type = "button" class="btn btn-danger deleteRaw"><i
+                                                                    class = "fas fa-minus-circle"></i></button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -196,50 +208,79 @@
         function _(x) {
             return document.getElementById(x);
         }
-        $(document).on('change', '.category', function() {
+        $(document).on('change', '.party', function() {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
-            let categoryId = $(this).find(":selected").val();
+            let partyId = $(this).find(":selected").val();
             let productId = $(this).data('product_id');
             $('#' + productId + '').empty();
             $('.selectpicker').selectpicker('refresh');
-            if (warehouseId != '' && categoryId != '') {
+            if (warehouseId != '' && partyId != '') {
                 $.ajax({
-                    url: "{{ url('category-product') }}/" + categoryId,
+                    url: "{{ route('party.product') }}",
+                    data: {
+                        warehouseId: warehouseId,
+                        partyId: partyId,
+                    },
                     method: 'GET',
                     success: function(data) {
                         if (data != '') {
                             html = `<option value="">Select Please</option>`;
                             $.each(data, function(key, value) {
-                                html += '<option value="' + value.id + '">' + value
-                                    .product_name + '</option>';
+                                html += '<option value="' + value.product.id + '">' + value
+                                    .product.product_name + '</option>';
                             });
-                            $('#' + productId + '').append(html);
+                            $('#' + productId + '').html(html);
                             $('.selectpicker').selectpicker('refresh');
                         }
                     }
                 });
             } else {
-                notification('error', 'Warehouse Or Category Not Selected');
+                notification('error', 'Warehouse Or Party Not Selected');
             }
         });
+
         $(document).on('change', '.product', function() {
-            let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
-            let productId = $(this).find(":selected").val();
-            let price = $(this).data('price');
+            let party_id = $('#' + $(this).data('party_id') + '').find(":selected").val();
+            let warehouse_id = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
+            let product_id = $(this).find(":selected").val();
+            let purchase_id = $(this).data('purchase_id');
+
             let unitId = $(this).data('unit_id');
             let unitShow = $(this).data('unit_show');
-            let availableQty = $(this).data('available_qty');
-            if (productId != '') {
+
+
+            if (product_id != '') {
                 $.ajax({
-                    url: "{{ url('warehouse-product') }}/" + warehouseId + "/" + productId,
+                    url: "{{ route('party.wise.product.purchase.invoice') }}",
+                    data: {
+                        party_id: party_id,
+                        warehouse_id: warehouse_id,
+                        product_id: product_id,
+                    },
                     method: 'GET',
                     success: function(data) {
-                        if (data) {
-                            $('#' + price + '').val(data.purchasePrice);
-                            $('#' + unitId + '').val(data.unitId);
-                            $('#' + unitShow + '').val(data.unitShow);
-                            $('#' + availableQty + '').val(data.availableQty);
+                        let unit_id = 0;
+                        let unit_show = 0;
+                        if (data != '') {
+                            html = `<option value="">Select Please</option>`;
+                            $.each(data, function(key, value) {
+                                html += '<option value="' + value.purchase.id + '">' + value
+                                    .purchase.invoice_no + '</option>';
+
+                                // unit
+                                unit_id = value.product.unit.unit_name;
+                                unit_show = value.product.unit.unit_name + value.product.unit
+                                    .unit_code;
+
+                            });
+                            $('#' + purchase_id + '').html(html);
+
+                            $('#' + unitId + '').val(unit_id);
+                            $('#' + unitShow + '').val(unit_show);
+
+
+                            $('.selectpicker').selectpicker('refresh');
                         }
                     }
                 });
@@ -247,6 +288,43 @@
                 notification('error', 'Product Not Selected')
             }
         });
+
+        function purchase_warehouse_stock(el) {
+            let purchase_id = $(el).find(":selected").val();
+            let party_id = $('#' + $(el).data('party_id') + '').find(":selected").val();
+            let warehouse_id = $('#' + $(el).data('warehouse_id') + '').find(":selected").val();
+            let product_id = $('#' + $(el).data('product_id') + '').find(":selected").val();
+
+            console.log('purchase_id : ' + purchase_id);
+            console.log('party_id : ' + party_id);
+            console.log('warehouse_id : ' + warehouse_id);
+            console.log('product_id : ' + product_id);
+
+
+            let availableQty = $(el).data('available_qty');
+            if (purchase_id != '') {
+                $.ajax({
+                    url: "{{ route('available-product') }}",
+                    data: {
+                        purchase_id: purchase_id,
+                        party_id: party_id,
+                        warehouse_id: warehouse_id,
+                        product_id: product_id,
+                    },
+                    method: 'GET',
+                    success: function(data) {
+                        console.log('data : ' + data);
+                        if (data) {
+                            $('#' + availableQty + '').val(data.qty);
+                        }
+                    }
+                });
+            } else {
+                notification('error', 'Product Not Selected')
+            }
+        }
+
+
         $(document).on('input', '.qty', function() {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let availableQty = $(this).data('available_qty');
@@ -322,74 +400,144 @@
 
         $(document).on('click', '.addRaw', function() {
             let html;
-            html = `<tr>
-                       <td>
-                        <select class="form-control selectpicker text-center labor_warehouse_id" id="production_` +
-                i +
-                `_warehouse_id" name="production[` + i + `][warehouse_id]" index_no="` + i + `"  data-live-search = "true">
-                                 <option value="">{{ __('Please Select') }}</option>
-                                 @foreach ($warehouses as $warehouse)
-                                 <option value="{{ $warehouse->id }}" labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}" labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}">{{ $warehouse->name }}</option>
-                                 @endforeach
-                                 </select>
-                        </td>
-
-                        <td>
-                        <select class="form-control selectpicker category text-center" id="production_` + i +
-                `_category_id" data-warehouse_id="production_` + i + `_warehouse_id" data-product_id="production_` +
-                i + `_product_id" data-live-search = "true">
-                        <option value="">{{ __('Please Select') }}</option>
-                        @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                        @endforeach
+            html = `
+            
+            <tbody>
+                <tr><th colspan="7"><hr class="bg-danger" /></th></tr>
+                <tr class="bg-primary text-center">
+                    <th>{{ __('file.Company') }}</th>
+                    <th>{{ __('file.Party') }}</th>
+                    <th>{{ __('file.Product') }}</th>
+                    <th colspan="3">{{ __('file.Purchase Invoice') }}</th>
+                    <th>{{ __('file.Unit') }}</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select
+                            class="form-control selectpicker text-center labor_warehouse_id"
+                            id="production_` + i + `_warehouse_id"
+                            name="production[` + i + `][warehouse_id]" index_no="` + i + `"
+                            data-live-search = "true">
+                            <option value="">{{ __('Please Select') }}</option>
+                            @foreach ($warehouses as $warehouse)
+                                <option value="{{ $warehouse->id }}"
+                                    labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}"
+                                    labour_cutting_head="{{ $warehouse->labour_cutting_head->rate ?? 0 }}">
+                                    {{ $warehouse->name }}</option>
+                            @endforeach
                         </select>
-                        </td>
-                        <td>
-                        <select class="form-control selectpicker product text-center" id="production_` + i +
-                `_product_id" name="production[` + i + `][product_id]" data-warehouse_id="production_` + i +
-                `_warehouse_id" data-price="production_` + i + `_price" data-unit_show="production_` + i +
-                `_unit_show" data-unit_id="production_` + i + `_unit_id" data-available_qty="production_` + i + `_available_qty" data-live-search = "true"></select>
-                        <input type="hidden" id = "production_` + i + `_price" name = "production[` + i + `][price]" />
-                        </td>
-                        <td><input class="form-control bg-primary text-center" id="production_` + i +
-                `_unit_show" readonly/><input type="hidden" id="production_` + i + `_unit_id"/></td>
-                        <td><input class="form-control bg-primary available_qty text-center" id="production_` + i + `_available_qty" readonly/></td>
-                        <td><input class="form-control qty text-center" id="production_` + i +
-                `_qty" name="production[` + i + `][qty]" data-product_id="production_` + i +
-                `_product_id" data-unit_id="production_` + i + `_unit_id" data-available_qty="production_` + i +
-                `_available_qty" data-scale="production_` + i + `_scale"/></td>
-                        <td><input class="form-control scale text-center" id="production_` + i +
-                `_scale" name="production[` + i + `][scale]" data-product_id="production_` + i +
-                `_product_id" data-unit_id="production_` + i + `_unit_id" data-available_qty="production_` + i +
-                `_available_qty" data-qty="production_` + i + `_qty"/> </td>
-                        <td><input class="form-control proQty text-center" id="production_` + i +
-                `_pro_qty" name="production[` + i + `][pro_qty]" data-available_qty="production_` + i + `_available_qty" 
-                                                            data-load_unload_rate="production_` + i + `_load_unload_rate"
-                                                            data-load_unload_amount="production_` + i + `_load_unload_amount"
-                                                            /> </td>
-                <td>
-                <input class="form-control bg-primary load_unload_rate text-center"
-                                                            id="production_` + i + `_load_unload_rate"
-                                                            name="production[` + i + `][load_unload_rate]" readonly />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            class="form-control bg-primary load_unload_amount text-center"
-                                                            id="production_` + i + `_load_unload_amount"
-                                                            name="production[` + i + `][load_unload_amount]" readonly />
-                                                    </td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
-                            <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
-                        </td>
-                    </tr>`;
-            $('#productionTable tbody').append(html);
+                    </td>
+                    <td>
+                        <select class="form-control selectpicker party text-center"
+                            id="production_` + i + `_party_id"
+                            data-warehouse_id="production_` + i + `_warehouse_id"
+                            data-product_id="production_` + i + `_product_id"
+                            data-live-search = "true">
+                            <option value="">{{ __('Please Select') }}</option>
+                            @foreach ($parties as $party)
+                                <option value="{{ $party->id }}">
+                                    {{ $party->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control selectpicker product text-center"
+                            id="production_` + i + `_product_id" name="production[` + i + `][product_id]"
+                            data-party_id="production_` + i + `_party_id"
+                            data-warehouse_id="production_` + i + `_warehouse_id"
+                            data-purchase_id="production_` + i + `_purchase_id"
+                            data-price="production_` + i + `_price"
+                            data-unit_show="production_` + i + `_unit_show"
+                            data-unit_id="production_` + i + `_unit_id"
+                            data-available_qty="production_` + i + `_available_qty"
+                            data-live-search = "true">
+                        </select>
+                        <input type="hidden" id = "production_` + i + `_price"
+                            name = "production[` + i + `][price]" />
+                    </td>
+
+                    {{-- purchase invoice --}}
+                    <td colspan="3">
+                        <select class="form-control selectpicker purchase_id text-center"
+                            onchange="purchase_warehouse_stock(this)"
+                            id="production_` + i + `_purchase_id"
+                            data-party_id="production_` + i + `_party_id"
+                            data-warehouse_id="production_` + i + `_warehouse_id"
+                            data-product_id="production_` + i + `_product_id"
+                            data-available_qty="production_` + i + `_available_qty"
+                            data-live-search = "true">
+                        </select>
+                    </td>
+
+
+                    <td><input class="form-control bg-primary text-center"
+                            id="production_` + i + `_unit_show" readonly /><input type="hidden"
+                            id="production_` + i + `_unit_id" /></td>
+
+                </tr>
+                <tr class="bg-primary text-center">
+                    <th>{{ __('file.Available Qty') }}</th>
+                    <th>{{ __('file.Qty') }}</th>
+                    <th>{{ __('file.Scale') }}</th>
+                    <th>{{ __('file.Pro Qty') }}</th>
+                    <th>{{ __('file.Load Unload Rate') }}</th>
+                    <th>{{ __('file.Load Unload Amount') }}</th>
+                    <th>{{ __('file.Action') }}</th>
+                </tr>
+                <tr>
+                    <td><input class="form-control bg-primary available_qty text-center"
+                            id="production_` + i + `_available_qty" readonly /></td>
+
+                    <td><input class="form-control qty text-center" id="production_` + i + `_qty"
+                            name="production[` + i + `][qty]"
+                            data-product_id="production_` + i + `_product_id"
+                            data-unit_id="production_` + i + `_unit_id"
+                            data-available_qty="production_` + i + `_available_qty"
+                            data-scale="production_` + i + `_scale" /></td>
+                    <td><input class="form-control scale text-center"
+                            id="production_` + i + `_scale" name="production[` + i + `][scale]"
+                            data-product_id="production_` + i + `_product_id"
+                            data-unit_id="production_` + i + `_unit_id"
+                            data-available_qty="production_` + i + `_available_qty"
+                            data-qty="production_` + i + `_qty" /> </td>
+                    <td><input class="form-control proQty text-center"
+                            id="production_` + i + `_pro_qty" name="production[` + i + `][pro_qty]"
+                            data-available_qty="production_` + i + `_available_qty"
+                            data-load_unload_rate="production_` + i + `_load_unload_rate"
+                            data-load_unload_amount="production_` + i + `_load_unload_amount" />
+                    </td>
+
+                    <td>
+                        <input class="form-control bg-primary load_unload_rate text-center"
+                            id="production_` + i + `_load_unload_rate"
+                            name="production[` + i + `][load_unload_rate]" readonly />
+                    </td>
+                    <td>
+                        <input
+                            class="form-control bg-primary load_unload_amount text-center"
+                            id="production_` + i + `_load_unload_amount"
+                            name="production[` + i + `][load_unload_amount]" readonly />
+                    </td>
+
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary addRaw"><i
+                                    class="fas fa-plus-circle"></i></button><br />
+                            <button type = "button" class="btn btn-danger deleteRaw"><i
+                                    class = "fas fa-minus-circle"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            `;
+            $('#productionTable').append(html);
             $('.selectpicker').selectpicker('refresh');
             i++;
         });
 
         $(document).on('click', '.deleteRaw', function() {
-            $(this).parent().parent().remove();
+            $(this).parent().parent().parent().parent().remove();
         });
 
         function storeData() {

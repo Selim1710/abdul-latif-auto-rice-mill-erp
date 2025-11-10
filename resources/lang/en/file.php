@@ -1994,4 +1994,5 @@ return [
     'All Party'                       => 'All Party',
     'Production Batch No'                       => 'Production Batch No',
     'Tenant Production Batch No'                       => 'Tenant Production Batch No',
+    'Product || Purchase Invoice'                       => 'Product || Purchase Invoice',
 ];

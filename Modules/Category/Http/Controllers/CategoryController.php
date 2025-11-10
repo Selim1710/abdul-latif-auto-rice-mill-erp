@@ -35,12 +35,12 @@ class CategoryController extends BaseController {
             foreach ($list as $value) {
                 $no++;
                 $action = '';
-                if(permission('category-edit')){
-                    $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '" data-category_name="' . $value->category_name . '">'.$this->actionButton('Edit').'</a>';
-                }
-                if(permission('category-delete')){
-                   $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->category_name . '">'.$this->actionButton('Delete').'</a>';
-                }
+                // if(permission('category-edit')){
+                //     $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '" data-category_name="' . $value->category_name . '">'.$this->actionButton('Edit').'</a>';
+                // }
+                // if(permission('category-delete')){
+                //    $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->category_name . '">'.$this->actionButton('Delete').'</a>';
+                // }
                 $row    = [];
                 $row[]  = $no;
                 $row[]  = $value->category_name;

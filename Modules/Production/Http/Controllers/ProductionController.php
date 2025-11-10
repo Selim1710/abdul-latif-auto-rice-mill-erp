@@ -13,6 +13,7 @@ use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\Expense\Entities\ExpenseItem;
 use Modules\LaborHead\Entities\LaborHead;
 use Modules\Mill\Entities\Mill;
+use Modules\Party\Entities\Party;
 use Modules\Product\Entities\Product;
 use Modules\Production\Entities\Production;
 use Modules\Production\Entities\ProductionBatch;
@@ -134,6 +135,8 @@ class ProductionController extends BaseController
                 'invoice_no'  => self::p . '-' . round(microtime(true) * 1000),
                 'mills'       => Mill::all(),
                 'warehouses'  => Warehouse::all(),
+                'parties'  => Party::where('status', 1)->get(),
+                'products'  => Product::where('status', 1)->get(),
                 'categories'  => Category::all(),
                 'batch_no'  => $batch_no
             ];
@@ -471,10 +474,31 @@ class ProductionController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
-    public function categoryProduct($categoryId)
+
+    public function partyProduct(Request $request)
     {
-        return Product::where(['category_id' => $categoryId])->get();
+        $warehouseId = $request->warehouseId;
+        $partyId = $request->partyId;
+        return WarehouseProduct::with('product')->where(['warehouse_id' => $warehouseId, 'party_id' => $partyId,])->groupBy('product_id')->get();
     }
+
+    public function party_wise_purchase_invoice(Request $request)
+    {
+        $party_id = $request->party_id;
+        $warehouse_id = $request->warehouse_id;
+        $product_id = $request->product_id;
+        return WarehouseProduct::with('purchase','product.unit')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->get();
+    }
+
+    public function availableProduct(Request $request)
+    {
+        $purchase_id = $request->purchase_id;
+        $party_id = $request->party_id;
+        $warehouse_id = $request->warehouse_id;
+        $product_id = $request->product_id;
+        return WarehouseProduct::where(['purchase_id' => $purchase_id, 'party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->first();
+    }
+
     public function productDetails($productId)
     {
         $product          = Product::with('unit')->findOrFail($productId);

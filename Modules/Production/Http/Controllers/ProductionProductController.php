@@ -10,6 +10,7 @@ use Modules\Account\Entities\Transaction;
 use Modules\Category\Entities\Category;
 use Modules\ChartOfHead\Entities\ChartOfHead;
 use Modules\LaborHead\Entities\LaborHead;
+use Modules\Product\Entities\Product;
 use Modules\Production\Entities\Production;
 use Modules\Production\Entities\ProductionProduct;
 use Modules\Production\Http\Requests\ProductionProductFormRequest;
@@ -41,6 +42,7 @@ class ProductionProductController extends BaseController
     }
     public function store(ProductionProductFormRequest $request)
     {
+        // return $request;
         if ($request->ajax() && permission('production-product-add')) {
             DB::beginTransaction();
             try {
@@ -63,6 +65,15 @@ class ProductionProductController extends BaseController
                 if ($request->has('production_product')) {
                     foreach ($request->production_product as $value) {
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['production_qty'])) {
+
+                            // update sale price
+                            if (!empty($value['category_id']) && $value['category_id'] != 3) {
+                                // category_id = 3; bag
+                                $product = Product::find($value['product_id'])->update(['sale_price' => ($value['price'] ?? '')]);
+                            }
+
+
+                            // add product
                             $productionProduct[] = [
                                 'invoice_no'       => $request->invoice_no,
                                 'warehouse_id'     => $value['warehouse_id'],
@@ -122,7 +133,7 @@ class ProductionProductController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
-    
+
     public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
     {
         Transaction::create([
