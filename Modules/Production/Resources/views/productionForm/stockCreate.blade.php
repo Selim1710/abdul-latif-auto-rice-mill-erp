@@ -108,6 +108,7 @@
                                                         </td>
                                                         <td>
                                                             <select class="form-control selectpicker category text-center"
+                                                                name="production_product[0][category_id]"
                                                                 id="production_product_0_category_id"
                                                                 data-warehouse_id="production_product_0_warehouse_id"
                                                                 data-product_id="production_product_0_product_id"
@@ -563,7 +564,7 @@
                               </select>
                               </td>
                               <td>
-                              <select class="form-control selectpicker category text-center" id="production_product_` +
+                              <select class="form-control selectpicker category text-center" name="production_product[` + i + `][category_id]" id="production_product_` +
                 i + `_category_id" data-warehouse_id="production_product_` + i +
                 `_warehouse_id" data-product_id="production_product_` + i + `_product_id" data-live-search = "true">
                               <option value="">{{ __('Please Select') }}</option>
@@ -599,7 +600,8 @@
                 `_product_id" data-qty="production_product_` + i + `_qty" data-sub_total="production_product_` + i +
                 `_sub_total"/> </td>
                               <td><input class="form-control bg-primary sub_total text-center" id="production_product_` +
-                i + `_sub_total" name="production_product[` + i + `][sub_total]" readonly/> </td>
+                i + `_sub_total" name="production_product[` + i +
+                `][sub_total]" readonly/> </td>
                               <th rowspan="4">
                                 <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                                 <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -624,7 +626,8 @@
                               <td>
                               <select class="form-control selectpicker text-center labor_warehouse_id" id="production_product_` + i +
                 `_use_warehouse_id" name="production_product[` + i +
-                `][use_warehouse_id]" data-live-search = "true" index_no="` + i + `">
+                `][use_warehouse_id]" data-live-search = "true" index_no="` + i +
+                `">
                               <option value="">{{ __('Please Select') }}</option>
                               @foreach ($warehouses as $warehouse)
                               <option value="{{ $warehouse->id }}" labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">{{ $warehouse->name }}</option>
