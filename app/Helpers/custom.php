@@ -286,10 +286,12 @@ define('FLAG',[
 define('EXPENSE_TYPE_VALUE',[
    '1'      => 'Production Expense',
    '2'      => 'Other Expense',
+   '3'      => 'Transport Expense'
 ]);
 define('EXPENSE_TYPE_LABEL',[
     '1'=>'<span class="label label-success label-pill label-inline" style="min-width:70px !important;">Production Expense</span>',
     '2'=>'<span class="label label-info label-pill label-inline" style="min-width:70px !important;">Other Expense</span>',
+    '3'=>'<span class="label label-danger label-pill label-inline" style="min-width:70px !important;">Transport Expense</span>',
 ]);
 //Employee Form Constant
 define('JOB_STATUS',['1'=>'Permanent','2'=>'Probation','3'=>'Resigned','4'=>'Suspended']);
