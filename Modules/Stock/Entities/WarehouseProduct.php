@@ -59,12 +59,12 @@ class WarehouseProduct extends BaseModel
     {
         $this->column_order = ['wp.id', 'w.name', 'p.product_name', 'p.product_code', 'c.category_name', 'u.unit_code', 'u.unit_name', 'wp.scale as scale', 'wp.qty', null];
         $query  =  DB::table('warehouse_product as wp')
-            ->join('warehouses as w', 'wp.warehouse_id', '=', 'w.id')
-            ->join('products as p', 'wp.product_id', '=', 'p.id')
-            ->join('categories as c', 'p.category_id', '=', 'c.id')
-            ->join('units as u', 'p.unit_id', '=', 'u.id')
-            ->join('purchases as pur', 'wp.purchase_id', '=', 'pur.id')
-            ->join('parties as par', 'wp.party_id', '=', 'par.id')
+            ->leftJoin('warehouses as w', 'wp.warehouse_id', '=', 'w.id')
+            ->leftJoin('products as p', 'wp.product_id', '=', 'p.id')
+            ->leftJoin('categories as c', 'p.category_id', '=', 'c.id')
+            ->leftJoin('units as u', 'p.unit_id', '=', 'u.id')
+            ->leftJoin('purchases as pur', 'wp.purchase_id', '=', 'pur.id')
+            ->leftJoin('parties as par', 'wp.party_id', '=', 'par.id')
             ->where([['wp.qty', '!=', 0]])
             ->select('w.name as warehouseName','wp.purchase_price as purchase_price', 'p.product_name as productName', 'p.product_code as productCode', 'c.category_name as categoryName', 'u.unit_code as unitCode', 'u.unit_name as unitName', 'p.sale_price as productPrice', 'wp.scale as scale', 'wp.qty as qty', 'wp.scale as scale', 'pur.invoice_no as invoice_no', 'par.name as party_name');
         if ($this->_category_id != 0) {
