@@ -60,7 +60,7 @@
                                             <thead class="bg-primary">
                                                 <tr class="text-center">
                                                     <th>{{ __('file.Company') }}</th>
-                                                    <th>{{ __('file.Category') }}</th>
+                                                    <th>{{ __('file.Party') }}</th>
                                                     <th>{{ __('file.Product') }}</th>
                                                     <th>{{ __('file.Unit') }}</th>
                                                     <th>{{ __('file.Available Qty') }}</th>
@@ -93,15 +93,16 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <select class="form-control selectpicker category text-center"
-                                                            id="production_0_category_id"
+                                                        <select class="form-control selectpicker party text-center"
+                                                            id="production_0_party_id"
                                                             data-warehouse_id="production_0_warehouse_id"
                                                             data-product_id="production_0_product_id"
                                                             data-live-search = "true">
                                                             <option value="">{{ __('Please Select') }}</option>
-                                                            @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}">
-                                                                    {{ $category->category_name }}</option>
+                                                            @foreach ($parties as $party)
+                                                                <option value="{{ $party->id }}">
+                                                                    {{ $party->name }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </td>
@@ -113,7 +114,8 @@
                                                             data-unit_show="production_0_unit_show"
                                                             data-unit_id="production_0_unit_id"
                                                             data-available_qty="production_0_available_qty"
-                                                            data-live-search = "true"></select>
+                                                            data-live-search = "true">
+                                                        </select>
                                                         <input type="hidden" id = "production_0_price"
                                                             name = "production[0][price]" />
                                                     </td>
@@ -138,7 +140,8 @@
                                                             id="production_0_pro_qty" name="production[0][pro_qty]"
                                                             data-available_qty="production_0_available_qty"
                                                             data-load_unload_rate="production_0_load_unload_rate"
-                                                            data-load_unload_amount="production_0_load_unload_amount" /> </td>
+                                                            data-load_unload_amount="production_0_load_unload_amount" />
+                                                    </td>
 
                                                     <td>
                                                         <input class="form-control bg-primary load_unload_rate text-center"
@@ -196,23 +199,27 @@
         function _(x) {
             return document.getElementById(x);
         }
-        $(document).on('change', '.category', function() {
+        $(document).on('change', '.party', function() {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
-            let categoryId = $(this).find(":selected").val();
+            let partyId = $(this).find(":selected").val();
             let productId = $(this).data('product_id');
             $('#' + productId + '').empty();
             $('.selectpicker').selectpicker('refresh');
-            if (warehouseId != '' && categoryId != '') {
+            if (warehouseId != '' && partyId != '') {
                 $.ajax({
-                    url: "{{ url('category-product') }}/" + categoryId,
+                    url: "{{ route('party.product') }}",
+                    data: {
+                        warehouseId: warehouseId,
+                        partyId: partyId,
+                    },
                     method: 'GET',
                     success: function(data) {
                         if (data != '') {
                             html = `<option value="">Select Please</option>`;
                             $.each(data, function(key, value) {
-                                html += '<option value="' + value.id + '">' + value
-                                    .product_name + '</option>';
+                                html += '<option value="' + value.product.id + '">' + value
+                                    .product.product_name + '</option>';
                             });
                             $('#' + productId + '').append(html);
                             $('.selectpicker').selectpicker('refresh');
@@ -220,7 +227,7 @@
                     }
                 });
             } else {
-                notification('error', 'Warehouse Or Category Not Selected');
+                notification('error', 'Warehouse Or Party Not Selected');
             }
         });
         $(document).on('change', '.product', function() {

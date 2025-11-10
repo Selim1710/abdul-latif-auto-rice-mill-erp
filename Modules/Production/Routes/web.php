@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::get('gate-pass/{invoice_no}', [ProductionProductController::class, 'gatePass'])->name('gate.pass');
         Route::get('packing/{invoice_no}', [ProductionProductController::class, 'packing'])->name('packing');
     });
-    Route::get('category-product/{categoryId}',  [ProductionController::class, 'categoryProduct'])->name('category.product');
+    Route::get('party-product',  [ProductionController::class, 'partyProduct'])->name('party.product');
     Route::get('product-details/{productId}',  [ProductionController::class, 'productDetails'])->name('product.details');
     Route::get('warehouse-product/{warehouseId}/{productId}',  [ProductionController::class, 'warehouseProduct'])->name('warehouse.product');
 });
