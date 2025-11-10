@@ -14,7 +14,7 @@ class AddColumnExpenseItemColumn extends Migration
     public function up()
     {
         Schema::table('expense_items', function (Blueprint $table) {
-            $table->enum('expense_type',['1','2'])->after('status')->default('1')->comment = "1=Production Expense, 2=Other Expense";
+            $table->enum('expense_type',['1','2','3'])->after('status')->default('1')->comment = "1=Production Expense, 2=Other Expense,3 = Transport Expense";
         });
     }
 
