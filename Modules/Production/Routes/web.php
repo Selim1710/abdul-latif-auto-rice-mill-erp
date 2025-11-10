@@ -39,4 +39,5 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::get('party/wise/product/purchase/invoice',  [ProductionController::class, 'party_wise_purchase_invoice'])->name('party.wise.product.purchase.invoice');
     Route::get('product-details/{productId}',  [ProductionController::class, 'productDetails'])->name('product.details');
     Route::get('warehouse-product',  [ProductionController::class, 'warehouseProduct'])->name('warehouse.product');
+    Route::get('available-product',  [ProductionController::class, 'availableProduct'])->name('available-product');
 });

@@ -487,8 +487,18 @@ class ProductionController extends BaseController
         $party_id = $request->party_id;
         $warehouse_id = $request->warehouse_id;
         $product_id = $request->product_id;
-        return WarehouseProduct::with('purchase')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->get();
+        return WarehouseProduct::with('purchase','product.unit')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->get();
     }
+
+    public function availableProduct(Request $request)
+    {
+        $purchase_id = $request->purchase_id;
+        $party_id = $request->party_id;
+        $warehouse_id = $request->warehouse_id;
+        $product_id = $request->product_id;
+        return WarehouseProduct::where(['purchase_id' => $purchase_id, 'party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->first();
+    }
+
     public function productDetails($productId)
     {
         $product          = Product::with('unit')->findOrFail($productId);
