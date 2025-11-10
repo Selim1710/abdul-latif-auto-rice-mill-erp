@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
 
     Route::get('tenant-delivery-product-data', 'TenantDeliveryProductController@deliveryData')->name('tenant.delivery.product.data');
 
-    Route::group(['prefix' => 'tenant.delivery.product', 'as' => 'tenant.delivery.product.'], function () {
+    Route::group(['prefix' => 'tenant-delivery-product', 'as' => 'tenant.delivery.product.'], function () {
         Route::get('add', 'TenantDeliveryProductController@create')->name('add');
         Route::post('datatable-data', 'TenantDeliveryProductController@getDataTableData')->name('datatable.data');
         Route::post('store', 'TenantDeliveryProductController@store')->name('store');
