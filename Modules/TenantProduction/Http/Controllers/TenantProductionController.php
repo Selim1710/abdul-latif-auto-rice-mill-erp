@@ -14,6 +14,7 @@ use Modules\Expense\Entities\ExpenseItem;
 use Modules\LaborHead\Entities\LaborHead;
 use Modules\Mill\Entities\Mill;
 use Modules\Product\Entities\Product;
+use Modules\Production\Entities\ProductionBatch;
 use Modules\Setting\Entities\Warehouse;
 use Modules\Stock\Entities\WarehouseProduct;
 use Modules\Tenant\Entities\Tenant;
@@ -123,8 +124,15 @@ class TenantProductionController extends BaseController
         if (permission('tenant-production-add')) {
             $setTitle = __('file.Tenant Production');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
-            $latest_production = TenantProduction::orderBy('id', 'desc')->first();
-            $batch_no = date('Y') . '-' . (($latest_production->id ?? 0) + 1);
+
+
+            $production_batch_count = ProductionBatch::orderBy('id', 'asc')->count();
+            $production_batch_no = date('Y') . '-' . (($production_batch_count ?? 0) + 1);
+
+
+            $tenant_production_count = ProductionBatch::orderBy('id', 'desc')->whereNotNull('tenant_production_id')->count();
+            $batch_no = date('Y') . '-' . (($tenant_production_count) + 1);
+
             $data = [
                 'invoice_no'  => self::tp . '-' . round(microtime(true) * 1000),
                 'tenants'     => Tenant::all(),
@@ -132,6 +140,7 @@ class TenantProductionController extends BaseController
                 'warehouses'  => Warehouse::all(),
                 'categories'  => Category::all(),
                 'batch_no'  => $batch_no,
+                'production_batch_no'   => $production_batch_no,
             ];
             return view('tenantproduction::create', $data);
         } else {
@@ -176,6 +185,13 @@ class TenantProductionController extends BaseController
                     }
                 }
                 $data = $this->model->create($collection->all());
+
+                $production_batch = ProductionBatch::create([
+                    'tenant_production_id' => $data->id,
+                    'batch_no' => $request->batch_no,
+                ]);
+
+
                 $data->raw()->attach($production);
                 $this->model->flushCache();
                 $output = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
@@ -195,6 +211,7 @@ class TenantProductionController extends BaseController
             $setTitle = __('file.Tenant Production Details');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $data = $this->model->with('tenant', 'mill', 'rawList', 'rawList.warehouse', 'rawList.product', 'rawList.product.unit')->findOrFail($id);
+            //    return $data ;
             return view('tenantproduction::details', compact('data'));
         } else {
             return $this->access_blocked();
@@ -305,7 +322,7 @@ class TenantProductionController extends BaseController
         }
     }
 
-     public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
@@ -486,6 +503,8 @@ class TenantProductionController extends BaseController
             try {
                 $production = $this->model->with('rawList')->findOrFail($request->id);
                 abort_if($production->production_status == 4, 404);
+                $production_batch = ProductionBatch::where(['tenant_production_id' => $request->id])->delete();
+
                 $production->rawList()->delete();
                 $production->delete();
                 $this->model->flushCache();
@@ -513,10 +532,12 @@ class TenantProductionController extends BaseController
             'salePrice'   => $product->sale_price,
         ];
     }
-    public function warehouseProduct($tenantId, $warehouseId, $productId)
+    public function warehouseProduct($tenantId, $warehouseId, $productId, $batch_no)
     {
+        // return [$tenantId, $warehouseId, $productId, $batch_no];
         $product          = Product::with('unit')->findOrFail($productId);
-        $warehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'warehouse_id' => $warehouseId, 'product_id' => $productId]);
+        $warehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantId, 'warehouse_id' => $warehouseId, 'product_id' => $productId, 'batch_no' => $batch_no]);
+
         return [
             'unitId'        => $product->unit->unit_name,
             'unitShow'      => $product->unit->unit_name . '(' . $product->unit->unit_code . ')',

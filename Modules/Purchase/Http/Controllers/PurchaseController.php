@@ -394,6 +394,8 @@ class PurchaseController extends BaseController
     }
     public function receiveStore(Request $request)
     {
+        // return $request->receive;
+
         if ($request->ajax() && permission('purchase-receive')) {
             DB::beginTransaction();
             try {
@@ -422,6 +424,11 @@ class PurchaseController extends BaseController
                                 'receive_qty'    => $purchaseProduct->receive_qty + $value['receive_qty']
                             ]);
                             $warehouseProduct = WarehouseProduct::firstOrNew([
+                                'purchase_id'   => $purchase->id ?? '',
+                                'party_id'   =>  $purchase->party_id ?? '',
+                                'per_scale_transportation_cost'   =>  $purchase->per_scale_transportation_cost ?? '',
+                                'purchase_price'   => $value['price'] ?? '',
+
                                 'warehouse_id'   => $value['warehouse_id'],
                                 'product_id'     => $value['product_id']
                             ], [
@@ -530,7 +537,12 @@ class PurchaseController extends BaseController
                                 'qty'            =>  $value['return_qty'],
                                 'date'           =>  $request->return_date
                             ];
-                            $warehouseProduct = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
+                            $warehouseProduct = WarehouseProduct::firstWhere([
+                                'warehouse_id' => $value['warehouse_id'],
+                                'product_id' => $value['product_id'],
+                                'purchase_id'   => $purchase->id ?? '',
+                                'party_id'   =>  $purchase->party_id ?? '',
+                            ]);
                             $purchaseProduct  = PurchaseProduct::findOrFail($value['id']);
                             if (($purchaseProduct->return_qty + $value['return_qty'] > $purchaseProduct->receive_qty) || ($purchaseProduct->return_scale + $scale > $purchaseProduct->receive_scale)) {
                                 return response()->json(['status' => 'error', 'message' => 'Return Quantity Not Be Greater Then Receive Quantity']);

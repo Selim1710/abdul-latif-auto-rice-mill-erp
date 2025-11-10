@@ -52,7 +52,7 @@
                   {{-- unit --}}
                   <td>
                       <input class="form-control bg-primary text-center"
-                          value="{{ ($tenant_warehouse_product->product->unit->unit_name ?? '') }}"
+                          value="{{ ($tenant_warehouse_product->product->unit->unit_name ?? '').' ' .($tenant_warehouse_product->product->unit->unit_code ?? '') }}"
                           id="production_{{ $key }}_unit_show" readonly />
                       <input type="hidden" id="production_{{ $key }}_unit_id"
                           value="{{ $tenant_warehouse_product->product->unit->unit_name ?? '' }}" />
@@ -114,7 +114,11 @@
       @endforeach
 
       <tr>
-          <td colspan="7" class="text-right"> <b>Total : </b></td>
+          <td colspan="6" class="text-right"> <b>Total : </b></td>
+
+          <td> <input type="number" class="form-control text-center" name="total_scale" id="total_scale"
+                  readonly></td>
+
           <td> <input type="number" name="total_product_qty" class="form-control text-center" id="total_product_qty"
                   readonly></td>
           {{-- <td></td>

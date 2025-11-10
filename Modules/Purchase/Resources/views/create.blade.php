@@ -127,6 +127,11 @@
                                     <input type="text" class="form-control" name="transport_name"
                                         id="transport_name">
                                 </div>
+                                <div class="form-group col-md-3">
+                                    <label for="transportation_cost">{{ __('file.Transportation Cost') }}</label>
+                                    <input type="text" class="form-control" name="transportation_cost"
+                                        id="transportation_cost">
+                                </div>
                                 <div class="col-md-12">
                                     <hr style="border-top: 5px dotted cadetblue;" />
                                 </div>
@@ -270,7 +275,7 @@
                                                                 id="purchase_0_load_unload_amount"
                                                                 name="purchase[0][load_unload_amount]" readonly />
                                                         </td>
-                                                        
+
                                                         <td colspan="3"><input class="form-control text-center"
                                                                 id="purchase_0_note" name="purchase[0][note]" /> </td>
                                                     </tr>
@@ -288,6 +293,14 @@
                                             </td>
                                             <td><input type="text" class="form-control bg-primary text-center"
                                                     id="total_load_unload" name="total_load_unload" readonly /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><button type="button"
+                                                    class="btn btn-primary btn-block">{{ __('file.Per Scale Transportation Cost') }}</button>
+                                            </td>
+                                            <td><input type="text" class="form-control bg-primary text-center"
+                                                    id="per_scale_transportation_cost"
+                                                    name="per_scale_transportation_cost" readonly /></td>
                                         </tr>
                                         <tr>
                                             <td><button type="button"
@@ -410,6 +423,7 @@
                 notification('error', '{{ __('file.Please Select Product') }}');
             }
             calculation();
+            transport_cost_calculation();
         });
 
         $(document).on('input', '.scale', function() {
@@ -428,6 +442,7 @@
                 notification('error', '{{ __('file.Please Select Product') }}');
             }
             calculation();
+            transport_cost_calculation();
         });
 
         $(document).on('input', '.price', function() {
@@ -662,7 +677,7 @@
                     qty += +$(this).val();
                 }
             });
-            
+
             // load unload
             let total_load_unload = 0;
             $('.load_unload_amount').each(function() {
@@ -736,6 +751,27 @@
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
+        }
+
+        $(document).on('input', '#transportation_cost', function() {
+            transport_cost_calculation();
+        });
+
+        function transport_cost_calculation() {
+            let transportation_cost = $('#transportation_cost').val();
+
+            // load unload
+            let total_scale = 0;
+            $('.scale').each(function() {
+                if ($(this).val() == '') {
+                    total_scale += +0;
+                } else {
+                    total_scale += +$(this).val();
+                }
+            });
+            _('per_scale_transportation_cost').value = transportation_cost / total_scale;
+
+
         }
     </script>
 @endpush

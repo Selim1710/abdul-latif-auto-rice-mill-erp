@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Category\Entities\Category;
 use Modules\Product\Entities\Product;
+use Modules\Production\Entities\ProductionBatch;
 use Modules\Setting\Entities\Warehouse;
 use Modules\Tenant\Entities\Tenant;
 use Modules\Tenant\Entities\TenantReceiveProduct;
@@ -82,11 +83,12 @@ class TenantReceiveProductController extends BaseController
         if (permission('tenant-receive-add')) {
             $setTitle = __('file.Tenant Receive');
             $this->setPageData($setTitle, $setTitle, 'fas fa-user-check', [['name' => $setTitle]]);
+
             $data = [
                 'invoice_no'   => self::trp . '-' . round(microtime(true) * 1000),
                 'tenants'      => Tenant::all(),
                 'warehouses'   => Warehouse::all(),
-                'categories'   => Category::all()
+                'categories'   => Category::all(),
             ];
             return view('tenant::tenantReceive.create', $data);
         } else {

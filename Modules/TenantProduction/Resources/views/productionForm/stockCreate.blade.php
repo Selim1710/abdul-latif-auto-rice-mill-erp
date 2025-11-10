@@ -57,10 +57,13 @@
                                                         <th><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Company') }}</button>
                                                         </th>
+                                                        <td><button type = "button"
+                                                                class="btn btn-primary btn-block">{{ __('file.Batch') }}</button>
+                                                        </td>
                                                         <th><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Category') }}</button>
                                                         </th>
-                                                        <th colspan="4"><button type = "button"
+                                                        <th colspan="3"><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Product') }}</button>
                                                         </th>
                                                         <th><button type = "button"
@@ -81,16 +84,24 @@
                                                     </tr>
                                                     <tr class="text-center">
                                                         <td>
-                                                            <select class="form-control selectpicker text-center"
+                                                            <select
+                                                                class="form-control selectpicker text-center labor_warehouse_id"
                                                                 id="production_product_0_warehouse_id"
                                                                 name="production_product[0][warehouse_id]"
-                                                                data-live-search = "true">
+                                                                data-live-search = "true" index_no="0">
                                                                 <option value="">{{ __('Please Select') }}</option>
                                                                 @foreach ($warehouses as $warehouse)
-                                                                    <option value="{{ $warehouse->id }}">
+                                                                    <option value="{{ $warehouse->id }}"
+                                                                        labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">
                                                                         {{ $warehouse->name }}</option>
                                                                 @endforeach
                                                             </select>
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control bg-primary text-center"
+                                                                id="production_product_0_batch_no"
+                                                                name="production_product[0][batch_no]" readonly
+                                                                value="{{ $production->rawList[0]->batch_no ?? '' }}" />
                                                         </td>
                                                         <td>
                                                             <select class="form-control selectpicker category text-center"
@@ -105,7 +116,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </td>
-                                                        <td colspan="4">
+                                                        <td colspan="3">
                                                             <select class="form-control selectpicker product text-center"
                                                                 id="production_product_0_product_id"
                                                                 name="production_product[0][product_id]"
@@ -129,6 +140,7 @@
                                                                 data-product_id="production_product_0_product_id"
                                                                 data-unit_id="production_product_0_unit_id"
                                                                 data-qty="production_product_0_qty" /> </td>
+                                                        {{-- pro qty --}}
                                                         <td><input class="form-control proQty text-center"
                                                                 id="production_product_0_production_qty"
                                                                 name="production_product[0][production_qty]" /> </td>
@@ -149,8 +161,11 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><button type = "button"
+                                                        {{-- <td><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Company') }}</button>
+                                                        </td> --}}
+                                                        <td><button type = "button"
+                                                                class="btn btn-primary btn-block">{{ __('file.Batch') }}</button>
                                                         </td>
                                                         <td><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Category') }}</button>
@@ -175,19 +190,24 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
+                                                        {{-- <td>
                                                             <select
                                                                 class="form-control selectpicker text-center labor_warehouse_id"
                                                                 id="production_product_0_use_warehouse_id"
                                                                 name="production_product[0][use_warehouse_id]"
-                                                                data-live-search = "true" index_no="0">
+                                                                data-live-search = "true">
                                                                 <option value="">{{ __('Please Select') }}</option>
                                                                 @foreach ($warehouses as $warehouse)
-                                                                    <option value="{{ $warehouse->id }}"
-                                                                        labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">
+                                                                    <option value="{{ $warehouse->id }}">
                                                                         {{ $warehouse->name }}</option>
                                                                 @endforeach
                                                             </select>
+                                                        </td> --}}
+                                                        <td>
+                                                            <input class="form-control bg-primary text-center"
+                                                                id="production_product_0_use_batch_no"
+                                                                name="production_product[0][use_batch_no]" readonly
+                                                                value="{{ $production->rawList[0]->batch_no ?? '' }}" />
                                                         </td>
                                                         <td>
                                                             <select
@@ -203,6 +223,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </td>
+                                                        {{-- product --}}
                                                         <td colspan="3">
                                                             <select
                                                                 class="form-control selectpicker useProduct text-center"
@@ -212,7 +233,9 @@
                                                                 data-unit_show="production_product_0_use_unit_show"
                                                                 data-unit_id="production_product_0_use_unit_id"
                                                                 data-available_qty="production_product_0_use_available_qty"
-                                                                data-live-search = "true">
+                                                                data-batch_no="production_product_0_use_batch_no"
+                                                                data-live-search = "true"
+                                                                onchange="tenantProductStock(this)">
                                                                 <option value="">{{ __('Please Select') }}</option>
                                                             </select>
                                                         </td>
@@ -245,109 +268,6 @@
                                                                 class="form-control bg-primary packing_load_amount text-center"
                                                                 id="production_0_packing_load_amount"
                                                                 name="production[0][packing_load_amount]" readonly />
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan = "10"><button type="button"
-                                                                class="btn btn-success btn-block">{{ __('file.Merge') }}</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Company') }}</button>
-                                                        </td>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Category') }}</button>
-                                                        </td>
-                                                        <td colspan="3"><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Product') }}</button>
-                                                        </td>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Unit') }}</button>
-                                                        </td>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Available Qty') }}</button>
-                                                        </td>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Qty') }}</button>
-                                                        </td>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Price') }}</button>
-                                                        </td>
-                                                        <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Sub Total') }}</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <select class="form-control selectpicker text-center"
-                                                                id="production_product_0_merge_warehouse_id"
-                                                                name="production_product[0][merge_warehouse_id]"
-                                                                data-live-search = "true">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @foreach ($warehouses as $warehouse)
-                                                                    <option value="{{ $warehouse->id }}">
-                                                                        {{ $warehouse->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select
-                                                                class="form-control selectpicker mergeCategory text-center"
-                                                                id="production_product_0_merge_category_id"
-                                                                data-warehouse_id="production_product_0_merge_warehouse_id"
-                                                                data-product_id="production_product_0_merge_product_id"
-                                                                data-live-search = "true">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @foreach ($categories as $category)
-                                                                    <option value="{{ $category->id }}">
-                                                                        {{ $category->category_name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </td>
-                                                        <td colspan="3">
-                                                            <select
-                                                                class="form-control selectpicker mergeProduct text-center"
-                                                                id="production_product_0_merge_product_id"
-                                                                name="production_product[0][merge_product_id]"
-                                                                data-warehouse_id="production_product_0_merge_warehouse_id"
-                                                                data-unit_show="production_product_0_merge_unit_show"
-                                                                data-unit_id="production_product_0_merge_unit_id"
-                                                                data-available_qty="production_product_0_merge_available_qty"
-                                                                data-price="production_product_0_merge_price"
-                                                                data-live-search = "true">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                            </select>
-                                                        </td>
-                                                        <td><input class="form-control bg-primary text-center"
-                                                                id="production_product_0_merge_unit_show" readonly /><input
-                                                                type="hidden" id="production_product_0_merge_unit_id" />
-                                                        </td>
-                                                        <td><input
-                                                                class="form-control bg-primary available_qty text-center"
-                                                                id="production_product_0_merge_available_qty" readonly />
-                                                        </td>
-                                                        <td><input class="form-control mergeQty text-center"
-                                                                id="production_product_0_merge_qty"
-                                                                name="production_product[0][merge_qty]"
-                                                                data-product_id="production_product_0_merge_product_id"
-                                                                data-unit_id="production_product_0_merge_unit_id"
-                                                                data-available_qty="production_product_0_merge_available_qty"
-                                                                data-price="production_product_0_merge_price"
-                                                                data-sub_total="production_product_0_merge_sub_total" />
-                                                        </td>
-                                                        <td><input class="form-control mergePrice text-center"
-                                                                id="production_product_0_merge_price"
-                                                                name="production_product[0][merge_price]"
-                                                                data-qty="production_product_0_merge_qty"
-                                                                data-product_id="production_product_0_merge_product_id"
-                                                                data-sub_total="production_product_0_merge_sub_total" />
-                                                        </td>
-                                                        <td><input
-                                                                class="form-control mergeSubTotal bg-primary text-center"
-                                                                id="production_product_0_merge_sub_total"
-                                                                name="production_product[0][merge_sub_total]" readonly />
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -415,6 +335,7 @@
                 notification('error', 'Warehouse Or Category Not Selected');
             }
         });
+
         $(document).on('change', '.product', function() {
             let categoryId = $('#' + $(this).data('category_id') + '').find(":selected").val();
             let productId = $(this).find(":selected").val();
@@ -437,6 +358,7 @@
                 notification('error', 'Category Or Product Not Selected')
             }
         });
+
         $(document).on('change', '.useCategory', function() {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
@@ -463,29 +385,7 @@
                 notification('error', 'Warehouse Or Category Not Selected');
             }
         });
-        $(document).on('change', '.useProduct', function() {
-            let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
-            let productId = $(this).find(":selected").val();
-            let unitId = $(this).data('unit_id');
-            let unitShow = $(this).data('unit_show');
-            let availableQty = $(this).data('available_qty');
-            if (productId != '') {
-                $.ajax({
-                    url: "{{ url('tenant-warehouse-product') }}/" + {{ $production->tenant_id }} + "/" +
-                        warehouseId + "/" + productId,
-                    method: 'GET',
-                    success: function(data) {
-                        if (data) {
-                            $('#' + unitId + '').val(data.unitId);
-                            $('#' + unitShow + '').val(data.unitShow);
-                            $('#' + availableQty + '').val(data.availableQty);
-                        }
-                    }
-                });
-            } else {
-                notification('error', 'Product Not Selected')
-            }
-        });
+
         $(document).on('change', '.mergeCategory', function() {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
@@ -616,12 +516,14 @@
         });
         $(document).on('click', '.addRaw', function() {
             let html;
-            html = `<table class="table">
+            html =
+                `<table class="table">
                        <tbody>
                         <tr class="text-center" style="border-top: 2px solid cadetblue;">
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Company') }}</button></th>
+                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Batch') }}</button></td>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Category') }}</button></th>
-                             <th colspan="4"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></th>
+                             <th colspan="3"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Unit') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Qty') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Scale') }}</button></th>
@@ -630,14 +532,24 @@
                          </tr>
                          <tr class="text-center">
                              <td>
-                             <select class="form-control selectpicker text-center" id="production_product_` + i +
-                `_warehouse_id" name="production_product[` + i + `][warehouse_id]" data-live-search = "true">
+                             <select class="form-control selectpicker text-center labor_warehouse_id" id="production_product_` +
+                i +
+                `_warehouse_id" name="production_product[` + i +
+                `][warehouse_id]" data-live-search = "true" index_no="` + i + `">
                              <option value="">{{ __('Please Select') }}</option>
                              @foreach ($warehouses as $warehouse)
-                             <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                             <option value="{{ $warehouse->id }}" labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">{{ $warehouse->name }}</option>
                              @endforeach
                              </select>
                              </td>
+
+                             <td>
+                                  <input class="form-control bg-primary text-center"
+                                    id="production_product_` + i + `_batch_no"
+                                    name="production_product[` + i + `][batch_no]" readonly
+                                    value="{{ $production->rawList[0]->batch_no ?? '' }}" />
+                             </td>
+
                              <td>
                              <select class="form-control selectpicker category text-center" id="production_product_` +
                 i + `_category_id" data-warehouse_id="production_product_` + i +
@@ -648,7 +560,7 @@
                              @endforeach
                              </select>
                              </td>
-                             <td colspan="4">
+                             <td colspan="3">
                              <select class="form-control selectpicker product text-center" id="production_product_` +
                 i + `_product_id" name="production_product[` + i +
                 `][product_id]" data-category_id="production_product_` + i +
@@ -676,7 +588,7 @@
                          </tr>
                          <tr><td colspan = "10"><button type="button" class="btn btn-success btn-block">{{ __('file.Packing') }}</button></td></tr>
                          <tr>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Company') }}</button></td>
+                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Batch') }}</button></td>
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Category') }}</button></td>
                              <td colspan="3"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></td>
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Unit') }}</button></td>
@@ -689,21 +601,15 @@
 
                          </tr>
                          <tr>
-                             <td>
-                                                            <select
-                                                                class="form-control selectpicker text-center labor_warehouse_id"
-                                                                id="production_product_` + i + `_use_warehouse_id"
-                                                                name="production_product[` + i + `][use_warehouse_id]"
-                                                                data-live-search = "true" index_no="` + i + `">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @foreach ($warehouses as $warehouse)
-                                                                    <option value="{{ $warehouse->id }}"
-                                                                        labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">
-                                                                        {{ $warehouse->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </td>
-                             <td>
+                              <td>
+                                  <input class="form-control bg-primary text-center"
+                                    id="production_product_` + i + `_use_batch_no"
+                                    name="production_product[` + i +
+                `][use_batch_no]" readonly
+                                    value="{{ $production->rawList[0]->batch_no ?? '' }}" />
+                             </td>
+
+                            <td>
                              <select class="form-control selectpicker useCategory text-center" id="production_product_` +
                 i +
                 `_use_category_id" data-warehouse_id="production_product_` + i +
@@ -715,13 +621,15 @@
                              @endforeach
                              </select>
                              </td>
+
                              <td colspan="3">
                              <select class="form-control selectpicker useProduct text-center" id="production_product_` +
                 i + `_use_product_id" name="production_product[` + i +
                 `][use_product_id]" data-warehouse_id="production_product_` + i +
                 `_use_warehouse_id" data-unit_show="production_product_` + i +
                 `_use_unit_show" data-unit_id="production_product_` + i +
-                `_use_unit_id" data-available_qty="production_product_` + i + `_use_available_qty" data-live-search = "true">
+                `_use_unit_id" data-available_qty="production_product_` + i +
+                `_use_available_qty" data-batch_no="production_product_` + i + `_use_batch_no" data-live-search = "true" onchange="tenantProductStock(this)">
                              <option value="">{{ __('Please Select') }}</option>
                              </select>
                              </td>
@@ -734,84 +642,21 @@
                 `_use_qty" name="production_product[` + i + `][use_qty]" data-product_id="production_product_` + i +
                 `_use_product_id" data-unit_id="production_product_` + i +
                 `_use_unit_id" data-available_qty="production_product_` + i +
-                `_use_available_qty" data-packing_load_rate="production_` + i + `_packing_load_rate" data-packing_load_amount="production_` + i + `_packing_load_amount"/></td>
+                `_use_available_qty" data-packing_load_rate="production_` + i +
+                `_packing_load_rate" data-packing_load_amount="production_` + i + `_packing_load_amount"/></td>
 
-                                                        <td>
-                                                            <input
-                                                                class="form-control bg-primary packing_load_rate text-center"
-                                                                id="production_` + i + `_packing_load_rate"
-                                                                name="production[` + i + `][packing_load_rate]" readonly />
-                                                        </td>
-                                                        <td>
-                                                            <input
-                                                                class="form-control bg-primary packing_load_amount text-center"
-                                                                id="production_` + i + `_packing_load_amount"
-                                                                name="production[` + i + `][packing_load_amount]" readonly />
-                                                        </td>
-                         </tr>
-                         <tr><td colspan = "10"><button type="button" class="btn btn-success btn-block">{{ __('file.Merge') }}</button></td></tr>
-                         <tr>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Company') }}</button></td>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Category') }}</button></td>
-                             <td colspan="3"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></td>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Unit') }}</button></td>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Available Qty') }}</button></td>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Qty') }}</button></td>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Price') }}</button></td>
-                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Sub Total') }}</button></td>
-                         </tr>
-                         <tr>
-                             <td>
-                             <select class="form-control selectpicker text-center" id="production_product_` + i +
-                `_merge_warehouse_id" name="production_product[` + i +
-                `][merge_warehouse_id]" data-live-search = "true">
-                             <option value="">{{ __('Please Select') }}</option>
-                             @foreach ($warehouses as $warehouse)
-                             <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                             @endforeach
-                             </select>
-                             </td>
-                             <td>
-                             <select class="form-control selectpicker mergeCategory text-center" id="production_product_` +
-                i +
-                `_merge_category_id" data-warehouse_id="production_product_` + i +
-                `_merge_warehouse_id" data-product_id="production_product_` + i +
-                `_merge_product_id" data-live-search = "true">
-                             <option value="">{{ __('Please Select') }}</option>
-                             @foreach ($categories as $category)
-                             <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                             @endforeach
-                             </select>
-                             </td>
-                             <td colspan="3">
-                             <select class="form-control selectpicker mergeProduct text-center" id="production_product_` +
-                i + `_merge_product_id" name="production_product[` + i +
-                `][merge_product_id]" data-warehouse_id="production_product_` + i +
-                `_merge_warehouse_id" data-unit_show="production_product_` + i +
-                `_merge_unit_show" data-unit_id="production_product_` + i +
-                `_merge_unit_id" data-available_qty="production_product_` + i +
-                `_merge_available_qty" data-price="production_product_` + i + `_merge_price" data-live-search = "true">
-                             <option value="">{{ __('Please Select') }}</option>
-                             </select>
-                             </td>
-                             <td><input class="form-control bg-primary text-center" id="production_product_` + i +
-                `_merge_unit_show" readonly/><input type="hidden" id="production_product_` + i +
-                `_merge_unit_id"/></td>
-                             <td><input class="form-control bg-primary available_qty text-center" id="production_product_` +
-                i + `_merge_available_qty" readonly/></td>
-                             <td><input class="form-control mergeQty text-center" id="production_product_` + i +
-                `_merge_qty" name="production_product[` + i + `][merge_qty]" data-product_id="production_product_` +
-                i + `_merge_product_id" data-unit_id="production_product_` + i +
-                `_merge_unit_id" data-available_qty="production_product_` + i +
-                `_merge_available_qty" data-price="production_product_` + i +
-                `_merge_price" data-sub_total="production_product_` + i + `_merge_sub_total"/></td>
-                             <td><input class="form-control mergePrice text-center" id="production_product_` + i +
-                `_merge_price" name="production_product[` + i + `][merge_price]" data-qty="production_product_` +
-                i + `_merge_qty" data-product_id="production_product_` + i +
-                `_merge_product_id" data-sub_total="production_product_` + i +
-                `_merge_sub_total"/></td>
-                             <td><input class="form-control mergeSubTotal bg-primary text-center" id="production_product_` +
-                i + `_merge_sub_total" name="production_product[` + i + `][merge_sub_total]" readonly/></td>
+                            <td>
+                                <input
+                                    class="form-control bg-primary packing_load_rate text-center"
+                                    id="production_` + i + `_packing_load_rate"
+                                    name="production[` + i + `][packing_load_rate]" readonly />
+                            </td>
+                            <td>
+                                <input
+                                    class="form-control bg-primary packing_load_amount text-center"
+                                    id="production_` + i + `_packing_load_amount"
+                                    name="production[` + i + `][packing_load_amount]" readonly />
+                            </td>
                          </tr>
                        </tbody>
                    </table>`;
@@ -888,6 +733,35 @@
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
+        }
+
+        function tenantProductStock(el) {
+            let warehouse_id = $('#' + $(el).data('warehouse_id') + '').find(":selected").val();
+            let productId = $(el).find(":selected").val();
+            let batch_no = $('#' + $(el).data('batch_no') + '').val();
+            let unitId = $(el).data('unit_id');
+            let unitShow = $(el).data('unit_show');
+            let availableQty = $(el).data('available_qty');
+
+            let url = "{{ url('tenant-warehouse-product') }}/" + {{ $production->tenant_id }} + "/" +
+                warehouse_id + "/" + productId + "/" + batch_no;
+            console.log('url: ' + url);
+
+            if (productId != '' && warehouse_id != '') {
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        if (data) {
+                            $('#' + unitId + '').val(data.unitId);
+                            $('#' + unitShow + '').val(data.unitShow);
+                            $('#' + availableQty + '').val(data.availableQty);
+                        }
+                    }
+                });
+            } else {
+                notification('error', 'Product Not Selected')
+            }
         }
     </script>
 @endpush

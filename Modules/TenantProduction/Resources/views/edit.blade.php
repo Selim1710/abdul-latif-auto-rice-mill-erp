@@ -208,7 +208,10 @@
                                                     @endforeach
 
                                                     <tr>
-                                                        <td colspan="7" class="text-right"> <b>Total : </b></td>
+                                                        <td colspan="6" class="text-right"> <b>Total : </b></td>
+                                                        <td> <input type="number" name="total_scale"
+                                                                class="form-control text-center" id="total_scale"
+                                                                readonly></td>
                                                         <td> <input type="number" name="total_product_qty"
                                                                 class="form-control text-center" id="total_product_qty"
                                                                 readonly></td>
@@ -458,6 +461,18 @@
                 }
             });
             _('total_product_qty').value = total_product_qty;
+
+            
+            // total_scale
+            let total_scale = 0;
+            $('.scale').each(function() {
+                if ($(this).val() == '') {
+                    total_scale += +0;
+                } else {
+                    total_scale += +$(this).val();
+                }
+            });
+            _('total_scale').value = total_scale;
         }
     </script>
 @endpush

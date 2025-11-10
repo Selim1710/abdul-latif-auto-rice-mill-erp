@@ -32,10 +32,12 @@ class TenantProductionProductController extends BaseController
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
             $data     = [
                 'invoice_no' => self::tpp . '-' . round(microtime(true) * 1000),
-                'production' => TenantProduction::with('tenant')->findOrFail($id),
+                'production' => TenantProduction::with('tenant','rawList')->findOrFail($id),
                 'warehouses' => Warehouse::all(),
                 'categories' => Category::all()
             ];
+            // return $data['production'];
+
             return view('tenantproduction::productionForm.stockCreate', $data);
         } else {
             return $this->access_blocked();
@@ -45,6 +47,7 @@ class TenantProductionProductController extends BaseController
     public function store(TenantProductionProductFormRequest $request)
     {
         // return $request;
+
         if ($request->ajax() && permission('tenant-production-product-add')) {
             DB::beginTransaction();
             try {
@@ -71,6 +74,7 @@ class TenantProductionProductController extends BaseController
                             $productProduct[] = [
                                 'invoice_no'       => $request->invoice_no,
                                 'date'             => $request->date,
+                                'batch_no'     => $value['batch_no'],
                                 'warehouse_id'     => $value['warehouse_id'],
                                 'product_id'       => $value['product_id'],
                                 'qty'              => $value['qty'],
@@ -84,6 +88,7 @@ class TenantProductionProductController extends BaseController
                                 [
                                     'tenant_id'            => $request->tenant_id,
                                     'warehouse_id'         => $value['warehouse_id'],
+                                    'batch_no'         => $value['batch_no'],
                                     'product_id'           => $value['product_id'],
                                     'tenant_product_type'  => 2
                                 ],
@@ -99,8 +104,14 @@ class TenantProductionProductController extends BaseController
                                 ]);
                             }
                             $tenantWarehouseProductionProduct->save();
+
                             if (!empty($value['use_warehouse_id']) and !empty($value['use_product_id'])) {
-                                $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $request->tenant_id, 'warehouse_id' => $value['use_warehouse_id'], 'product_id' => $value['use_product_id']]);
+                                $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $request->tenant_id,
+
+                                 'warehouse_id' => $value['use_warehouse_id'], 
+                                 'batch_no' => $value['use_batch_no'], 
+
+                                 'product_id' => $value['use_product_id']]);
                                 if (empty($tenantWarehouseProduct)) {
                                     return response()->json(['status' => 'error', 'message' => 'Product Is Empty']);
                                 }
@@ -113,37 +124,10 @@ class TenantProductionProductController extends BaseController
                                 ]);
                             }
                         }
-                        if (!empty($value['merge_warehouse_id']) && !empty($value['merge_product_id']) && !empty($value['merge_qty']) && !empty($value['merge_price'])) {
-                            $productMerge[] = [
-                                'invoice_no'      => $request->invoice_no,
-                                'date'            => $request->date,
-                                'warehouse_id'    => $value['merge_warehouse_id'],
-                                'product_id'      => $value['merge_product_id'],
-                                'price'           => $value['merge_price'],
-                                'qty'             => $value['merge_qty'],
-                                'scale'           => $value['merge_qty'],
-                                'mer_qty'         => $value['merge_qty'],
-                                'sub_total'       => $value['merge_sub_total'],
-                                'type'            => 3,
-                            ];
-                            if (!empty($value['merge_warehouse_id']) and !empty($value['merge_product_id'])) {
-                                $warehouseProduct    = WarehouseProduct::firstWhere(['warehouse_id' => $value['merge_warehouse_id'], 'product_id' => $value['merge_product_id']]);
-                                if (empty($warehouseProduct)) {
-                                    return response()->json(['status' => 'error', 'message' => 'Product Is Empty']);
-                                }
-                                if ($value['use_qty'] > $warehouseProduct->qty) {
-                                    return response()->json(['status' => 'error', 'message' => 'Use Quantity Can\'t Be Greater Then Warehouse Quantity']);
-                                }
-                                $warehouseProduct->update([
-                                    'scale' => $warehouseProduct->scale - $value['merge_qty'],
-                                    'qty'   => $warehouseProduct->qty - $value['merge_qty'],
-                                ]);
-                            }
-                        }
+                        
                     }
                 }
                 $tenantProduction->product()->attach($productProduct);
-                $tenantProduction->mergeProduct()->attach($productMerge);
                 $output = ['status' => 'success', 'message' => $this->responseMessage('Data Saved')];
                 DB::commit();
             } catch (Exception $e) {
