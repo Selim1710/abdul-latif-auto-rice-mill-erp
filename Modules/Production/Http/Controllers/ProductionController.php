@@ -275,6 +275,7 @@ class ProductionController extends BaseController
             try {
                 $collection = collect($request->all())->only('production_status');
                 $data       = $this->model->with('productionRawProductList')->findOrFail($request->production_id);
+                // return $data;
 
                 if ($request->production_status == 3) {
                     // labour-bill-generate
@@ -288,7 +289,7 @@ class ProductionController extends BaseController
 
                 if ($request->production_status == 3) {
                     foreach ($data->productionRawProductList as $value) {
-                        $warehouseProduct  = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']]);
+                        $warehouseProduct  = WarehouseProduct::firstWhere(['party_id' => $value['party_id'], 'warehouse_id' => $value['warehouse_id'], 'purchase_id' => $value['purchase_id'], 'product_id' => $value['product_id']]);
                         $warehouseProduct->update([
                             'scale'        => $warehouseProduct->scale - $value->scale,
                             'qty'          => $warehouseProduct->qty - $value->pro_qty,
