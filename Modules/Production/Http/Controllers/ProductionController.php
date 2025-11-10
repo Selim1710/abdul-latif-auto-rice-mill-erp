@@ -137,7 +137,7 @@ class ProductionController extends BaseController
                 'warehouses'  => Warehouse::all(),
                 'parties'  => Party::where('status', 1)->get(),
                 'products'  => Product::where('status', 1)->get(),
-                'categories'  => Category::all(),
+                // 'categories'  => Category::all(),
                 'batch_no'  => $batch_no
             ];
             return view('production::create', $data);
@@ -198,7 +198,7 @@ class ProductionController extends BaseController
         if (permission('production-show')) {
             $setTitle = __('file.Production Details');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
-            $data = $this->model->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit','productionRawProductList.party','productionRawProductList.purchase')->findOrFail($id);
+            $data = $this->model->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit', 'productionRawProductList.party', 'productionRawProductList.purchase')->findOrFail($id);
             return view('production::details', compact('data'));
         } else {
             return $this->access_blocked();
@@ -215,6 +215,7 @@ class ProductionController extends BaseController
                 'edit'        => $edit,
                 'mills'       => Mill::all(),
                 'warehouses'  => Warehouse::all(),
+                'parties'  => Party::where('status', 1)->get(),
                 'categories'  => Category::all(),
             ];
             return view('production::edit', $data);
@@ -224,6 +225,7 @@ class ProductionController extends BaseController
     }
     public function update(ProductionFormRequest $request)
     {
+        // return $request;
         if ($request->ajax() && permission('production-edit')) {
             DB::beginTransaction();
             try {
@@ -237,8 +239,10 @@ class ProductionController extends BaseController
                             $production[Str::random(5)] = [
                                 'date'         => $request->date,
                                 'warehouse_id' => $value['warehouse_id'],
+                                'party_id' => $value['party_id'] ?? '',
+                                'purchase_id' => $value['purchase_id'] ?? '',
                                 'product_id'   => $value['product_id'],
-                                'price'        => $value['price'],
+                                'price'        => $value['price'] ?? '',
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
                                 'pro_qty'      => $value['pro_qty'],

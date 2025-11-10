@@ -25,9 +25,9 @@ class ProductionRawProduct extends BaseModel
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
-    public function availableQty(int $warehouseId, int $productId)
+    public function availableQty(int $party_id, int $warehouse_id,int $purchase_id, int $product_id)
     {
-        return WarehouseProduct::firstWhere(['warehouse_id' => $warehouseId, 'product_id' => $productId]);
+        return WarehouseProduct::firstWhere(['party_id' => $party_id,'warehouse_id' => $warehouse_id,'purchase_id' => $purchase_id,'product_id' => $product_id,]);
     }
 
     public function purchase()
