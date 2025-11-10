@@ -159,8 +159,10 @@ class ProductionController extends BaseController
                             $production[] = [
                                 'date'         => $request->date,
                                 'warehouse_id' => $value['warehouse_id'],
+                                'party_id' => $value['party_id'] ?? '',
+                                'purchase_id' => $value['purchase_id'] ?? '',
                                 'product_id'   => $value['product_id'],
-                                'price'        => $value['price'],
+                                'price'        => $value['price'] ?? '',
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
                                 'pro_qty'      => $value['pro_qty'],
@@ -196,7 +198,7 @@ class ProductionController extends BaseController
         if (permission('production-show')) {
             $setTitle = __('file.Production Details');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
-            $data = $this->model->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit')->findOrFail($id);
+            $data = $this->model->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit','productionRawProductList.party','productionRawProductList.purchase')->findOrFail($id);
             return view('production::details', compact('data'));
         } else {
             return $this->access_blocked();
@@ -487,7 +489,7 @@ class ProductionController extends BaseController
         $party_id = $request->party_id;
         $warehouse_id = $request->warehouse_id;
         $product_id = $request->product_id;
-        return WarehouseProduct::with('purchase','product.unit')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->get();
+        return WarehouseProduct::with('purchase', 'product.unit')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id, 'product_id' => $product_id,])->get();
     }
 
     public function availableProduct(Request $request)
@@ -496,7 +498,7 @@ class ProductionController extends BaseController
         $party_id = $request->party_id;
         $warehouse_id = $request->warehouse_id;
         $product_id = $request->product_id;
-        return WarehouseProduct::where(['purchase_id' => $purchase_id, 'party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->first();
+        return WarehouseProduct::where(['purchase_id' => $purchase_id, 'party_id' => $party_id, 'warehouse_id' => $warehouse_id, 'product_id' => $product_id,])->first();
     }
 
     public function productDetails($productId)
