@@ -474,11 +474,20 @@ class ProductionController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
     public function partyProduct(Request $request)
     {
         $warehouseId = $request->warehouseId;
         $partyId = $request->partyId;
         return WarehouseProduct::with('product')->where(['warehouse_id' => $warehouseId, 'party_id' => $partyId,])->groupBy('product_id')->get();
+    }
+
+    public function party_wise_purchase_invoice(Request $request)
+    {
+        $party_id = $request->party_id;
+        $warehouse_id = $request->warehouse_id;
+        $product_id = $request->product_id;
+        return WarehouseProduct::with('purchase')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id,'product_id' => $product_id,])->get();
     }
     public function productDetails($productId)
     {
