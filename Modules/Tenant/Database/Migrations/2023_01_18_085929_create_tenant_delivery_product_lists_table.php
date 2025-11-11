@@ -21,6 +21,8 @@ class CreateTenantDeliveryProductListsTable extends Migration
             $table->double('qty',2)->nullable()->default(0);
             $table->double('scale',2)->nullable()->default(0);
             $table->double('del_qty',2)->nullable()->default(0);
+            $table->double('load_unload_rate',10,2)->nullable()->default(0);
+            $table->double('load_unload_amount',10,2)->nullable()->default(0);
             $table->timestamps();
         });
     }

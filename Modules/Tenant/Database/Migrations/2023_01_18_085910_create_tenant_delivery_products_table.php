@@ -23,6 +23,7 @@ class CreateTenantDeliveryProductsTable extends Migration
             $table->enum('status',['1','2'])->default(2)->comment = " 1 = Active , 2 = InActive";
             $table->longText('note')->nullable();
             $table->string('created_by')->nullable();
+            $table->double('total_load_unload_amount', 10,2);
             $table->timestamps();
         });
     }

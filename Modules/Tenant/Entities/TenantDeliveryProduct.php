@@ -5,7 +5,7 @@ namespace Modules\Tenant\Entities;
 use App\Models\BaseModel;
 
 class TenantDeliveryProduct extends BaseModel {
-    protected $fillable = ['invoice_no','tenant_id','date','name','number','status','note','created_by'];
+    protected $fillable = ['invoice_no','tenant_id','date','name','number','status','note','created_by','total_load_unload_amount'];
     protected $table    = 'tenant_delivery_products';
     public function tenant(){
         return $this->belongsTo(Tenant::class,'tenant_id','id');

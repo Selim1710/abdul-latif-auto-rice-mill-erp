@@ -12,6 +12,8 @@ class TenantDeliveryProductFormRequest extends FormRequest{
         $this->messages['date']       = 'This Field Is Required';
         $this->rules['tenant_id']     = ['required'];
         $this->messages['tenant_id']  = 'This Field Is Required';
+        $this->rules['total_load_unload_amount']     = ['required', 'numeric'];
+        $this->messages['total_load_unload_amount']  = 'This Field Is Required';
         if(request()->has('tenant_delivery')){
             foreach (request()->tenant_delivery as $key => $value){
                 $this->rules ['tenant_delivery.'.$key.'.warehouse_id']     = ['required'];
