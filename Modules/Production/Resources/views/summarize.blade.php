@@ -507,8 +507,6 @@
                                                 </td>
                                             </tr>
 
-
-
                                             {{-- <tr class="text-center">
                                                 <td class="no"><button
                                                         class="btn btn-primary btn-block">{{ __('file.Total Scale') }}</button>
