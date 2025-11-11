@@ -83,7 +83,7 @@
                                                     </td>
                                                     <td>
                                                         <select class="form-control selectpicker party text-center"
-                                                            id="production_0_party_id"
+                                                            id="production_0_party_id" name="production[0][party_id]"
                                                             data-warehouse_id="production_0_warehouse_id"
                                                             data-product_id="production_0_product_id"
                                                             data-live-search = "true">
@@ -115,7 +115,7 @@
                                                     <td colspan="3">
                                                         <select class="form-control selectpicker purchase_id text-center"
                                                             onchange="purchase_warehouse_stock(this)"
-                                                            id="production_0_purchase_id"
+                                                            id="production_0_purchase_id" name="production[0][purchase_id]"
                                                             data-party_id="production_0_party_id"
                                                             data-warehouse_id="production_0_warehouse_id"
                                                             data-product_id="production_0_product_id"
@@ -123,7 +123,6 @@
                                                             data-live-search = "true">
                                                         </select>
                                                     </td>
-
 
                                                     <td><input class="form-control bg-primary text-center"
                                                             id="production_0_unit_show" readonly /><input type="hidden"
@@ -208,6 +207,7 @@
         function _(x) {
             return document.getElementById(x);
         }
+        
         $(document).on('change', '.party', function() {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
@@ -295,11 +295,7 @@
             let warehouse_id = $('#' + $(el).data('warehouse_id') + '').find(":selected").val();
             let product_id = $('#' + $(el).data('product_id') + '').find(":selected").val();
 
-            console.log('purchase_id : ' + purchase_id);
-            console.log('party_id : ' + party_id);
-            console.log('warehouse_id : ' + warehouse_id);
-            console.log('product_id : ' + product_id);
-
+            // console.log('purchase_id : ' + purchase_id);
 
             let availableQty = $(el).data('available_qty');
             if (purchase_id != '') {
@@ -430,6 +426,7 @@
                     <td>
                         <select class="form-control selectpicker party text-center"
                             id="production_` + i + `_party_id"
+                            name="production[` + i + `][party_id]"
                             data-warehouse_id="production_` + i + `_warehouse_id"
                             data-product_id="production_` + i + `_product_id"
                             data-live-search = "true">
@@ -462,6 +459,7 @@
                         <select class="form-control selectpicker purchase_id text-center"
                             onchange="purchase_warehouse_stock(this)"
                             id="production_` + i + `_purchase_id"
+                            name="production[` + i + `][purchase_id]"
                             data-party_id="production_` + i + `_party_id"
                             data-warehouse_id="production_` + i + `_warehouse_id"
                             data-product_id="production_` + i + `_product_id"
