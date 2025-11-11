@@ -37,11 +37,11 @@
                     </div>
                     <div class="card-toolbar">
                         <div>
-                            @if (permission('production-sale-add'))
+                            {{-- @if (permission('production-sale-add'))
                                 <span><a href="{{ route('production.sale.add', $production->id) }}"
                                         class="btn btn-danger btn-sm font-weight-bolder"><i
                                             class="fab fa-opencart"></i>&nbsp;{{ __('file.Sale') }}</a></span>
-                            @endif
+                            @endif --}}
                             @if (permission('production-product-add'))
                                 <span><a href="{{ route('production.product.add', $production->id) }}"
                                         class="btn btn-info btn-sm font-weight-bolder"><i
