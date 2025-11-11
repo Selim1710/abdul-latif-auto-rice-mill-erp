@@ -143,6 +143,7 @@
                                                         {{-- pro qty --}}
                                                         <td><input class="form-control proQty text-center"
                                                                 id="production_product_0_production_qty"
+                                                                data-use_qty="production_product_0_use_qty"
                                                                 name="production_product[0][production_qty]" /> </td>
                                                         <th rowspan="6">
                                                             <button type="button"
@@ -161,9 +162,6 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        {{-- <td><button type = "button"
-                                                                class="btn btn-primary btn-block">{{ __('file.Company') }}</button>
-                                                        </td> --}}
                                                         <td><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Batch') }}</button>
                                                         </td>
@@ -190,19 +188,6 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        {{-- <td>
-                                                            <select
-                                                                class="form-control selectpicker text-center labor_warehouse_id"
-                                                                id="production_product_0_use_warehouse_id"
-                                                                name="production_product[0][use_warehouse_id]"
-                                                                data-live-search = "true">
-                                                                <option value="">{{ __('Please Select') }}</option>
-                                                                @foreach ($warehouses as $warehouse)
-                                                                    <option value="{{ $warehouse->id }}">
-                                                                        {{ $warehouse->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </td> --}}
                                                         <td>
                                                             <input class="form-control bg-primary text-center"
                                                                 id="production_product_0_use_batch_no"
@@ -229,6 +214,7 @@
                                                                 class="form-control selectpicker useProduct text-center"
                                                                 id="production_product_0_use_product_id"
                                                                 name="production_product[0][use_product_id]"
+                                                                data-use_qty="production_product_0_use_qty"
                                                                 data-warehouse_id="production_product_0_use_warehouse_id"
                                                                 data-unit_show="production_product_0_use_unit_show"
                                                                 data-unit_id="production_product_0_use_unit_id"
@@ -579,7 +565,8 @@
                 `_scale" name="production_product[` + i + `][scale]" data-product_id="production_product_` + i +
                 `_product_id" data-unit_id="production_product_` + i + `_unit_id" data-qty="production_product_` +
                 i + `_qty"/> </td>
-                             <td><input class="form-control proQty text-center" id="production_product_` + i +
+                             <td><input class="form-control proQty text-center" data-use_qty="production_product_` +
+                i + `_use_qty" id="production_product_` + i +
                 `_production_qty" name="production_product[` + i + `][production_qty]"/> </td>
                              <th rowspan="6">
                              <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
@@ -625,7 +612,8 @@
                              <td colspan="3">
                              <select class="form-control selectpicker useProduct text-center" id="production_product_` +
                 i + `_use_product_id" name="production_product[` + i +
-                `][use_product_id]" data-warehouse_id="production_product_` + i +
+                `][use_product_id]" data-use_qty="production_product_` + i +
+                `_use_qty" data-warehouse_id="production_product_` + i +
                 `_use_warehouse_id" data-unit_show="production_product_` + i +
                 `_use_unit_show" data-unit_id="production_product_` + i +
                 `_use_unit_id" data-available_qty="production_product_` + i +
@@ -668,29 +656,13 @@
             $(this).parent().parent().parent().remove();
             // calculation();
         });
-        // $(document).on('input','.proQty',function(){
-        //     calculation();
-        // })
-        // function calculation(){
-        //     let qty             = 0;
-        //     let scale           = 0;
-        //     $('.proQty').each(function(){
-        //         if($(this).val() == ''){
-        //             qty += + 0;
-        //         }else{
-        //             qty += + $(this).val();
-        //         }
-        //     });
-        //     $('.scale').each(function(){
-        //         if($(this).val() == ''){
-        //             scale += + 0;
-        //         }else{
-        //             scale += + $(this).val();
-        //         }
-        //     });
-        //     _('total_delivery_qty').value     = qty;
-        //     _('total_delivery_scale').value   = scale;
-        // }
+
+        $(document).on('input', '.proQty', function() {
+            let use_qty = $(this).data('use_qty');
+            _(use_qty).value = $(this).val();
+        })
+
+
         function storeData() {
             let form = document.getElementById('tenant_production_product_form');
             let formData = new FormData(form);
@@ -742,6 +714,7 @@
             let unitId = $(el).data('unit_id');
             let unitShow = $(el).data('unit_show');
             let availableQty = $(el).data('available_qty');
+            let use_qty = $(el).data('use_qty');
 
             let url = "{{ url('tenant-warehouse-product') }}/" + {{ $production->tenant_id }} + "/" +
                 warehouse_id + "/" + productId + "/" + batch_no;
@@ -756,6 +729,15 @@
                             $('#' + unitId + '').val(data.unitId);
                             $('#' + unitShow + '').val(data.unitShow);
                             $('#' + availableQty + '').val(data.availableQty);
+
+                            if (parseFloat(_(use_qty).value) > parseFloat(data.availableQty)) {
+                                _(use_qty).value = '';
+                                notification('error',
+                                    'Quantity Can\'t Be Greater Then Stock Quantity'
+                                );
+                                return;
+                            }
+
                         }
                     }
                 });
