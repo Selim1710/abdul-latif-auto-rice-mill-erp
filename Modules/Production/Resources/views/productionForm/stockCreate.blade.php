@@ -240,6 +240,7 @@
                                                                 data-available_qty="production_product_0_use_available_qty"
                                                                 data-price="production_product_0_use_price"
                                                                 data-use_qty="production_product_0_use_qty"
+                                                                data-sub_total="production_product_0_use_sub_total"
                                                                 data-live-search = "true"></select></td>
                                                         <td><input class="form-control bg-primary text-center"
                                                                 id="production_product_0_use_unit_show" readonly /><input
@@ -733,6 +734,7 @@
                                     data-available_qty="production_product_` + i + `_use_available_qty"
                                     data-price="production_product_` + i + `_use_price"
                                     data-use_qty="production_product_` + i + `_use_qty"
+                                    data-sub_total="production_product_0_use_sub_total"
                                     data-live-search = "true"></select></td>
                             <td><input class="form-control bg-primary text-center"
                                     id="production_product_` + i + `_use_unit_show" readonly /><input

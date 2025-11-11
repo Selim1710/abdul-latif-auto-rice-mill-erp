@@ -464,8 +464,6 @@
             });
             // _('total_milling_show').value      = milling;
             _('total_expense_show').value = expenseCost;
-            _('total_merge_scale_show').value = mergeScale;
-            _('total_merge_scale').value = mergeScale;
             _('total_raw_scale').value = productionRawScale;
             // _('total_milling').value           = milling;
             _('total_expense').value = expenseCost;
