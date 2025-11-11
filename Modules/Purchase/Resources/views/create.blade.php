@@ -769,7 +769,7 @@
                     total_scale += +$(this).val();
                 }
             });
-            _('per_scale_transportation_cost').value = transportation_cost / total_scale;
+            _('per_scale_transportation_cost').value = (transportation_cost / total_scale).toFixed(3);
 
 
         }
