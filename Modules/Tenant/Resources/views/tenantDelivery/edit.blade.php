@@ -10,7 +10,8 @@
                     </div>
                     @if (permission('tenant-return-access'))
                         <div class="card-toolbar"><a href="{{ route('tenant.delivery.product') }}"
-                                class="btn btn-warning btn-sm font-weight-bolder"><i class="fas fa-arrow-left"></i>
+                                                     class="btn btn-warning btn-sm font-weight-bolder"><i
+                                    class="fas fa-arrow-left"></i>
                                 {{ __('file.Back') }}</a></div>
                     @endif
                 </div>
@@ -20,151 +21,178 @@
                     <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <form action="" id="tenant_delivery_product_form" method="post" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="update_id" value="{{ $tenantDelivery->id }}" />
+                            <input type="hidden" name="update_id" value="{{ $tenantDelivery->id }}"/>
                             <div class="row">
                                 <div class="form-group col-md-4 required">
                                     <label for="memo_no">{{ __('file.Invoice No') }}.</label>
                                     <input type="text" class="form-control bg-primary text-center" id="invoice_no"
-                                        name="invoice_no" value="{{ $tenantDelivery->invoice_no }}" readonly />
+                                           name="invoice_no" value="{{ $tenantDelivery->invoice_no }}" readonly/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="date">{{ __('file.Date') }}</label>
                                     <input type="date" class="form-control date" id="date" name="date"
-                                        value="{{ $tenantDelivery->date }}" />
+                                           value="{{ $tenantDelivery->date }}"/>
                                 </div>
                                 <div class="form-group col-md-4 required">
                                     <label for="tenant_id">{{ __('file.Tenant') }}</label>
                                     <select class="form-control selectpicker" id="tenant_id" name="tenant_id"
-                                        data-live-search="true">
+                                            data-live-search="true">
                                         <option value="">{{ __('file.Please Select') }}</option>
                                         @foreach ($tenants as $tenant)
                                             <option value="{{ $tenant->id }}"
-                                                @if ($tenant->id == $tenantDelivery->tenant_id) selected="selected" @endif>
+                                                    @if ($tenant->id == $tenantDelivery->tenant_id) selected="selected" @endif>
                                                 {{ $tenant->name . '(' . $tenant->mobile . ')' }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-12">
-                                    <hr style="border-top: 5px dotted cadetblue;" />
+                                    <hr style="border-top: 5px dotted cadetblue;"/>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <table class="table" id="tenantDeliveryTable">
                                             <thead class="bg-primary">
-                                                <tr class="text-center">
-                                                    <th width="8%">{{ __('file.Company') }}</th>
-                                                    <th width="8%">{{ __('file.Batch') }}</th>
+                                            <tr class="text-center">
+                                                <th width="8%">{{ __('file.Company') }}</th>
+                                                <th width="8%">{{ __('file.Batch') }}</th>
 
-                                                    <th width="16%">{{ __('file.Product') }}</th>
-                                                    <th width="8%">{{ __('file.Unit') }}</th>
-                                                    <th width="10%">{{ __('file.Av Qty') }}</th>
-                                                    <th width="12%">{{ __('file.Av Scale') }}</th>
-                                                    <th width="10%">{{ __('file.Qty') }}</th>
-                                                    <th width="10%">{{ __('file.Scale') }}</th>
-                                                    <th width="10%">{{ __('file.Del Qty') }}</th>
-                                                    <th width="8%">{{ __('file.Action') }}</th>
-                                                </tr>
+                                                <th width="16%">{{ __('file.Product') }}</th>
+                                                <th width="8%">{{ __('file.Unit') }}</th>
+                                                <th width="10%">{{ __('file.Av Qty') }}</th>
+                                                <th width="12%">{{ __('file.Av Scale') }}</th>
+                                                <th width="10%">{{ __('file.Qty') }}</th>
+                                                <th width="10%">{{ __('file.Scale') }}</th>
+                                                <th width="10%">{{ __('file.Del Qty') }}</th>
+                                                <th width="10%">{{ __('file.Load Unload Rate') }}</th>
+                                                <th width="20%">{{ __('file.Load Unload Amount') }}</th>
+                                                <th width="8%">{{ __('file.Action') }}</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                @if (isset($tenantDelivery->tenantDeliveryProductList))
-                                                    @foreach ($tenantDelivery->tenantDeliveryProductList as $key => $item)
-                                                        <tr class="text-center">
-                                                            <td>
-                                                                <select class="form-control selectpicker text-center"
+                                            @if (isset($tenantDelivery->tenantDeliveryProductList))
+                                                @foreach ($tenantDelivery->tenantDeliveryProductList as $key => $item)
+                                                    <tr class="text-center">
+                                                        <td>
+                                                            <select class="form-control selectpicker text-center"
                                                                     id="tenant_delivery_{{ $key }}_warehouse_id"
                                                                     name="tenant_delivery[{{ $key }}][warehouse_id]"
                                                                     data-live-search="true">
-                                                                    <option value="{{ $item->warehouse_id }}">
-                                                                        {{ $item->warehouse->name }}</option>
-                                                                </select>
-                                                            </td>
+                                                                <option value="{{ $item->warehouse_id }}">
+                                                                    {{ $item->warehouse->name }}</option>
+                                                            </select>
+                                                        </td>
 
-                                                            <td>
-                                                                <input class="form-control bg-primary text-center"
-                                                                    name="tenant_delivery[{{ $key }}][batch_no]"
-                                                                    id="tenant_delivery_{{ $key }}_batch_no"
-                                                                    value="{{ $item->batch_no ?? '' }}"
-                                                                    readonly />
-                                                            </td>
+                                                        <td>
+                                                            <input class="form-control bg-primary text-center"
+                                                                   name="tenant_delivery[{{ $key }}][batch_no]"
+                                                                   id="tenant_delivery_{{ $key }}_batch_no"
+                                                                   value="{{ $item->batch_no ?? '' }}"
+                                                                   readonly/>
+                                                        </td>
 
-                                                            <td>
-                                                                <select
-                                                                    class="form-control selectpicker product text-center"
-                                                                    id="tenant_delivery_{{ $key }}_product_id"
-                                                                    name="tenant_delivery[{{ $key }}][product_id]"
-                                                                    data-warehouse_id="tenant_delivery_{{ $key }}_warehouse_id"
-                                                                    data-unit_show="tenant_delivery_{{ $key }}_unit_show"
-                                                                    data-unit_id="tenant_delivery_{{ $key }}_unit_id"
-                                                                    data-av_qty="tenant_delivery_{{ $key }}_av_qty"
-                                                                    data-av_scale="tenant_delivery_{{ $key }}_av_scale"
-                                                                    data-live-search="true">
-                                                                    <option value="{{ $item->product_id }}">
-                                                                        {{ $item->product->product_name }}</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input class="form-control bg-primary text-center"
-                                                                    id="tenant_delivery_{{ $key }}_unit_show"
-                                                                    value="{{ $item->product->unit->unit_name . '(' . $item->product->unit->unit_code . ')' }}"
-                                                                    readonly /><input type="hidden"
-                                                                    id="tenant_delivery_{{ $key }}_unit_id"
-                                                                    value="{{ $item->product->unit->unit_name }}" /></td>
-                                                            <td><input class="form-control av_qty text-center bg-primary"
-                                                                    id="tenant_delivery_{{ $key }}_av_qty"
-                                                                    value="{{ $item->availableQty($item->warehouse_id, $item->product_id)->qty ?? 0 }}"
-                                                                    readonly /></td>
-                                                            <td><input class="form-control av_scale text-center bg-primary"
-                                                                    id="tenant_delivery_{{ $key }}_av_scale"
-                                                                    value="{{ $item->availableQty($item->warehouse_id, $item->product_id)->scale ?? 0 }}"
-                                                                    readonly /></td>
-                                                            <td><input class="form-control qty text-center"
-                                                                    id="tenant_delivery_{{ $key }}_qty"
-                                                                    name="tenant_delivery[{{ $key }}][qty]"
-                                                                    value="{{ $item->qty }}"
-                                                                    data-product_id="tenant_delivery_{{ $key }}_product_id"
-                                                                    data-unit_id="tenant_delivery_{{ $key }}_unit_id"
-                                                                    data-av_qty="tenant_delivery_{{ $key }}_av_qty"
-                                                                    data-av_scale="tenant_delivery_{{ $key }}_av_scale"
-                                                                    data-scale="tenant_delivery_{{ $key }}_scale" />
-                                                            </td>
-                                                            <td><input class="form-control scale text-center"
-                                                                    id="tenant_delivery_{{ $key }}_scale"
-                                                                    name="tenant_delivery[{{ $key }}][scale]"
-                                                                    value="{{ $item->scale }}"
-                                                                    data-product_id="tenant_delivery_{{ $key }}_product_id"
-                                                                    data-unit_id="tenant_delivery_{{ $key }}_unit_id"
-                                                                    data-av_qty="tenant_delivery_{{ $key }}_av_qty"
-                                                                    data-av_scale="tenant_delivery_{{ $key }}_av_scale"
-                                                                    data-qty="tenant_delivery_{{ $key }}_qty" />
-                                                            </td>
-                                                            <td><input class="form-control delQty"
-                                                                    id="tenant_delivery_{{ $key }}_del_qty"
-                                                                    name="tenant_delivery[{{ $key }}][del_qty]"
-                                                                    value="{{ $item->del_qty }}"
-                                                                    data-av_qty="tenant_delivery_{{ $key }}_av_qty" />
-                                                            </td>
-                                                            <td>
-                                                                <button type="button"
-                                                                    class="btn btn-primary btn-sm addRaw"><i
-                                                                        class="fas fa-plus-circle"></i></button><br />
-                                                                <button type="button"
+                                                        <td>
+                                                            <select
+                                                                class="form-control selectpicker product text-center"
+                                                                id="tenant_delivery_{{ $key }}_product_id"
+                                                                name="tenant_delivery[{{ $key }}][product_id]"
+                                                                data-warehouse_id="tenant_delivery_{{ $key }}_warehouse_id"
+                                                                data-unit_show="tenant_delivery_{{ $key }}_unit_show"
+                                                                data-unit_id="tenant_delivery_{{ $key }}_unit_id"
+                                                                data-av_qty="tenant_delivery_{{ $key }}_av_qty"
+                                                                data-av_scale="tenant_delivery_{{ $key }}_av_scale"
+                                                                data-live-search="true">
+                                                                <option value="{{ $item->product_id }}">
+                                                                    {{ $item->product->product_name }}</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input class="form-control bg-primary text-center"
+                                                                   id="tenant_delivery_{{ $key }}_unit_show"
+                                                                   value="{{ $item->product->unit->unit_name . '(' . $item->product->unit->unit_code . ')' }}"
+                                                                   readonly/><input type="hidden"
+                                                                                    id="tenant_delivery_{{ $key }}_unit_id"
+                                                                                    value="{{ $item->product->unit->unit_name }}"/>
+                                                        </td>
+                                                        <td><input class="form-control av_qty text-center bg-primary"
+                                                                   id="tenant_delivery_{{ $key }}_av_qty"
+                                                                   value="{{ $item->availableQty($item->warehouse_id, $item->product_id)->qty ?? 0 }}"
+                                                                   readonly/></td>
+                                                        <td><input class="form-control av_scale text-center bg-primary"
+                                                                   id="tenant_delivery_{{ $key }}_av_scale"
+                                                                   value="{{ $item->availableQty($item->warehouse_id, $item->product_id)->scale ?? 0 }}"
+                                                                   readonly/></td>
+                                                        <td><input class="form-control qty text-center"
+                                                                   id="tenant_delivery_{{ $key }}_qty"
+                                                                   name="tenant_delivery[{{ $key }}][qty]"
+                                                                   value="{{ $item->qty }}"
+                                                                   data-product_id="tenant_delivery_{{ $key }}_product_id"
+                                                                   data-unit_id="tenant_delivery_{{ $key }}_unit_id"
+                                                                   data-av_qty="tenant_delivery_{{ $key }}_av_qty"
+                                                                   data-av_scale="tenant_delivery_{{ $key }}_av_scale"
+                                                                   data-scale="tenant_delivery_{{ $key }}_scale"/>
+                                                        </td>
+                                                        <td><input class="form-control scale text-center"
+                                                                   id="tenant_delivery_{{ $key }}_scale"
+                                                                   name="tenant_delivery[{{ $key }}][scale]"
+                                                                   value="{{ $item->scale }}"
+                                                                   data-product_id="tenant_delivery_{{ $key }}_product_id"
+                                                                   data-unit_id="tenant_delivery_{{ $key }}_unit_id"
+                                                                   data-av_qty="tenant_delivery_{{ $key }}_av_qty"
+                                                                   data-av_scale="tenant_delivery_{{ $key }}_av_scale"
+                                                                   data-qty="tenant_delivery_{{ $key }}_qty"/>
+                                                        </td>
+                                                        <td><input class="form-control delQty"
+                                                                   id="tenant_delivery_{{ $key }}_del_qty"
+                                                                   name="tenant_delivery[{{ $key }}][del_qty]"
+                                                                   value="{{ $item->del_qty }}"
+                                                                   data-av_qty="tenant_delivery_{{ $key }}_av_qty"
+                                                                   data-rate="tenant_delivery_{{ $key }}_load_unload_rate"
+                                                                   data-amount="tenant_delivery_{{ $key }}_load_unload_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control loadUnloadRate"
+                                                                   id="tenant_delivery_{{ $key }}_load_unload_rate"
+                                                                   name="tenant_delivery[{{ $key }}][load_unload_rate]"
+                                                                   data-qty="tenant_delivery_{{ $key }}_del_qty"
+                                                                   data-amount="tenant_delivery_{{ $key }}_load_unload_amount"
+                                                                   value="{{ $item->load_unload_rate ?? 0 }}"/>
+                                                        </td>
+                                                        <td><input class="form-control loadUnloadAmount"
+                                                                   id="tenant_delivery_{{ $key }}_load_unload_amount"
+                                                                   name="tenant_delivery[{{ $key }}][load_unload_amount]"
+                                                                   value="{{ $item->load_unload_amount ?? 0 }}"/>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button"
                                                                     class="btn btn-danger btn-sm deleteRaw"
                                                                     style="margin-top:3px"><i
-                                                                        class="fas fa-minus-circle"></i></button>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
+                                                                    class="fas fa-minus-circle"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                             </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td colspan="10" class="text-right">
+                                                    <strong>{{ __('file.Total') }}</strong></td>
+                                                <td colspan="2"><input type="text"
+                                                                       class="bg-primary text-white form-control"
+                                                                       name="total_load_unload_amount"
+                                                                       value="{{ $tenantDelivery->total_load_unload_amount ?? 0 }}"
+                                                                       id="total_load_unload_amount" readonly></td>
+                                            </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="note">{{ __('file.Note') }}</label>
-                                    <textarea class="form-control" id="note" name="note">{{ $tenantDelivery->note }}</textarea>
+                                    <textarea class="form-control" id="note"
+                                              name="note">{{ $tenantDelivery->note }}</textarea>
                                 </div>
                                 <div class="form-group col-md-12 text-center pt-5">
                                     <button type="button" class="btn btn-primary btn-sm mr-3" id="save-btn"
-                                        onclick="updateData()"><i
+                                            onclick="updateData()"><i
                                             class="fas fa-save"></i>{{ __('file.Update') }}</button>
                                 </div>
                             </div>
@@ -182,12 +210,13 @@
         function _(x) {
             return document.getElementById(x);
         }
-        $(document).ready(function() {
-            $('.product').each(function() {
+
+        $(document).ready(function () {
+            $('.product').each(function () {
                 $(this).trigger('change');
             });
         });
-        $(document).on('change', '.category', function() {
+        $(document).on('change', '.category', function () {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
             let categoryId = $(this).find(":selected").val();
@@ -204,10 +233,10 @@
                     categoryId: categoryId
                 },
                 method: 'GET',
-                success: function(data) {
+                success: function (data) {
                     if (data != '') {
                         html = `<option value="">Select Please</option>`;
-                        $.each(data, function(key, value) {
+                        $.each(data, function (key, value) {
                             html += '<option value="' + value.id + '">' + value.product_name +
                                 '</option>';
                         });
@@ -217,7 +246,7 @@
                 }
             });
         });
-        $(document).on('change', '.product', function() {
+        $(document).on('change', '.product', function () {
 
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
             let tenant_id = $('#tenant_id').val();
@@ -245,7 +274,7 @@
                         tenant_id: tenant_id
                     },
                     method: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         if (data) {
                             $('#' + unitId + '').val(data.unitId);
                             $('#' + unitShow + '').val(data.unitShow);
@@ -259,7 +288,7 @@
                 });
             }
         });
-        $(document).on('input', '.qty', function() {
+        $(document).on('input', '.qty', function () {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let unitId = $(this).data('unit_id');
             let avScale = $(this).data('av_scale');
@@ -278,7 +307,7 @@
             }
             _(scale).value = $(this).val() * _(unitId).value;
         });
-        $(document).on('input', '.scale', function() {
+        $(document).on('input', '.scale', function () {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let unitId = $(this).data('unit_id');
             let avScale = $(this).data('av_scale');
@@ -297,15 +326,31 @@
             }
             _(qty).value = $(this).val() / _(unitId).value;
         });
-        $(document).on('input', '.delQty', function() {
+        $(document).on('input', '.delQty', function () {
             let avQty = $(this).data('av_qty');
+            let rate = $(this).data('rate');
+            let amount = $(this).data('amount');
             if (_(avQty).value == '' || $(this).val() > parseFloat(_(avQty).value)) {
                 $(this).val('');
+                _(amount).value = 0;
                 notification('error', 'Available Quantity Not Found Or Quantity Greater Then Available Qty');
                 return;
             }
+            _(amount).value = $(this).val() * _(rate).value;
+            calculation();
         });
-        $(document).on('click', '.addRaw', function() {
+        $(document).on('input', '.loadUnloadRate', function () {
+            let rate = Number($(this).val());
+            let amount = $(this).data('amount');
+            let qty = $(this).data('qty');
+            if (_(qty).value == '') {
+                notification('error', 'Quantity Not Found');
+                return;
+            }
+            _(amount).value = _(qty).value * rate;
+            calculation();
+        });
+        $(document).on('click', '.addRaw', function () {
             let html;
             html = `<tr class="text-center">
                       <td>
@@ -313,22 +358,22 @@
                 `_warehouse_id" name="tenant_delivery[` + i + `][warehouse_id]" data-live-search = "true">
                       <option value="">{{ __('Please Select') }}</option>
                       @foreach ($warehouses as $warehouse)
-                      <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                       @endforeach
-                      </select>
-                      </td>
-                      <td>
-                      <select class="form-control selectpicker category text-center" id="tenant_delivery_` + i +
+                </select>
+                </td>
+                <td>
+                <select class="form-control selectpicker category text-center" id="tenant_delivery_` + i +
                 `_category_id" data-warehouse_id = "tenant_delivery_` + i +
                 `_warehouse_id" data-product_id="tenant_delivery_` + i + `_product_id" data-live-search = "true">
                       <option value="">{{ __('Please Select') }}</option>
                       @foreach ($categories as $category)
-                      <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                       @endforeach
-                      </select>
-                      </td>
-                      <td>
-                      <select class="form-control selectpicker product text-center" id="tenant_delivery_` + i +
+                </select>
+                </td>
+                <td>
+                <select class="form-control selectpicker product text-center" id="tenant_delivery_` + i +
                 `_product_id" name="tenant_delivery[` + i + `][product_id]" data-warehouse_id = "tenant_delivery_` +
                 i + `_warehouse_id" data-unit_show="tenant_delivery_` + i +
                 `_unit_show" data-unit_id="tenant_delivery_` + i + `_unit_id" data-av_qty="tenant_delivery_` + i +
@@ -357,9 +402,17 @@
             $('.selectpicker').selectpicker('refresh');
             i++;
         });
-        $(document).on('click', '.deleteRaw', function() {
+        $(document).on('click', '.deleteRaw', function () {
             $(this).parent().parent().remove();
         });
+
+        function calculation() {
+            let totalLoadUnloadAmount = 0;
+            $('.loadUnloadAmount').each(function () {
+                totalLoadUnloadAmount += Number($(this).val());
+            });
+            $('#total_load_unload_amount').val(totalLoadUnloadAmount);
+        }
 
         function updateData() {
             let form = document.getElementById('tenant_delivery_product_form');
@@ -373,17 +426,17 @@
                 contentType: false,
                 processData: false,
                 cache: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#save-btn').addClass('spinner spinner-white spinner-right');
                 },
-                complete: function() {
+                complete: function () {
                     $('#save-btn').removeClass('spinner spinner-white spinner-right');
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#tenant_delivery_product_form').find('.is-invalid').removeClass('is-invalid');
                     $('#tenant_delivery_product_form').find('.error').remove();
                     if (data.status == false) {
-                        $.each(data.errors, function(key, value) {
+                        $.each(data.errors, function (key, value) {
                             var key = key.split('.').join('_');
                             $('#tenant_delivery_product_form input#' + key).addClass('is-invalid');
                             $('#tenant_delivery_product_form textarea#' + key).addClass('is-invalid');
@@ -399,7 +452,7 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOption, thrownError) {
+                error: function (xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });

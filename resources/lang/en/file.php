@@ -1995,4 +1995,5 @@ return [
     'Production Batch No'                       => 'Production Batch No',
     'Tenant Production Batch No'                       => 'Tenant Production Batch No',
     'Product || Purchase Invoice'                       => 'Product || Purchase Invoice',
+    'Tenant Delivery Edit' => 'Tenant Delivery Edit',
 ];
