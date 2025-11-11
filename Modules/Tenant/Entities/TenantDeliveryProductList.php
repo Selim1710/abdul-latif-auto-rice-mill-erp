@@ -8,7 +8,7 @@ use Modules\Setting\Entities\Warehouse;
 
 class TenantDeliveryProductList extends BaseModel
 {
-    protected $fillable = ['tenant_delivery_product_id', 'warehouse_id', 'product_id', 'qty', 'scale', 'del_qty', 'batch_no'];
+    protected $fillable = ['tenant_delivery_product_id', 'warehouse_id', 'product_id', 'qty', 'scale', 'del_qty', 'batch_no', 'load_unload_rate','load_unload_amount'];
     protected $table    = 'tenant_delivery_product_lists';
     public function warehouse()
     {

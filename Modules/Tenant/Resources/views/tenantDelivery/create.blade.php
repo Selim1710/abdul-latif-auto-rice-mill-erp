@@ -59,6 +59,8 @@
                                                     <th width="10%">{{ __('file.Qty') }}</th>
                                                     <th width="10%">{{ __('file.Scale') }}</th>
                                                     <th width="10%">{{ __('file.Del Qty') }}</th>
+                                                    <th width="10%">{{ __('file.Load Unload Rate') }}</th>
+                                                    <th width="10%">{{ __('file.Load Unload Amount') }}</th>
                                                     <th width="8%">{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -271,7 +273,6 @@
                 `_av_qty" data-av_scale="tenant_delivery_` + i + `_av_scale" data-qty="tenant_delivery_` + i + `_qty"/> </td>
                       <td><input class="form-control delQty" id="tenant_delivery_` + i +
                 `_del_qty" name="tenant_delivery[` + i + `][del_qty]" data-av_qty="tenant_delivery_` + i + `_av_qty"/></td>
-                      <td>
                       <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                       <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
                       </td>
