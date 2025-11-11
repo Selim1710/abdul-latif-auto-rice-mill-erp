@@ -207,7 +207,7 @@
         function _(x) {
             return document.getElementById(x);
         }
-        
+
         $(document).on('change', '.party', function() {
             let html;
             let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();

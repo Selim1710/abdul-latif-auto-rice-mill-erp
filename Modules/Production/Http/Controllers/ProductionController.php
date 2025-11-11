@@ -156,13 +156,16 @@ class ProductionController extends BaseController
                 if ($request->has('production')) {
                     foreach ($request->production as $value) {
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])) {
+
+                            $warehouse_product = WarehouseProduct::where(['party_id' => $value['party_id'], 'warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']])->first('purchase_price');
+
                             $production[] = [
                                 'date'         => $request->date,
                                 'warehouse_id' => $value['warehouse_id'],
                                 'party_id' => $value['party_id'] ?? '',
                                 'purchase_id' => $value['purchase_id'] ?? '',
                                 'product_id'   => $value['product_id'],
-                                'price'        => $value['price'] ?? '',
+                                'price'        => $warehouse_product->purchase_price ?? 0,
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
                                 'pro_qty'      => $value['pro_qty'],
@@ -236,13 +239,15 @@ class ProductionController extends BaseController
                 if ($request->has('production')) {
                     foreach ($request->production as $value) {
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['pro_qty'])) {
+                            $warehouse_product = WarehouseProduct::where(['party_id' => $value['party_id'], 'warehouse_id' => $value['warehouse_id'], 'product_id' => $value['product_id']])->first('purchase_price');
+
                             $production[Str::random(5)] = [
                                 'date'         => $request->date,
                                 'warehouse_id' => $value['warehouse_id'],
                                 'party_id' => $value['party_id'] ?? '',
                                 'purchase_id' => $value['purchase_id'] ?? '',
                                 'product_id'   => $value['product_id'],
-                                'price'        => $value['price'] ?? '',
+                                'price'        => $warehouse_product->purchase_price ?? 0,
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
                                 'pro_qty'      => $value['pro_qty'],
@@ -336,6 +341,7 @@ class ProductionController extends BaseController
                 'production'        => $this->model
                     ->with('mill', 'productionRawProductList', 'productionRawProductList.warehouse', 'productionRawProductList.product', 'productionRawProductList.product.unit')
                     ->findOrFail($id),
+
                 'productionSale'    => DB::table('production_sales as sp')
                     ->join('production_sale_products as psp', 'sp.id', '=', 'psp.id')
                     ->where(['sp.production_id' => $id])
@@ -345,6 +351,7 @@ class ProductionController extends BaseController
                         DB::raw('SUM(psp.use_qty) as productionSaleProductUseQty'),
                         DB::raw('SUM(psp.use_sub_total) as productionSaleProductUseSubTotal'),
                     )->get(),
+
                 'productionProduct' => DB::table('production_products as pp')
                     ->where(['production_id' => $id])
                     ->select(
@@ -353,6 +360,7 @@ class ProductionController extends BaseController
                         DB::raw('SUM(pp.use_qty) as productionProductUseQty'),
                         DB::raw('SUM(pp.use_sub_total) as productionProductUseSubTotal')
                     )->get(),
+
                 'expenses'          => ExpenseItem::ProductionExpense()->get()
             ];
             return view('production::production', $data);
