@@ -1977,8 +1977,6 @@ return [
     'Leave Category'                       => 'Leave Category',
     'Manage Leave'                       => 'Manage Leave',
     'Labour Type'                       => 'Labour Type',
-
-    // new
     'Labour Head'                       => 'Labour Head',
     'Load Unload Rate'                       => 'Load Unload Rate',
     'Load Unload Amount'                       => 'Load Unload Amount',
@@ -1996,4 +1994,10 @@ return [
     'Tenant Production Batch No'                       => 'Tenant Production Batch No',
     'Product || Purchase Invoice'                       => 'Product || Purchase Invoice',
     'Tenant Delivery Edit' => 'Tenant Delivery Edit',
+    'Finish Stock Scale' => 'Finish Stock Scale',
+    'Finish Stock Amount' => 'Finish Stock Amount',
+    'By Product Stock Scale' => 'By Product Stock Scale',
+    'By Product Stock Amount' => 'By Product Stock Amount',
+    'Total Transportation Cost' => 'Total Transportation Cost',
+    'Porta' => 'Porta',
 ];

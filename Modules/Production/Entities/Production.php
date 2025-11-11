@@ -9,7 +9,38 @@ use Modules\Mill\Entities\Mill;
 
 class Production extends BaseModel
 {
-    protected $fillable                = ['invoice_no', 'batch_no', 'production_type', 'mill_id', 'date', 'start_date', 'end_date', 'total_raw_scale', 'total_raw_amount', 'total_use_product_qty', 'total_use_product_amount', 'total_milling', 'total_expense', 'total_sale_scale', 'total_sale_amount', 'total_stock_scale', 'total_stock_amount', 'per_unit_scale_cost', 'production_status', 'note', 'created_by', 'modified_by'];
+    protected $fillable                = [
+        'invoice_no',
+        'batch_no',
+        'production_type',
+        'mill_id',
+        'date',
+        'start_date',
+        'end_date',
+        'total_raw_scale',
+        'total_raw_amount',
+        'total_use_product_qty',
+        'total_use_product_amount',
+        'total_milling',
+        'total_expense',
+        'total_sale_scale',
+        'total_sale_amount',
+        'total_stock_scale',
+        'total_stock_amount',
+        'per_unit_scale_cost',
+        'production_status',
+        'note',
+        'created_by',
+        'modified_by',
+
+
+        'finish_stock_scale',
+        'finish_stock_amount',
+        'by_product_stock_scale',
+        'by_product_stock_amount',
+
+
+    ];
     protected $table                   = 'productions';
     protected const ALL_PRODUCTIONS    = '_productions';
     protected $_invoice_no;
@@ -20,7 +51,7 @@ class Production extends BaseModel
     {
         return $this->belongsTo(Mill::class, 'mill_id', 'id');
     }
-    
+
     public function productionRawProduct()
     {
         return $this->belongsToMany(ProductionRawProduct::class, 'production_raw_products', 'production_id', 'warehouse_id')->withTimestamps();

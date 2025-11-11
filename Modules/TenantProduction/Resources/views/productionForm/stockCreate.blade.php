@@ -215,11 +215,13 @@
                                                                 id="production_product_0_use_product_id"
                                                                 name="production_product[0][use_product_id]"
                                                                 data-use_qty="production_product_0_use_qty"
-                                                                data-warehouse_id="production_product_0_use_warehouse_id"
+                                                                data-warehouse_id="production_product_0_warehouse_id"
                                                                 data-unit_show="production_product_0_use_unit_show"
                                                                 data-unit_id="production_product_0_use_unit_id"
                                                                 data-available_qty="production_product_0_use_available_qty"
                                                                 data-batch_no="production_product_0_use_batch_no"
+                                                                data-packing_load_rate="production_0_packing_load_rate"
+                                                                data-packing_load_amount="production_0_packing_load_amount"
                                                                 data-live-search = "true"
                                                                 onchange="tenantProductStock(this)">
                                                                 <option value="">{{ __('Please Select') }}</option>
@@ -611,10 +613,12 @@
 
                              <td colspan="3">
                              <select class="form-control selectpicker useProduct text-center" id="production_product_` +
-                i + `_use_product_id" name="production_product[` + i +
+                i + `_use_product_id" data-packing_load_rate="production_` + i + `_packing_load_rate"
+                                      data-packing_load_amount="production_` + i + `_packing_load_amount"
+                                         name="production_product[` + i +
                 `][use_product_id]" data-use_qty="production_product_` + i +
                 `_use_qty" data-warehouse_id="production_product_` + i +
-                `_use_warehouse_id" data-unit_show="production_product_` + i +
+                `_warehouse_id" data-unit_show="production_product_` + i +
                 `_use_unit_show" data-unit_id="production_product_` + i +
                 `_use_unit_id" data-available_qty="production_product_` + i +
                 `_use_available_qty" data-batch_no="production_product_` + i + `_use_batch_no" data-live-search = "true" onchange="tenantProductStock(this)">
@@ -718,7 +722,13 @@
 
             let url = "{{ url('tenant-warehouse-product') }}/" + {{ $production->tenant_id }} + "/" +
                 warehouse_id + "/" + productId + "/" + batch_no;
-            console.log('url: ' + url);
+            // console.log('url: ' + url);
+
+            let packing_load_rate = $(el).data('packing_load_rate');
+            let packing_load_amount = $(el).data('packing_load_amount');
+            let receive_qty = _(use_qty).value;
+
+            _(packing_load_amount).value = _(packing_load_rate).value * receive_qty;
 
             if (productId != '' && warehouse_id != '') {
                 $.ajax({

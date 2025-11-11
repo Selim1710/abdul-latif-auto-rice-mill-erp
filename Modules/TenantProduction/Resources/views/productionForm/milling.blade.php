@@ -80,7 +80,7 @@
                     <input type="text" value="69000" class="form-control bg-primary" id="total_milling_show" />
                 </td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <td width="50%"></td>
                 <td width="25%">
                     <button type="button"
@@ -89,7 +89,7 @@
                 <td width="25%">
                     <input type="text" class="form-control bg-primary" id="total_merge_scale_show" />
                 </td>
-            </tr>
+            </tr> --}}
         </table>
     </div>
 </div>

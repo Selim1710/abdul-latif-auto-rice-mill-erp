@@ -153,9 +153,9 @@
                                 }
 
                                 /* .invoice table tfoot tr:last-child td {
-                                            color: #036;
-                                            border-top: 1px solid #036
-                                        } */
+                                                                    color: #036;
+                                                                    border-top: 1px solid #036
+                                                                } */
                                 .invoice table tfoot tr td:first-child {
                                     border: none
                                 }
@@ -393,7 +393,7 @@
                                             </tr>
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Use Product Qty') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Bag Qty') }}</button>
                                                 </td>
                                                 <td class="no">
                                                     <h5>{{ $data->total_use_product_qty }}</h5>
@@ -401,7 +401,7 @@
                                             </tr>
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Use Product Amount') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Bag Amount') }}</button>
                                                 </td>
                                                 <td class="no">
                                                     <h5>{{ $data->total_use_product_amount }}</h5>
@@ -409,7 +409,7 @@
                                             </tr>
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Milling') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Total Milling Cost') }}</button>
                                                 </td>
                                                 <td class="no">
                                                     <h5>{{ $data->total_milling }}</h5>
@@ -441,28 +441,80 @@
                                             </tr> --}}
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Stock Scale') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Finish Stock Scale') }}</button>
                                                 </td>
                                                 <td class="no">
-                                                    <h5>{{ $data->total_stock_scale }}</h5>
+                                                    <h5>{{ $data->finish_stock_scale }}</h5>
                                                 </td>
                                             </tr>
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Stock Amount') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Finish Stock Amount') }}</button>
                                                 </td>
                                                 <td class="no">
-                                                    <h5>{{ $data->total_stock_amount }}</h5>
+                                                    <h5>{{ $data->finish_stock_amount }}</h5>
                                                 </td>
                                             </tr>
                                             <tr class="text-center">
+                                                <td class="no"><button
+                                                        class="btn btn-primary btn-block">{{ __('file.By Product Stock Scale') }}</button>
+                                                </td>
+                                                <td class="no">
+                                                    <h5>{{ $data->by_product_stock_scale }}</h5>
+                                                </td>
+                                            </tr>
+                                            <tr class="text-center">
+                                                <td class="no"><button
+                                                        class="btn btn-primary btn-block">{{ __('file.By Product Stock Amount') }}</button>
+                                                </td>
+                                                <td class="no">
+                                                    <h5>{{ $data->by_product_stock_amount }}</h5>
+                                                </td>
+                                            </tr>
+                                            @php
+                                                $transport_cost = 0;
+                                                $data->productionRawProductList->each(function ($item) use (
+                                                    &$transport_cost,
+                                                ) {
+                                                    $transport_cost +=
+                                                        $item->scale * $item->purchase->per_scale_transportation_cost ??
+                                                        0;
+                                                });
+                                            @endphp
+                                            <tr class="text-center">
+                                                <td class="no"><button
+                                                        class="btn btn-primary btn-block">{{ __('file.Total Transportation Cost') }}</button>
+                                                </td>
+                                                <td class="no">
+                                                    <h5>{{ $transport_cost }}</h5>
+                                                </td>
+                                            </tr>
+                                            @php
+                                                $porta =
+                                                    $data->total_raw_amount +
+                                                    $transport_cost +
+                                                    $data->total_milling +
+                                                    $data->total_use_product_amount -
+                                                    $data->by_product_stock_amount;
+
+                                            @endphp
+                                            <tr class="text-center">
+                                                <td class="no"><button
+                                                        class="btn btn-primary btn-block">{{ __('file.Porta') }}</button>
+                                                </td>
+                                                <td class="no">
+                                                    <h5>{{ $porta / $data->finish_stock_scale }}</h5>
+                                                </td>
+                                            </tr>
+
+                                            {{-- <tr class="text-center">
                                                 <td class="no"><button
                                                         class="btn btn-primary btn-block">{{ __('file.Total Scale') }}</button>
                                                 </td>
                                                 <td class="no">
                                                     <h5>{{ $data->total_stock_scale + $data->total_sale_scale }}</h5>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
                                             {{-- <tr class="text-center">
                                                 <td class="no"><button
                                                         class="btn btn-primary btn-block">{{ __('file.Total Waste') }}</button>
@@ -472,14 +524,14 @@
                                                     </h5>
                                                 </td>
                                             </tr> --}}
-                                            <tr class="text-center">
+                                            {{-- <tr class="text-center">
                                                 <td class="no"><button
                                                         class="btn btn-primary btn-block">{{ __('file.Per Unit Scale Cost') }}</button>
                                                 </td>
                                                 <td class="no">
                                                     <h5>{{ $data->per_unit_scale_cost }}</h5>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
                                         </tbody>
                                     </table>
                                     <table style="width: 100%;">
