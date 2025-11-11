@@ -63,10 +63,15 @@
                            data-qty="tenant_delivery_{{ $key }}_qty"/></td>
                 <td><input class="form-control delQty" id="tenant_delivery_{{ $key }}_del_qty"
                            name="tenant_delivery[{{ $key }}][del_qty]"
-                           data-av_qty="tenant_delivery_{{ $key }}_av_qty"/></td>
+                           data-av_qty="tenant_delivery_{{ $key }}_av_qty"
+                           data-rate="tenant_delivery_{{ $key }}_load_unload_rate"
+                           data-amount="tenant_delivery_{{ $key }}_load_unload_amount"/></td>
                 <td>
                     <input class="form-control loadUnloadRate" id="tenant_delivery_{{ $key }}_load_unload_rate"
-                           name="tenant_delivery[{{ $key }}][load_unload_rate]" value="{{ $tenant_warehouse_product->warehouse->labour_load_unload_head->rate ?? 0 }}" /></td>
+                           name="tenant_delivery[{{ $key }}][load_unload_rate]"
+                           data-qty="tenant_delivery_{{ $key }}_del_qty"
+                           data-amount="tenant_delivery_{{ $key }}_load_unload_amount"
+                           value="{{ $tenant_warehouse_product->warehouse->labour_load_unload_head->rate ?? 0 }}"/></td>
                 <td><input class="form-control loadUnloadAmount" id="tenant_delivery_{{ $key }}_load_unload_amount"
                            name="tenant_delivery[{{ $key }}][load_unload_amount]"/></td>
                 <td>

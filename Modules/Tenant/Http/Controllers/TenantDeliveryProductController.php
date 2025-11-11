@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
+use Modules\Account\Entities\Transaction;
 use Modules\Category\Entities\Category;
+use Modules\ChartOfHead\Entities\ChartOfHead;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\Product\Entities\Product;
 use Modules\Setting\Entities\Warehouse;
 use Modules\Tenant\Entities\Tenant;
@@ -120,7 +123,9 @@ class TenantDeliveryProductController extends BaseController
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'del_qty'      => $value['del_qty']
+                                'del_qty'      => $value['del_qty'],
+                                'load_unload_rate' => $value['load_unload_rate'],
+                                'load_unload_amount' => $value['load_unload_amount']
                             ];
                         }
                     }
@@ -182,7 +187,9 @@ class TenantDeliveryProductController extends BaseController
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'del_qty'      => $value['del_qty']
+                                'del_qty'      => $value['del_qty'],
+                                'load_unload_rate' => $value['load_unload_rate'],
+                                'load_unload_amount' => $value['load_unload_amount']
                             ];
                         }
                     }
@@ -221,6 +228,12 @@ class TenantDeliveryProductController extends BaseController
                     ]);
                 }
                 $tenantDelivery->update(['status'  =>  1]);
+                //
+                $labor_head = LaborHead::find(1);
+                $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                $note = "Purchase";
+                $this->labour_head_Credit($coh->id, $tenantDelivery->invoice_no, $note, $tenantDelivery->total_load_unload_amount);
+                //
                 $output = ['status' => 'success', 'message' => 'Status Change Successfully'];
                 DB::commit();
             } catch (Exception $e) {
@@ -265,5 +278,21 @@ class TenantDeliveryProductController extends BaseController
             'availableQty' => !empty($warehouseProduct) ? $warehouseProduct->qty : 0,
             'scale'       => !empty($warehouseProduct) ? $warehouseProduct->scale : 0,
         ];
+    }
+
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    {
+        Transaction::create([
+            'chart_of_head_id' => $cohId,
+            'date'             => date('Y-m-d'),
+            'voucher_no'       => $invoiceNo,
+            'voucher_type'     => "LABOR-BILL",
+            'narration'        => $narration,
+            'debit'            => 0,
+            'credit'           => $paidAmount,
+            'status'           => 1,
+            'is_opening'       => 2,
+            'created_by'       => auth()->user()->name,
+        ]);
     }
 }

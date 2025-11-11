@@ -60,11 +60,17 @@
                                                     <th width="10%">{{ __('file.Scale') }}</th>
                                                     <th width="10%">{{ __('file.Del Qty') }}</th>
                                                     <th width="10%">{{ __('file.Load Unload Rate') }}</th>
-                                                    <th width="10%">{{ __('file.Load Unload Amount') }}</th>
+                                                    <th width="20%">{{ __('file.Load Unload Amount') }}</th>
                                                     <th width="8%">{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="10" class="text-right"><strong>{{ __('file.Total') }}</strong></td>
+                                                    <td colspan="2"><input type="text" class="bg-primary text-white form-control" name="total_load_unload_amount" id="total_load_unload_amount" readonly></td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -103,6 +109,9 @@
                         tenant_id: tenant_id
                     },
                     method: 'GET',
+                    beforeSend: function() {
+                        $('#tenantDeliveryTable tbody').html('<tr><td colspan="12" class="text-center"><i class="fas fa-spinner fa-spin"></i></td></tr>');
+                    },
                     success: function(data) {
                         if (data != '') {
                             $('#tenantDeliveryTable tbody').html(data);
@@ -112,77 +121,6 @@
                 });
             }
 
-        });
-        $(document).on('change', '.category', function() {
-            let html;
-            let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
-            let categoryId = $(this).find(":selected").val();
-            let productId = $(this).data('product_id');
-            $('#' + productId + '').empty();
-            $('.selectpicker').selectpicker('refresh');
-            if (warehouseId == '' || categoryId == '') {
-                notification('error', 'Warehouse Or Category Not Selected');
-                return;
-            }
-            $.ajax({
-                url: "{{ route('tenant.delivery.product.category') }}",
-                data: {
-                    categoryId: categoryId
-                },
-                method: 'GET',
-                success: function(data) {
-                    if (data != '') {
-                        html = `<option value="">Select Please</option>`;
-                        $.each(data, function(key, value) {
-                            html += '<option value="' + value.id + '">' + value.product_name +
-                                '</option>';
-                        });
-                        $('#' + productId + '').append(html);
-                        $('.selectpicker').selectpicker('refresh');
-                    }
-                }
-            });
-        });
-        $(document).on('change', '.product', function() {
-            let warehouseId = $('#' + $(this).data('warehouse_id') + '').find(":selected").val();
-            let tenant_id = $('#tenant_id').val();
-            let productId = $(this).find(":selected").val();
-            let unitId = $(this).data('unit_id');
-            let unitShow = $(this).data('unit_show');
-            let avScale = $(this).data('av_scale');
-            let avQty = $(this).data('av_qty');
-            if (warehouseId == '' || productId == '') {
-                notification('error', 'Warehouse Or Product Not Selected');
-                return;
-            }
-
-            if (tenant_id == '') {
-                notification('error', 'Tenant Not Selected');
-                return;
-            }
-
-            if (warehouseId != null && tenant_id != null) {
-                $.ajax({
-                    url: "{{ route('tenant.delivery.product.details') }}",
-                    data: {
-                        warehouseId: warehouseId,
-                        productId: productId,
-                        tenant_id: tenant_id
-                    },
-                    method: 'GET',
-                    success: function(data) {
-                        if (data) {
-                            $('#' + unitId + '').val(data.unitId);
-                            $('#' + unitShow + '').val(data.unitShow);
-                            $('#' + avScale + '').val(data.scale);
-                            $('#' + avQty + '').val(data.availableQty);
-                        } else {
-                            notification('error', 'Product Stock Not Found');
-                        }
-                        $('.selectpicker').selectpicker('refresh');
-                    }
-                });
-            }
         });
         $(document).on('input', '.qty', function() {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
@@ -224,11 +162,27 @@
         });
         $(document).on('input', '.delQty', function() {
             let avQty = $(this).data('av_qty');
+            let rate = $(this).data('rate');
+            let amount = $(this).data('amount');
             if (_(avQty).value == '' || $(this).val() > parseFloat(_(avQty).value)) {
                 $(this).val('');
+                _(amount).value = 0;
                 notification('error', 'Available Quantity Not Found Or Quantity Greater Then Available Qty');
                 return;
             }
+            _(amount).value = $(this).val() * _(rate).value;
+            calculation();
+        });
+        $(document).on('input', '.loadUnloadRate', function() {
+            let rate = Number($(this).val());
+            let amount = $(this).data('amount');
+            let qty = $(this).data('qty');
+            if (_(qty).value == '') {
+                notification('error', 'Quantity Not Found');
+                return;
+            }
+            _(amount).value = _(qty).value * rate;
+            calculation();
         });
         $(document).on('click', '.addRaw', function() {
             let html;
@@ -284,6 +238,14 @@
         $(document).on('click', '.deleteRaw', function() {
             $(this).parent().parent().remove();
         });
+
+        function calculation() {
+            let totalLoadUnloadAmount = 0;
+            $('.loadUnloadAmount').each(function() {
+                totalLoadUnloadAmount += Number($(this).val());
+            });
+            $('#total_load_unload_amount').val(totalLoadUnloadAmount);
+        }
 
         function storeData() {
             let form = document.getElementById('tenant_delivery_product_form');
