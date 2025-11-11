@@ -64,28 +64,50 @@
                         <td><input type="text" class="bg-primary form-control text-center" id="total_sale_amount"
                                 name="total_sale_amount" value="{{ $productionSale[0]->subTotal }}" readonly /></td>
                     </tr> --}}
+
+                    {{-- new --}}
                     <tr class="text-center">
                         <td><button type="button"
-                                class="btn btn-primary btn-block">{{ __('file.Total Stock Scale') }}</button></td>
+                                class="btn btn-primary btn-block">{{ __('file.Finish Stock Scale') }}</button></td>
                         <td><b>:</b></td>
-                        <td><input type="text" class="bg-primary form-control text-center" id="total_stock_scale"
-                                name="total_stock_scale" value="{{ $productionProduct[0]->scale }}" readonly /></td>
+                        <td><input type="text" class="bg-primary form-control text-center" id="finish_stock_scale"
+                                name="finish_stock_scale"
+                                value="{{ $productionProduct[0]->scale - $byProduct[0]->scale }}" readonly /></td>
                     </tr>
                     <tr class="text-center">
                         <td><button type="button"
-                                class="btn btn-primary btn-block">{{ __('file.Total Stock Amount') }}</button></td>
+                                class="btn btn-primary btn-block">{{ __('file.Finish Stock Amount') }}</button></td>
                         <td><b>:</b></td>
-                        <td><input type="text" class="bg-primary form-control text-center" id="total_stock_amount"
-                                name="total_stock_amount" value="{{ $productionProduct[0]->subTotal }}" readonly />
+                        <td><input type="text" class="bg-primary form-control text-center" id="finish_stock_amount"
+                                name="finish_stock_amount"
+                                value="{{ $productionProduct[0]->subTotal - $byProduct[0]->subTotal }}" readonly />
                         </td>
                     </tr>
                     <tr class="text-center">
+                        <td><button type="button"
+                                class="btn btn-primary btn-block">{{ __('file.By Product Stock Scale') }}</button></td>
+                        <td><b>:</b></td>
+                        <td><input type="text" class="bg-primary form-control text-center" id="by_product_stock_scale"
+                                name="by_product_stock_scale"
+                                value="{{ $byProduct[0]->scale }}" readonly /></td>
+                    </tr>
+                    <tr class="text-center">
+                        <td><button type="button"
+                                class="btn btn-primary btn-block">{{ __('file.By Product Stock Amount') }}</button></td>
+                        <td><b>:</b></td>
+                        <td><input type="text" class="bg-primary form-control text-center" id="by_product_stock_amount"
+                                name="by_product_stock_amount"
+                                value="{{ $byProduct[0]->subTotal }}" readonly />
+                        </td>
+                    </tr>
+                    
+                    {{-- <tr class="text-center">
                         <td><button type="button"
                                 class="btn btn-primary btn-block">{{ __('file.Per Unit Scale Cost') }}</button></td>
                         <td><b>:</b></td>
                         <td><input type="text" class="bg-primary form-control text-center" id="per_unit_scale_cost"
                                 name="per_unit_scale_cost" readonly /></td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
         </div>

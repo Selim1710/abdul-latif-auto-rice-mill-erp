@@ -302,10 +302,6 @@
 
 
             _('total_expense').value = expenseCost;
-            _('per_unit_scale_cost').value = (+productionRawAmount + +_('total_use_product_amount').value +
-                // +milling +
-                +
-                expenseCost) / (+_('total_sale_scale').value + +_('total_stock_scale').value);
         }
 
         function show_form(step) {
@@ -316,7 +312,7 @@
         function store_data() {
             let form = document.getElementById('store_or_update_form');
             let formData = new FormData(form);
-            if (_('total_stock_scale').value == '') {
+            if (_('finish_stock_scale').value == '') {
                 notification('error', 'There Is No Stock In These Production Please Entry Production Stock Entry');
                 return;
             }

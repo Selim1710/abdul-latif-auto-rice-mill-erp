@@ -361,8 +361,20 @@ class ProductionController extends BaseController
                         DB::raw('SUM(pp.use_sub_total) as productionProductUseSubTotal')
                     )->get(),
 
-                'expenses'          => ExpenseItem::ProductionExpense()->get()
+                'expenses'          => ExpenseItem::ProductionExpense()->get(),
+                'byProduct'         => DB::table('production_products as pp')
+                    ->join('products as p', 'p.id', '=', 'pp.product_id')
+                    ->where(['pp.production_id' => $id, 'p.category_id' => '4'])
+                    ->select(
+                        DB::raw('COALESCE(SUM(pp.scale), 0) as scale'),
+                        DB::raw('SUM(pp.sub_total) as subTotal'),
+                        DB::raw('SUM(pp.use_qty) as byProductUseQty'),
+                        DB::raw('SUM(pp.use_sub_total) as byProductUseSubTotal')
+                    )->get(),
+
             ];
+            // return $data['productionProduct'];
+
             return view('production::production', $data);
         } else {
             return $this->access_blocked();
@@ -370,6 +382,7 @@ class ProductionController extends BaseController
     }
     public function complete(ProductionCompleteFormRequest $request)
     {
+        // return $request;
         if ($request->ajax() && permission('production-complete')) {
             DB::beginTransaction();
             try {

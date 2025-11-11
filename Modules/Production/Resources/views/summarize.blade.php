@@ -441,18 +441,34 @@
                                             </tr> --}}
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Stock Scale') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Finish Stock Scale') }}</button>
                                                 </td>
                                                 <td class="no">
-                                                    <h5>{{ $data->total_stock_scale }}</h5>
+                                                    <h5>{{ $data->finish_stock_scale }}</h5>
                                                 </td>
                                             </tr>
                                             <tr class="text-center">
                                                 <td class="no"><button
-                                                        class="btn btn-primary btn-block">{{ __('file.Total Stock Amount') }}</button>
+                                                        class="btn btn-primary btn-block">{{ __('file.Finish Stock Amount') }}</button>
                                                 </td>
                                                 <td class="no">
-                                                    <h5>{{ $data->total_stock_amount }}</h5>
+                                                    <h5>{{ $data->finish_stock_amount }}</h5>
+                                                </td>
+                                            </tr>
+                                            <tr class="text-center">
+                                                <td class="no"><button
+                                                        class="btn btn-primary btn-block">{{ __('file.By Product Stock Scale') }}</button>
+                                                </td>
+                                                <td class="no">
+                                                    <h5>{{ $data->by_product_stock_scale }}</h5>
+                                                </td>
+                                            </tr>
+                                            <tr class="text-center">
+                                                <td class="no"><button
+                                                        class="btn btn-primary btn-block">{{ __('file.By Product Stock Amount') }}</button>
+                                                </td>
+                                                <td class="no">
+                                                    <h5>{{ $data->by_product_stock_amount }}</h5>
                                                 </td>
                                             </tr>
                                             <tr class="text-center">
