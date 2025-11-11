@@ -152,7 +152,7 @@
                                                                 data-price="production_product_0_price"
                                                                 data-sub_total="production_product_0_sub_total" /> </td>
 
-                                                                {{-- pro qty --}}
+                                                        {{-- pro qty --}}
                                                         <td>
                                                             <input class="form-control productionQty text-center"
                                                                 id="production_product_0_production_qty"
@@ -257,6 +257,7 @@
                                                                 data-unit_id="production_product_0_use_unit_id"
                                                                 data-available_qty="production_product_0_use_available_qty"
                                                                 data-price="production_product_0_use_price"
+                                                                data-use_qty="production_product_0_use_qty"
                                                                 data-live-search = "true"></select></td>
                                                         <td><input class="form-control bg-primary text-center"
                                                                 id="production_product_0_use_unit_show" readonly /><input
@@ -352,7 +353,10 @@
             $('.selectpicker').selectpicker('refresh');
             if (warehouseId != '' && categoryId != '') {
                 $.ajax({
-                    url: "{{ url('category-product') }}/" + categoryId,
+                    url: "{{ url('category-product') }}",
+                    data: {
+                        category_id: categoryId
+                    },
                     method: 'GET',
                     success: function(data) {
                         if (data != '') {
@@ -399,7 +403,10 @@
             let productId = $(this).data('product_id');
             if (warehouseId != '' && categoryId != '') {
                 $.ajax({
-                    url: "{{ url('category-product') }}/" + categoryId,
+                    url: "{{ url('category-product') }}",
+                    data: {
+                        category_id: categoryId
+                    },
                     method: 'GET',
                     success: function(data) {
                         if (data != '') {
@@ -425,6 +432,7 @@
             let unitId = $(this).data('unit_id');
             let unitShow = $(this).data('unit_show');
             let availableQty = $(this).data('available_qty');
+            let use_qty = $(this).data('use_qty');
             if (productId != '') {
                 $.ajax({
                     url: "{{ url('warehouse-product') }}/" + warehouseId + "/" + productId,
@@ -435,6 +443,15 @@
                             $('#' + unitId + '').val(data.unitId);
                             $('#' + unitShow + '').val(data.unitShow);
                             $('#' + availableQty + '').val(data.availableQty);
+
+                            if (parseFloat(_(use_qty).value) > parseFloat(data.availableQty)) {
+                                _(use_qty).value = '';
+                                notification('error',
+                                    'Quantity Can\'t Be Greater Then Stock Quantity'
+                                );
+                                return;
+                            }
+
                         }
                     }
                 });
@@ -488,6 +505,11 @@
         $(document).on('input', '.productionQty', function() {
             let saleType = $('#sale_type').find(":selected").val();
             let availableQty = $(this).data('available_qty');
+
+            let use_qty = $(this).data('use_qty');
+            _(use_qty).value = $(this).val();
+
+
             if (saleType == 1 && parseFloat($(this).val()) > parseFloat(_(availableQty).value)) {
                 $(this).val('');
                 notification('error', 'Quantity Can\'t Be Greater Then Stock Quantity');
