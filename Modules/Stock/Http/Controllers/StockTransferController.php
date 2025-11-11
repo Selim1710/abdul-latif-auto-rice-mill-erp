@@ -183,20 +183,32 @@ class StockTransferController extends BaseController
     }
     public function changeStatus(Request $request)
     {
+        // return $request;
         if ($request->ajax() && permission('stock-transfer-change-status')) {
             DB::beginTransaction();
             try {
                 $data = $this->model->with('stockTransferWarehouseProductList')->find($request->id);
+                // return $data;
+
                 $data->update(['status' => 1]);
                 if (isset($data->stockTransferWarehouseProductList)) {
                     foreach ($data->stockTransferWarehouseProductList as $value) {
-                        $transferWarehouseProduct = WarehouseProduct::firstWhere([
-                            'warehouse_id'     => $data->transfer_warehouse_id,
-                            'product_id'       => $value->product_id,
-                            'party_id'       => $value->party_id,
-                            'purchase_id'       => $value->purchase_id,
+                        // return $value;
 
-                        ]);
+                        if ($value->party_id != 0 && $value->purchase_id != 0) {
+                            $transferWarehouseProduct = WarehouseProduct::firstWhere([
+                                'warehouse_id'     => $data->transfer_warehouse_id,
+                                'product_id'       => $value->product_id,
+                                'party_id'       => $value->party_id,
+                                'purchase_id'       => $value->purchase_id,
+                            ]);
+                        } else {
+                            $transferWarehouseProduct = WarehouseProduct::firstWhere([
+                                'warehouse_id'     => $data->transfer_warehouse_id,
+                                'product_id'       => $value->product_id,
+                            ]);
+                        }
+
                         if (($value->qty > $transferWarehouseProduct->qty) || ($value->scale > $transferWarehouseProduct->scale)) {
                             return response()->json(['status' => 'error', 'message' => 'Transfer Quantity Not Be Greater Then Stock Quantity']);
                         }
