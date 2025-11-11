@@ -59,7 +59,6 @@ class ProductionProductController extends BaseController
                     $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
                 }
 
-
                 $productionProduct = [];
                 $production        = Production::findOrFail($request->production_id);
                 if ($request->has('production_product')) {
@@ -72,7 +71,6 @@ class ProductionProductController extends BaseController
                                 $product = Product::find($value['product_id'])->update(['sale_price' => ($value['price'] ?? '')]);
                             }
 
-
                             // add product
                             $productionProduct[] = [
                                 'invoice_no'       => $request->invoice_no,
@@ -83,7 +81,7 @@ class ProductionProductController extends BaseController
                                 'production_qty'   => $value['production_qty'],
                                 'price'            => $value['price'],
                                 'sub_total'        => $value['sub_total'],
-                                'use_warehouse_id' => $value['use_warehouse_id'],
+                                'use_warehouse_id' => $value['warehouse_id'],
                                 'use_product_id'   => $value['use_product_id'],
                                 'use_qty'          => $value['use_qty'],
                                 'use_price'        => $value['use_price'],
@@ -107,7 +105,7 @@ class ProductionProductController extends BaseController
                                 ]);
                             }
                             $warehouseProduct->save();
-                            $useWarehouseProduct    = WarehouseProduct::firstWhere(['warehouse_id' => $value['use_warehouse_id'], 'product_id' => $value['use_product_id']]);
+                            $useWarehouseProduct    = WarehouseProduct::firstWhere(['warehouse_id' => $value['warehouse_id'], 'product_id' => $value['use_product_id']]);
                             if (empty($useWarehouseProduct)) {
                                 return response()->json(['status' => 'error', 'message' => 'Product Is Empty']);
                             }

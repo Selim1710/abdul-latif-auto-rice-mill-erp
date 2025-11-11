@@ -80,7 +80,7 @@ class TenantProductionProductController extends BaseController
                                 'qty'              => $value['qty'],
                                 'scale'            => $value['scale'],
                                 'production_qty'   => $value['production_qty'],
-                                'use_warehouse_id' => $value['use_warehouse_id'],
+                                'use_warehouse_id' => $value['warehouse_id'],
                                 'use_product_id'   => $value['use_product_id'],
                                 'use_qty'          => $value['use_qty'],
                             ];
@@ -105,10 +105,10 @@ class TenantProductionProductController extends BaseController
                             }
                             $tenantWarehouseProductionProduct->save();
 
-                            if (!empty($value['use_warehouse_id']) and !empty($value['use_product_id'])) {
+                            if (!empty($value['warehouse_id']) and !empty($value['use_product_id'])) {
                                 $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $request->tenant_id,
 
-                                 'warehouse_id' => $value['use_warehouse_id'], 
+                                 'warehouse_id' => $value['warehouse_id'], 
                                  'batch_no' => $value['use_batch_no'], 
 
                                  'product_id' => $value['use_product_id']]);

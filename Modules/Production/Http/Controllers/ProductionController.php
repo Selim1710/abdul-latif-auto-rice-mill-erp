@@ -489,12 +489,18 @@ class ProductionController extends BaseController
         return WarehouseProduct::with('product')->where(['warehouse_id' => $warehouseId, 'party_id' => $partyId,])->groupBy('product_id')->get();
     }
 
+    public function categoryProduct(Request $request)
+    {
+        $category_id = $request->category_id;
+        return Product::where('category_id', $category_id)->get();
+    }
+
     public function party_wise_purchase_invoice(Request $request)
     {
         $party_id = $request->party_id;
         $warehouse_id = $request->warehouse_id;
         $product_id = $request->product_id;
-        return WarehouseProduct::with('purchase', 'product.unit')->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id, 'product_id' => $product_id,])->get();
+        return WarehouseProduct::with('purchase', 'product.unit')->where('qty', '>', 0)->where(['party_id' => $party_id, 'warehouse_id' => $warehouse_id, 'product_id' => $product_id,])->get();
     }
 
     public function availableProduct(Request $request)
