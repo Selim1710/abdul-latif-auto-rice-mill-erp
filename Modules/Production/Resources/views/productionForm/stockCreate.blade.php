@@ -416,6 +416,8 @@
             let unitShow = $(this).data('unit_show');
             let availableQty = $(this).data('available_qty');
             let use_qty = $(this).data('use_qty');
+            let subTotal = $(this).data('sub_total');
+
             if (productId != '') {
                 $.ajax({
                     url: "{{ url('warehouse-product') }}/" + warehouseId + "/" + productId,
@@ -434,6 +436,14 @@
                                 );
                                 return;
                             }
+
+                            if (_(price).value == '') {
+                                $(this).val('');
+                                notification('error', 'Price Not Inputted');
+                                return;
+                            }
+                            _(subTotal).value = _(use_qty).value * _(price).value;
+
 
                         }
                     }
@@ -734,7 +744,7 @@
                                     data-available_qty="production_product_` + i + `_use_available_qty"
                                     data-price="production_product_` + i + `_use_price"
                                     data-use_qty="production_product_` + i + `_use_qty"
-                                    data-sub_total="production_product_0_use_sub_total"
+                                    data-sub_total="production_product_` + i + `_use_sub_total"
                                     data-live-search = "true"></select></td>
                             <td><input class="form-control bg-primary text-center"
                                     id="production_product_` + i + `_use_unit_show" readonly /><input
