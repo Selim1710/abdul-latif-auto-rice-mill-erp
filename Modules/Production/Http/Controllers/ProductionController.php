@@ -472,7 +472,9 @@ class ProductionController extends BaseController
         if (permission('production-summary')) {
             $setTitle = __('file.Summary');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
-            $data = $this->model->with('mill')->findOrFail($id);
+            $data = $this->model->with('productionRawProductList.purchase','mill')->findOrFail($id);
+            // return $data;
+
             return view('production::summarize', compact('data'));
         } else {
             return $this->access_blocked();
