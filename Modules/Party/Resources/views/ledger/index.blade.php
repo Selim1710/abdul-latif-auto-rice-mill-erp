@@ -335,10 +335,7 @@
                 notification('error','Please choose date!');
                 return;
             }
-            if( _('party_id').value == '' ){
-                notification('error','Please select Party!');
-                return;
-            }
+
             $.ajax({
                 url        :"{{ route('party.ledger.data') }}",
                 type       :"POST",
