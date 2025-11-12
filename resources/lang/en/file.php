@@ -2004,5 +2004,6 @@ return [
     'Bag Amount' => 'Bag Amount',
     'Total Debit' => 'Total Debit',
     'Total Credit' => 'Total Credit',
-    'Party Transaction Summery' => 'Party Transaction Summery'
+    'Party Transaction Summery' => 'Party Transaction Summery',
+    'Party Summary' => 'Party Summary'
 ];
