@@ -321,39 +321,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    <table>
-                                        <tbody>
-                                        <tr><td colspan="9"><button type="button" class="btn btn-success btn-block">{{__('file.Sale')}}</button></td></tr>
-                                        <tr>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Product')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Category')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Unit')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Scale')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Qty')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Use Warehouse')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Use Product')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Use Unit')}}</button></td>
-                                            <td class="no"><button type="button" class="btn btn-primary btn-block">{{__('file.Use Qty')}}</button></td>
-                                        </tr>
-                                        @forelse($data->productionSaleList as $sale)
-                                            @foreach($sale->productionSaleProductList as $item)
-                                                <tr class="text-center">
-                                                    <td class="no">{{$item->product->product_name}}</td>
-                                                    <td class="no"><span class="label label-danger label-pill label-inline" style="min-width:70px !important;">{{$item->product->category->category_name}}</span></td>
-                                                    <td class="no">{{$item->product->unit->unit_name.'('.$item->product->unit->unit_code.')'}}</td>
-                                                    <td class="no">{{$item->scale}}</td>
-                                                    <td class="no">{{$item->qty}}</td>
-                                                    <td class="no">{{$item->useWarehouse->name}}</td>
-                                                    <td class="no">{{$item->useProduct->product_name}}</td>
-                                                    <td class="no">{{$item->useProduct->unit->unit_name.'('.$item->useProduct->unit->unit_code.')'}}</td>
-                                                    <td class="no">{{$item->use_qty}}</td>
-                                                </tr>
-                                            @endforeach
-                                        @empty
-                                            <tr><td class="no" colspan="9"><button type="button" class="btn btn-danger btn-block">{{__('file.No Data Found')}}</button></td></tr>
-                                        @endforelse
-                                        </tbody>
-                                    </table>
+                                    
                                     <table>
                                         <tbody>
                                         <tr><td colspan="10"><button type="button" class="btn btn-success btn-block">{{__('file.Stock')}}</button></td></tr>
