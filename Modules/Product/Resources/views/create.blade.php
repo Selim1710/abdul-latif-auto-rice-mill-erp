@@ -52,7 +52,7 @@
                                 <x-form.textbox labelName="{{__('file.Purchase Price')}}" name="purchase_price" required="required" col="col-md-4" placeholder="{{__('file.Purchase Price')}}"/>
                                 <x-form.textbox labelName="{{__('file.Sale Price')}}" name="sale_price" required="required" col="col-md-4" placeholder="{{__('file.Sale Price')}}"/>
                                 <x-form.textbox labelName="{{__('file.Alert Quantity')}}" name="alert_qty"  col="col-md-4" placeholder="{{__('file.Enter product alert qty')}}"/>
-                                <div class="form-group col-md-12" style="padding-top: 25px;">
+                                <div class="form-group col-md-12 d-none" style="padding-top: 25px;">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="opening_stock_check" value="2">
                                         <label class="custom-control-label" for="opening_stock_check">{{__('file.This Product Has Company Stock')}}</label>

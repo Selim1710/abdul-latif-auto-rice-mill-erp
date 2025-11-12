@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row {{ $product->opening_stock == 1 ? '' : 'd-none' }}" id="openingStockForm">
+                            <div class="row d-none" id="openingStockForm">
                                     @if($product->opening_stock == 2)
                                         <div class="col-md-4" id="openingStock_0_warehouse_id_show">
                                             <label for="openingStock_0_warehouse_id">{{__('file.Company')}}</label>
