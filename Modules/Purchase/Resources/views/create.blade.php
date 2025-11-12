@@ -49,10 +49,8 @@
                                     <label for="party_type">{{ __('file.Party Type') }}</label>
                                     <select class="form-control party_type selectpicker" id="party_type" name="party_type"
                                         onchange="partyType()">
-                                        <option value="">{{ __('file.Please Select') }}</option>
-                                        @foreach (PARTY_TYPE_VALUE as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
+                                        {{-- <option value="">{{ __('file.Please Select') }}</option> --}}
+                                        <option value="1">General</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6" id="party_id_show">
@@ -341,6 +339,7 @@
             return document.getElementById(x);
         }
 
+
         function partyType() {
             let partyType = $('#party_type').find(":selected").val();
             if (partyType == 1) {
@@ -361,6 +360,7 @@
             }
         }
 
+        partyType();
         $(document).on('change', '.category', function() {
             let html;
             let categoryId = $(this).find(":selected").val();
@@ -398,7 +398,8 @@
                     success: function(data) {
                         if (data) {
                             $('#' + unitId + '').val(data.unit.unit_name);
-                            $('#' + unitShow + '').val(data.unit.unit_name + '(' + data.unit.unit_code +
+                            $('#' + unitShow + '').val(data.unit.unit_name + '(' + data.unit
+                                .unit_code +
                                 ')');
                             $('#' + price + '').val(data.purchase_price);
                         }
@@ -651,7 +652,8 @@
                         if (data != '') {
                             html = `<option value="">Select Please</option>`;
                             $.each(data, function(key, value) {
-                                html += '<option value="' + value.id + '">' + value.name + '</option>';
+                                html += '<option value="' + value.id + '">' + value.name +
+                                    '</option>';
                             });
                             $('#account_id').empty();
                             $('#account_id').append(html);
@@ -701,12 +703,14 @@
                 _('total_purchase_sub_total').value = subTotal - _('discount').value;
                 _('net_total').value = +_('previous_due').value + +subTotal - _('discount').value;
                 _('paid_amount').value = +_('previous_due').value + +subTotal - _('discount').value;
-                _('due_amount').value = +_('previous_due').value + +subTotal - _('discount').value - _('paid_amount').value;
+                _('due_amount').value = +_('previous_due').value + +subTotal - _('discount').value - _(
+                    'paid_amount').value;
             } else {
                 _('total_purchase_qty').value = qty;
                 _('total_purchase_sub_total').value = subTotal - _('discount').value;
                 _('net_total').value = +_('previous_due').value + +subTotal - _('discount').value;
-                _('due_amount').value = +_('previous_due').value + +subTotal - _('discount').value - _('paid_amount').value;
+                _('due_amount').value = +_('previous_due').value + +subTotal - _('discount').value - _(
+                    'paid_amount').value;
             }
         }
 
@@ -735,10 +739,13 @@
                         $.each(data.errors, function(key, value) {
                             var key = key.split('.').join('_');
                             $('#purchase_store_form input#' + key).addClass('is-invalid');
-                            $('#purchase_store_form textarea#' + key).addClass('is-invalid');
-                            $('#purchase_store_form select#' + key).parent().addClass('is-invalid');
+                            $('#purchase_store_form textarea#' + key).addClass(
+                                'is-invalid');
+                            $('#purchase_store_form select#' + key).parent().addClass(
+                                'is-invalid');
                             $('#purchase_store_form #' + key).parent().append(
-                                '<small class="error text-danger">' + value + '</small>');
+                                '<small class="error text-danger">' + value + '</small>'
+                            );
                         });
                     } else {
                         notification(data.status, data.message);
@@ -770,8 +777,6 @@
                 }
             });
             _('per_scale_transportation_cost').value = (transportation_cost / total_scale).toFixed(3);
-
-
         }
     </script>
 @endpush
