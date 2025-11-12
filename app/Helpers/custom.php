@@ -98,7 +98,7 @@ define('SALE_TYPE_LABEL',[
 ]);
 define('PARTY_TYPE_VALUE',[
     '1'  => 'General',
-    '2'  => 'Walking'
+    // '2'  => 'Walking'
 ]);
 define('PARTY_TYPE_LABEL',[
     '1' => '<span class="label label-success label-pill label-inline" style="min-width:100px !important;">General</span>',

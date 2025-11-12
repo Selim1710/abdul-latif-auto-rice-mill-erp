@@ -18,6 +18,9 @@ class ExpenseItem extends BaseModel{
     public function scopeOtherExpense($query){
         return $query->where(['status' => 1,'expense_type' => 2]);
     }
+    public function scopeTransportExpense($query){
+        return $query->where(['status' => 1,'expense_type' => 3]);
+    }
     private function get_datatable_query(){
         $this->column_order = ['name','status','expense_type', 'created_by', 'modified_by',null];
         $query = self::toBase();

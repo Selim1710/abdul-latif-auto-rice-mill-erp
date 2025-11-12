@@ -153,9 +153,9 @@
                                 }
 
                                 /* .invoice table tfoot tr:last-child td {
-                                                                    color: #036;
-                                                                    border-top: 1px solid #036
-                                                                } */
+                                                                        color: #036;
+                                                                        border-top: 1px solid #036
+                                                                    } */
                                 .invoice table tfoot tr td:first-child {
                                     border: none
                                 }
@@ -503,7 +503,7 @@
                                                         class="btn btn-primary btn-block">{{ __('file.Porta') }}</button>
                                                 </td>
                                                 <td class="no">
-                                                    <h5>{{ $porta / $data->finish_stock_scale }}</h5>
+                                                    <h5>{{ number_format($porta / $data->finish_stock_scale, 3) }}</h5>
                                                 </td>
                                             </tr>
 

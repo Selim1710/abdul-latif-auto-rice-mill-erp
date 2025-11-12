@@ -2000,4 +2000,6 @@ return [
     'By Product Stock Amount' => 'By Product Stock Amount',
     'Total Transportation Cost' => 'Total Transportation Cost',
     'Porta' => 'Porta',
+    'Bag Qty' => 'Bag Qty',
+    'Bag Amount' => 'Bag Amount',
 ];
