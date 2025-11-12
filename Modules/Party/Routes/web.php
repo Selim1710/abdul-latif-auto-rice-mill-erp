@@ -14,4 +14,8 @@ Route::group(['middleware' => ['auth','language']], function () {
     });
     Route::get('party-ledger', 'PartyLedgerController@index')->name('party.ledger');
     Route::post('party-ledger/data', 'PartyLedgerController@ledgerData')->name('party.ledger.data');
+
+    //Summery
+    Route::get('party-summery', 'PartySummeryReportController@index')->name('party.summery');
+    Route::post('party-summery/data', 'PartySummeryReportController@partySummary')->name('party.summery.data');
 });

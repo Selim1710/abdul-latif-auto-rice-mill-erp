@@ -51,7 +51,7 @@ class PartyLedgerController extends BaseController
         if (!empty($request->party_id)) {
             $previousBalance->where(['coh.party_id' => $request->party_id]);
         }
-        $previousBalance->select(
+        $previousBalance = $previousBalance->select(
             DB::raw('SUM(t.debit) as totalDebit'),
             DB::raw('SUM(t.credit) as totalCredit'),
         )

@@ -21,13 +21,6 @@
                                 <label for="end_date">{{__('file.End Date')}}</label>
                                 <input type="date" class="form-control" id="end_date" name="end_date"/>
                             </div>
-                            <x-form.selectbox labelName="Party" name="party_id" col="col-md-6" class="selectpicker">
-                                @if (!$parties->isEmpty())
-                                    @foreach ($parties as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name.'('.$value->address.')' }}</option>
-                                    @endforeach
-                                @endif
-                            </x-form.selectbox>
                             <div class="col-md-2">
                                 <div style="margin-top:28px;">
                                     <button id="btn-reset" class="btn btn-danger btn-sm btn-elevate btn-icon mr-2 float-left custom-btn" type="button" data-toggle="tooltip" data-theme="dark" title="Reset"><i class="fas fa-undo-alt"></i></button>
@@ -330,19 +323,14 @@
         function report_data() {
             let start_date  = _('start_date').value;
             let end_date    = _('end_date').value;
-            let party_id    = _('party_id').value;
             if( _('start_date').value == '' || _('end_date').value == ''){
                 notification('error','Please choose date!');
                 return;
             }
-            if( _('party_id').value == '' ){
-                notification('error','Please select Party!');
-                return;
-            }
             $.ajax({
-                url        :"{{ route('party.ledger.data') }}",
+                url        :"{{ route('party.summery.data') }}",
                 type       :"POST",
-                data       :{start_date:start_date,end_date:end_date,party_id:party_id,_token:_token},
+                data       :{start_date:start_date,end_date:end_date,_token:_token},
                 beforeSend : function(){
                     $('#table-loader').removeClass('d-none');
                 },
