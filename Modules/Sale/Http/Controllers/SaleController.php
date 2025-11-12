@@ -186,7 +186,7 @@ class SaleController extends BaseController
                     $amount = $sale->saleProductList()->sum('load_unload_amount');
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Sale";
-                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount);
 
 
                     $narration = $name . ' sale receive amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
@@ -307,7 +307,7 @@ class SaleController extends BaseController
                 $amount = $sale->saleProductList()->sum('load_unload_amount');
                 $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                 $note = "Sale";
-                $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                $this->labour_head_Credit($coh->id, $sale->invoice_no, $note, $amount);
 
 
                 $party    = ChartOfHead::firstWhere(['master_head' => 1, 'party_id' => $sale->party_id]);

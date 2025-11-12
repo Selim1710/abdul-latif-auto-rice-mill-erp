@@ -310,7 +310,7 @@ class PurchaseController extends BaseController
 
                 $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                 $note = "Purchase";
-                $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount);
+                $this->labour_head_Credit($coh->id, $purchase->invoice_no, $note, $amount);
 
 
                 abort_if($purchase->purchase_status == 4, 404);
