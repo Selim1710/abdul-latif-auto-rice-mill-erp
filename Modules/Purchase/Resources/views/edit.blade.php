@@ -52,12 +52,7 @@
                                     <label for="party_type">{{ __('file.Party Type') }}</label>
                                     <select class="form-control party_type selectpicker" id="party_type" name="party_type"
                                         onchange="partyType()">
-                                        <option value="">{{ __('file.Please Select') }}</option>
-                                        @foreach (PARTY_TYPE_VALUE as $key => $value)
-                                            <option value="{{ $key }}"
-                                                @if ($key == $edit->party_type) selected="selected" @endif>
-                                                {{ $value }}</option>
-                                        @endforeach
+                                         <option value="1">General</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6" id="party_id_show">
