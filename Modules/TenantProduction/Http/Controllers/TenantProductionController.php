@@ -105,7 +105,8 @@ class TenantProductionController extends BaseController
                 $row = [];
                 $row[] = $no;
                 $row[] = $value->invoice_no;
-                $row[] = $value->mill->name;
+                $row[] = $value->tenant->name ?? '';
+                $row[] = $value->mill->name ?? '';
                 $row[] = $value->date;
                 $row[] = $value->start_date ?? '<span class="label label-danger label-pill label-inline" style="min-width:70px !important;"></span>';
                 $row[] = $value->end_date ?? '<span class="label label-danger label-pill label-inline" style="min-width:70px !important;"></span>';
