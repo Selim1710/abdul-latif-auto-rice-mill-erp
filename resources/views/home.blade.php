@@ -141,7 +141,7 @@
                 <div class="dashboard-col">
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/customer.png') }}" class="dashboard-icon" alt="Party">
-                        <div class="dashboard-value text-teal">{{ $party ?? 0 }} TK
+                        <div class="dashboard-value text-teal">{{ $party ?? 0 }}
                             <p class="card-text">Party</p>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                 <div class="dashboard-col">
                     <div class="dashboard-card">
                         <img src="{{ asset('icon/labor.png') }}" class="dashboard-icon" alt="labor">
-                        <div class="dashboard-value text-pink">{{ $labor ?? 0 }} TK
+                        <div class="dashboard-value text-pink">{{ $labor ?? 0 }}
                             <p class="card-text">Labor</p>
                         </div>
                     </div>
