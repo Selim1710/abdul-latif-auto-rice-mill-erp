@@ -58,9 +58,24 @@ class VoucherController extends BaseController
                 if (permission('voucher-delete') && $value->status != 1) {
                     $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->voucherNo . '" data-name="' . $value->voucherNo . '">' . $this->actionButton('Delete') . '</a>';
                 }
+
+                $transaction_account = '';
+                if ($value->voucherType == "CREDIT-VOUCHER" || $value->voucherType == "DEBIT-VOUCHER") {
+                    $transactions = Transaction::with('coh')->where(['voucher_no' => $value->voucherNo])->get();
+                    foreach ($transactions as $loop_count => $transaction) {
+                        if ($loop_count == 0) {
+                            $transaction_account .= '<span class="text-primary ml-2">' . ($transaction->coh->name ?? '') . ' || <span>';
+                        } else {
+                            $transaction_account .= '<span class="text-success ml-2">' . ($transaction->coh->name ?? '') . '<span>';
+                        }
+                    }
+                } else {
+                    $transaction_account = $value->chartOfHeadName ?? '';
+                }
+
                 $row    = [];
                 $row[]  = $no;
-                $row[]  = $value->chartOfHeadName;
+                $row[]  = $transaction_account;
                 $row[]  = $value->date;
                 $row[]  = $value->voucherNo;
                 $row[]  = $value->voucherType;

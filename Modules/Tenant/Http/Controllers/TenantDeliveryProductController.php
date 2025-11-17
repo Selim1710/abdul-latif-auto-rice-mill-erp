@@ -224,7 +224,9 @@ class TenantDeliveryProductController extends BaseController
                 // return $tenantDelivery;
 
                 abort_if($tenantDelivery->status == 1, 404);
+                $total_delivery_product = 0;
                 foreach ($tenantDelivery->tenantDeliveryProductList as $value) {
+                    $total_delivery_product += $value->del_qty ?? 0;
                     $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantDelivery->tenant_id, 'warehouse_id' => $value->warehouse_id, 'product_id' => $value->product_id, 'batch_no' => $value->batch_no, 'tenant_product_type' => 2]);
                     if ($value->del_qty > $tenantWarehouseProduct->qty || $value->scale > $tenantWarehouseProduct->scale) {
                         $output = ['status' => 'error', 'message' => 'Product Quantity Or Scale Not Enough'];
@@ -239,7 +241,8 @@ class TenantDeliveryProductController extends BaseController
                 //
                 $labor_head = LaborHead::find(1);
                 $coh = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
-                $note = "Purchase";
+                $note = "Total Delivery Product: " . $total_delivery_product . " for tenant: " . ($tenantDelivery->tenant->name ?? '');
+                
                 $this->labour_head_Credit($coh->id, $tenantDelivery->invoice_no, $note, $tenantDelivery->total_load_unload_amount);
                 //
                 $output = ['status' => 'success', 'message' => 'Status Change Successfully'];
