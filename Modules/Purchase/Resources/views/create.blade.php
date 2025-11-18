@@ -464,7 +464,7 @@
             let load_unload_amount = $(this).data('load_unload_amount');
             let receive_qty = $(this).val();
 
-            _(load_unload_amount).value = _(load_unload_rate).value * receive_qty;
+            _(load_unload_amount).value = (_(load_unload_rate).value * receive_qty).toFixed(2);
 
             calculation();
         });

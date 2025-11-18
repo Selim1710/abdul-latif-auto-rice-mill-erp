@@ -68,6 +68,8 @@
                                                     <th>{{ __('file.Qty') }}</th>
                                                     <th>{{ __('file.Scale') }}</th>
                                                     <th>{{ __('file.Rec Qty') }}</th>
+                                                    <th>{{ __('file.Load Unload Rate') }}</th>
+                                                    <th>{{ __('file.Load Unload Amount') }}</th>
                                                     <th>{{ __('file.Action') }}</th>
                                                 </tr>
                                             </thead>
@@ -76,12 +78,16 @@
                                                     @foreach ($tenantReceive->tenantReceiveProductList as $key => $item)
                                                         <tr class="text-center">
                                                             <td>
-                                                                <select class="form-control selectpicker text-center"
+                                                                <select
+                                                                    class="form-control selectpicker text-center labor_warehouse_id"
+                                                                    index_no="{{ $key }}"
                                                                     id="tenant_receive_{{ $key }}_warehouse_id"
                                                                     name="tenant_receive[{{ $key }}][warehouse_id]"
                                                                     data-live-search = "true">
-                                                                    <option value = "{{ $item->warehouse_id }}">
-                                                                        {{ $item->warehouse->name }}</option>
+                                                                    <option value="{{ $item->warehouse_id }}"
+                                                                        labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}">
+                                                                        {{ $item->warehouse->name }}
+                                                                    </option>
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -129,10 +135,29 @@
                                                                     data-unit_id="tenant_receive_{{ $key }}_unit_id"
                                                                     data-qty="tenant_receive_{{ $key }}_qty" />
                                                             </td>
-                                                            <td><input class="form-control"
+                                                            <td><input class="form-control recQty"
                                                                     id="tenant_receive_{{ $key }}_rec_qty"
                                                                     name="tenant_receive[{{ $key }}][rec_qty]"
-                                                                    value="{{ $item->rec_qty }}" /></td>
+                                                                    value="{{ $item->rec_qty }}"
+                                                                    data-load_unload_rate="tenant_receive_{{ $key }}_load_unload_rate"
+                                                                    data-load_unload_amount="tenant_receive_{{ $key }}_load_unload_amount" />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    class="form-control bg-primary load_unload_rate text-center"
+                                                                    id="tenant_receive_{{ $key }}_load_unload_rate"
+                                                                    name="tenant_receive[{{ $key }}][load_unload_rate]"
+                                                                    value="{{ $item->load_unload_rate ?? '' }}"
+                                                                    readonly />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    class="form-control bg-primary load_unload_amount text-center"
+                                                                    id="tenant_receive_{{ $key }}_load_unload_amount"
+                                                                    name="tenant_receive[{{ $key }}][load_unload_amount]"
+                                                                    value="{{ $item->load_unload_amount ?? '' }}"
+                                                                    readonly />
+                                                            </td>
                                                             <td>
                                                                 <button type="button"
                                                                     class="btn btn-primary btn-sm addRaw"><i
@@ -258,6 +283,17 @@
                 notification('error', '{{ __('file.Please Select Product') }}');
             }
         });
+
+        $(document).on('input', '.recQty', function() {
+            let load_unload_rate = $(this).data('load_unload_rate');
+            let load_unload_amount = $(this).data('load_unload_amount');
+            let receive_qty = $(this).val();
+
+            _(load_unload_amount).value = (_(load_unload_rate).value * receive_qty).toFixed(2);
+            // console.log('load_unload_amount: ' + load_unload_amount);
+        });
+
+
         $(document).on('input', '.scale', function() {
             let productId = $('#' + $(this).data('product_id') + '').find(":selected").val();
             let unitId = $(this).data('unit_id');
@@ -270,15 +306,17 @@
                 notification('error', '{{ __('file.Please Select Product') }}');
             }
         });
+
         $(document).on('click', '.addRaw', function() {
             let html;
             html = `<tr class="text-center">
                       <td>
-                      <select class="form-control selectpicker text-center" id="tenant_receive_` + i +
-                `_warehouse_id" name="tenant_receive[` + i + `][warehouse_id]" data-live-search = "true">
+                      <select class="form-control selectpicker text-center labor_warehouse_id" id="tenant_receive_` +
+                i +
+                `_warehouse_id" name="tenant_receive[` + i + `][warehouse_id]" index_no="` + i + `"  data-live-search = "true">
                       <option value="">{{ __('Please Select') }}</option>
                       @foreach ($warehouses as $warehouse)
-                      <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                      <option value="{{ $warehouse->id }}" labour_load_unload_head="{{ $warehouse->labour_load_unload_head->rate ?? 0 }}">{{ $warehouse->name }}</option>
                       @endforeach
                       </select>
                       </td>
@@ -302,8 +340,21 @@
                       <td><input class="form-control scale text-center" id="tenant_receive_` + i +
                 `_scale" name="tenant_receive[` + i + `][scale]" data-product_id="tenant_receive_` + i +
                 `_product_id" data-unit_id="tenant_receive_` + i + `_unit_id" data-qty="tenant_receive_` + i + `_qty"/> </td>
-                      <td><input class="form-control" id="tenant_receive_` + i + `_rec_qty" name="tenant_receive[` +
-                i + `][rec_qty]"/></td>
+                      <td><input class="form-control recQty" id="tenant_receive_` + i +
+                `_rec_qty" name="tenant_receive[` +
+                i + `][rec_qty]" data-load_unload_rate="tenant_receive_` + i +
+                `_load_unload_rate" data-load_unload_amount="tenant_receive_` + i + `_load_unload_amount" /></td>
+                  <td>
+                    <input class="form-control bg-primary load_unload_rate text-center"
+                            id="tenant_receive_` + i + `_load_unload_rate"
+                            name="tenant_receive[` + i + `][load_unload_rate]" readonly />
+                    </td>
+                    <td>
+                        <input
+                            class="form-control bg-primary load_unload_amount text-center"
+                            id="tenant_receive_` + i + `_load_unload_amount"
+                            name="tenant_receive[` + i + `][load_unload_amount]" readonly />
+                    </td>
                       <td>
                       <button type="button" class="btn btn-primary btn-sm addRaw"><i class="fas fa-plus-circle"></i></button><br/>
                       <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
@@ -313,6 +364,22 @@
             $('.selectpicker').selectpicker('refresh');
             i++;
         });
+
+        $(document).on('change', '.labor_warehouse_id', function() {
+            let index_no = $(this).attr("index_no");
+            if (index_no) {
+                // console.log("index_no: " + index_no);
+
+                let selectedOption = $(this).find(':selected');
+                let rate = selectedOption.attr('labour_load_unload_head') || 0;
+                let rateInput = $('#tenant_receive_' + index_no + '_load_unload_rate');
+
+                // console.log("rateInput: " + rateInput);
+
+                rateInput.val(rate);
+            }
+        });
+
         $(document).on('click', '.deleteRaw', function() {
             $(this).parent().parent().remove();
         });

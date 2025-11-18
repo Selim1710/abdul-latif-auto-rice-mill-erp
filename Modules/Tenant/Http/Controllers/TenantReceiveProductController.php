@@ -120,7 +120,9 @@ class TenantReceiveProductController extends BaseController
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'rec_qty'      => $value['rec_qty']
+                                'rec_qty'      => $value['rec_qty'],
+                                'load_unload_rate' => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount' => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
@@ -184,7 +186,9 @@ class TenantReceiveProductController extends BaseController
                                 'product_id'   => $value['product_id'],
                                 'qty'          => $value['qty'],
                                 'scale'        => $value['scale'],
-                                'rec_qty'      => $value['rec_qty']
+                                'rec_qty'      => $value['rec_qty'],
+                                'load_unload_rate' => $value['load_unload_rate'] ?? '',
+                                'load_unload_amount' => $value['load_unload_amount'] ?? '',
                             ];
                         }
                     }
