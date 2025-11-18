@@ -8,7 +8,10 @@ use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\Account\Entities\Transaction;
 use Modules\Category\Entities\Category;
+use Modules\ChartOfHead\Entities\ChartOfHead;
+use Modules\LaborHead\Entities\LaborHead;
 use Modules\Product\Entities\Product;
 use Modules\Production\Entities\ProductionBatch;
 use Modules\Setting\Entities\Warehouse;
@@ -214,6 +217,15 @@ class TenantReceiveProductController extends BaseController
             try {
                 $tenantReceive = $this->model->with('tenantReceiveProductList')->findOrFail($request->id);
                 abort_if($tenantReceive->status == 1, 404);
+
+                // labour-bill-generate
+                $labor_head = LaborHead::find(1); // load-unload
+                $amount = $tenantReceive->tenantReceiveProductList()->sum('load_unload_amount');
+
+                $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                $note = "Tenant Receive Load/Unload Bill for Invoice No: " . $tenantReceive->invoice_no;
+                $this->labour_head_Credit($coh->id, $tenantReceive->invoice_no, $note, $amount);
+
                 foreach ($tenantReceive->tenantReceiveProductList as $value) {
                     $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantReceive->tenant_id, 'warehouse_id' => $value->warehouse_id, 'batch_no' => $value->batch_no, 'product_id' => $value->product_id, 'tenant_product_type' => 1]);
                     if (empty($tenantWarehouseProduct)) {
@@ -247,6 +259,23 @@ class TenantReceiveProductController extends BaseController
             return response()->json($this->unauthorized());
         }
     }
+
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    {
+        Transaction::create([
+            'chart_of_head_id' => $cohId,
+            'date'             => date('Y-m-d'),
+            'voucher_no'       => $invoiceNo,
+            'voucher_type'     => "LABOR-BILL",
+            'narration'        => $narration,
+            'debit'            => 0,
+            'credit'           => $paidAmount,
+            'status'           => 1,
+            'is_opening'       => 2,
+            'created_by'       => auth()->user()->name,
+        ]);
+    }
+
 
     public function delete(Request $request)
     {
