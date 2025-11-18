@@ -5,9 +5,13 @@
         <div class="container-fluid">
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-5">
-                    <div class="card-title"><h3 class="card-label"><i class="{{ $page_icon }} text-primary"></i> {{ $sub_title }}</h3></div>
-                    @if(permission('opening-balance-access'))
-                        <div class="card-toolbar"><a href="{{ route('opening.balance') }}" class="btn btn-warning btn-sm font-weight-bolder"><i class="fas fa-arrow-left"></i> {{__('file.Back')}}</a></div>
+                    <div class="card-title">
+                        <h3 class="card-label"><i class="{{ $page_icon }} text-primary"></i> {{ $sub_title }}</h3>
+                    </div>
+                    @if (permission('opening-balance-access'))
+                        <div class="card-toolbar"><a href="{{ route('opening.balance') }}"
+                                class="btn btn-warning btn-sm font-weight-bolder"><i class="fas fa-arrow-left"></i>
+                                {{ __('file.Back') }}</a></div>
                     @endif
                 </div>
             </div>
@@ -18,25 +22,34 @@
                         <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="row">
                                 <div class="form-group col-md-4 required">
-                                    <label for="voucher_no"> {{__('file.Voucher No')}}</label>
-                                    <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no" value="{{$edit->voucher_no}}" readonly />
+                                    <label for="voucher_no"> {{ __('file.Voucher No') }}</label>
+                                    <input type="text" class="form-control bg-primary" name="voucher_no" id="voucher_no"
+                                        value="{{ $edit->voucher_no }}" readonly />
                                 </div>
                                 <div class="form-group col-md-4 required">
-                                    <label for="date"> {{__('file.Date')}}</label>
-                                    <input type="date" class="form-control" name="date" id="date" value="{{ $edit->date }}"/>
+                                    <label for="date"> {{ __('file.Date') }}</label>
+                                    <input type="date" class="form-control" name="date" id="date"
+                                        value="{{ $edit->date }}" />
                                 </div>
                                 <div class="form-group col-md-4 required">
-                                    <label for="chart_of_head_id">{{__('file.Account')}}</label>
-                                    <select name="chart_of_head_id" id="chart_of_head_id" class="form-control selectpicker" data-live-search="true">
+                                    <label for="chart_of_head_id">{{ __('file.Account') }}</label>
+                                    <select name="chart_of_head_id" id="chart_of_head_id" class="form-control selectpicker"
+                                        data-live-search="true">
                                         <option value="">Select Please</option>
-                                        @foreach($heads as $head)
-                                            <option value="{{$head->id}}" @if($head->id == $edit->chart_of_head_id) selected="selected" @endif>{!! $head->name !!}</option>
+                                        @foreach ($heads as $head)
+                                            <option value="{{ $head->id }}"
+                                                @if ($head->id == $edit->chart_of_head_id) selected="selected" @endif>
+                                                {!! $head->name ?? '' !!}</option>
                                         @endforeach
-                                        @foreach($subHeads as $subHead)
-                                            <option value="{{$subHead->id}}" @if($subHead->id == $edit->chart_of_head_id) selected="selected" @endif>{!! $subHead->head->name.'  ---  '.$subHead->name !!}</option>
+                                        @foreach ($subHeads as $subHead)
+                                            <option value="{{ $subHead->id }}"
+                                                @if ($subHead->id == $edit->chart_of_head_id) selected="selected" @endif>
+                                                {!! ($subHead->head->name ?? '') . '  ---  ' . ($subHead->name ?? '') !!}</option>
                                         @endforeach
-                                        @foreach($childHeads as $child)
-                                            <option value="{{$child->id}}" @if($child->id == $edit->chart_of_head_id) selected="selected" @endif>{!! $child->head->name.'  ---  '.$child->subHead->name.'  ---  '.$child->name !!}</option>
+                                        @foreach ($childHeads as $child)
+                                            <option value="{{ $child->id }}"
+                                                @if ($child->id == $edit->chart_of_head_id) selected="selected" @endif>
+                                                {!! ($child->head->name ?? '') . '  ---  ' . ($child->subHead->name ?? '') . '  ---  ' . ($child->name ?? '') !!}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -44,28 +57,28 @@
                         </div>
                     </div>
                 </div>
-                <br/>
+                <br />
                 <div class="card card-custom">
                     <div class="card-body">
                         <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="row">
                                 <div class="col-md-6 required">
-                                    <label for="amount">{{__('file.Amount')}}</label>
-                                    <input type="text" class="form-control" id="amount" name="amount" value="{{$edit->debit > 0 ? $edit->debit : $edit->credit}}"/>
+                                    <label for="amount">{{ __('file.Amount') }}</label>
+                                    <input type="text" class="form-control" id="amount" name="amount"
+                                        value="{{ $edit->debit > 0 ? $edit->debit : $edit->credit }}" />
                                 </div>
                                 <div class="col-md-6 required">
-                                    <label for="balance_type">{{__('file.Balance Type')}}</label>
-                                    <select class="form-control selectpicker" id="balance_type" name="balance_type" data-live-search="true">
-                                        <option value="">{{__('file.Please Select')}}</option>
-                                        @foreach(OPENING_BALANCE_VALUE as $key => $value)
-                                            <option value="{{$key}}"
-                                            @if($edit->debit > 0)
-                                                @if($key == 1) selected="selected" @endif
-                                            @else
-                                                @if($key == 2) selected="selected" @endif
-                                            @endif
-                                            >
-                                                {{$value}}
+                                    <label for="balance_type">{{ __('file.Balance Type') }}</label>
+                                    <select class="form-control selectpicker" id="balance_type" name="balance_type"
+                                        data-live-search="true">
+                                        <option value="">{{ __('file.Please Select') }}</option>
+                                        @foreach (OPENING_BALANCE_VALUE as $key => $value)
+                                            <option value="{{ $key }}"
+                                                @if ($edit->debit > 0) @if ($key == 1) selected="selected" @endif
+                                            @else @if ($key == 2) selected="selected" @endif
+                                                @endif
+                                                >
+                                                {{ $value }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -74,18 +87,20 @@
                         </div>
                     </div>
                 </div>
-                <br/>
+                <br />
                 <div class="card card-custom">
                     <div class="card-body">
                         <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="row">
-                                <x-form.textarea labelName="Narration" name="narration" col="col-md-12" value="{{$edit->narration}}"/>
+                                <x-form.textarea labelName="Narration" name="narration" col="col-md-12"
+                                    value="{{ $edit->narration }}" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group col-md-12 pt-5 text-center">
-                    <button type="button" class="btn btn-primary btn-sm mr-3" id="save-btn" onclick="updateData()"><i class="fas fa-save"></i> Update</button>
+                    <button type="button" class="btn btn-primary btn-sm mr-3" id="save-btn" onclick="updateData()"><i
+                            class="fas fa-save"></i> Update</button>
                 </div>
             </form>
         </div>
@@ -93,46 +108,56 @@
 @endsection
 @push('scripts')
     <script>
-        $('.date').datetimepicker({format: 'YYYY-MM-DD',ignoreReadonly: true});
+        $('.date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            ignoreReadonly: true
+        });
         let i = 1;
-        function _(x){
+
+        function _(x) {
             return document.getElementById(x);
         }
-        function updateData(){
-            let form     = _('opening_balance_form');
+
+        function updateData() {
+            let form = _('opening_balance_form');
             let formData = new FormData(form);
-            let url      = "{{route('opening.balance.store.or.update')}}";
+            let url = "{{ route('opening.balance.store.or.update') }}";
             $.ajax({
-                url         : url,
-                type        : "POST",
-                data        : formData,
-                dataType    : "JSON",
-                contentType : false,
-                processData : false,
-                cache       : false,
-                beforeSend  : function () {
+                url: url,
+                type: "POST",
+                data: formData,
+                dataType: "JSON",
+                contentType: false,
+                processData: false,
+                cache: false,
+                beforeSend: function() {
                     $('#save-btn').addClass('spinner spinner-white spinner-right');
                 },
-                complete    : function () {
+                complete: function() {
                     $('#save-btn').removeClass('spinner spinner-white spinner-right');
                 },
-                success     : function (data) {
+                success: function(data) {
                     $('#opening_balance_form').find('.is-invalid').removeClass('is-invalid');
                     $('#opening_balance_form').find('.error').remove();
                     if (data.status == false) {
-                        $.each(data.errors, function (key, value) {
+                        $.each(data.errors, function(key, value) {
                             var key = key.split('.').join('_');
                             $('#opening_balance_form input#' + key).addClass('is-invalid');
                             $('#opening_balance_form textarea#' + key).addClass('is-invalid');
                             $('#opening_balance_form select#' + key).parent().addClass('is-invalid');
-                            $('#opening_balance_form #' + key).parent().append('<small class="error text-danger">' + value + '</small>');
+                            $('#opening_balance_form #' + key).parent().append(
+                                '<small class="error text-danger">' + value + '</small>');
                         });
                     } else {
                         notification(data.status, data.message);
-                        if (data.status == 'success') { window.location.replace("{{ route('opening.balance') }}"); }
+                        if (data.status == 'success') {
+                            window.location.replace("{{ route('opening.balance') }}");
+                        }
                     }
                 },
-                error: function (xhr, ajaxOption, thrownError) { console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText); }
+                error: function(xhr, ajaxOption, thrownError) {
+                    console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+                }
             });
         }
     </script>
