@@ -51,6 +51,7 @@ class TenantProductionProductController extends BaseController
         if ($request->ajax() && permission('tenant-production-product-add')) {
             DB::beginTransaction();
             try {
+                $tenantProduction = TenantProduction::findOrFail($request->tenant_production_id);
 
                 if ($request->has('production')) {
                     $productions = $request->input('production', []);
@@ -61,13 +62,12 @@ class TenantProductionProductController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Tenant Production Out";
-                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $tenantProduction->invoice_no, $note, $amount);
                 }
 
 
                 $productProduct   = [];
                 $productMerge     = [];
-                $tenantProduction = TenantProduction::findOrFail($request->tenant_production_id);
                 if ($request->has('production_product')) {
                     foreach ($request->production_product as $value) {
                         if (!empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['production_qty'])) {
