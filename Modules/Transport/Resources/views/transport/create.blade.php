@@ -35,8 +35,8 @@
                                 </div>
                                 <x-form.selectbox labelName="{{__('file.Truck No')}}" name="truck_id" col="col-md-4" required="required" class="selectpicker">
                                     @if (!$trucks->isEmpty())
-                                        @foreach ($trucks as $value)
-                                            <option value="{{ $value->id }}">{{ $value->truck_no }}</option>
+                                        @foreach ($trucks as $truck)
+                                            <option value="{{ $truck->id }}">{{ $truck->truck_no }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>

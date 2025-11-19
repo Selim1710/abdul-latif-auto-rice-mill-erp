@@ -46,6 +46,7 @@ class ProductionProductController extends BaseController
         if ($request->ajax() && permission('production-product-add')) {
             DB::beginTransaction();
             try {
+                $production        = Production::findOrFail($request->production_id);
 
                 if ($request->has('production')) {
                     $productions = $request->input('production', []);
@@ -56,11 +57,10 @@ class ProductionProductController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Production Out";
-                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $production->invoice_no, $note, $amount);
                 }
 
                 $productionProduct = [];
-                $production        = Production::findOrFail($request->production_id);
                 if ($request->has('production_product')) {
                     foreach ($request->production_product as $value) {
                         if (!empty($value['warehouse_id']) && !empty($value['product_id']) && !empty($value['qty']) && !empty($value['scale']) && !empty($value['production_qty'])) {

@@ -289,7 +289,7 @@ class ProductionController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Production In";
-                    $this->labour_head_Credit($coh->id, $coh->id, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $data->invoice_no, $note, $amount);
                 }
 
                 if ($request->production_status == 3) {
