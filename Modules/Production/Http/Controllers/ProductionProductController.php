@@ -47,7 +47,7 @@ class ProductionProductController extends BaseController
             DB::beginTransaction();
             try {
                 $production        = Production::findOrFail($request->production_id);
-
+                $production_date = $production->date;
                 if ($request->has('production')) {
                     $productions = $request->input('production', []);
                     $totalPackingLoadAmount = collect($productions)->sum('packing_load_amount');
@@ -57,7 +57,7 @@ class ProductionProductController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Production Out";
-                    $this->labour_head_Credit($coh->id, $production->invoice_no, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $production->invoice_no, $note, $amount, $production_date);
                 }
 
                 $productionProduct = [];
@@ -132,11 +132,11 @@ class ProductionProductController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date'             => date('Y-m-d'),
+            'date'             => $date,
             'voucher_no'       => $invoiceNo,
             'voucher_type'     => "LABOR-BILL",
             'narration'        => $narration,

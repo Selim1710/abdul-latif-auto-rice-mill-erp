@@ -104,7 +104,7 @@ class TenantDeliveryProductController extends BaseController
         $tenant_id = $request->tenant_id;
         if ($tenant_id) {
             $data['tenant_warehouse_products'] = TenantWarehouseProduct::with('warehouse', 'warehouse.labour_load_unload_head')->where(['tenant_id' => $tenant_id, 'tenant_product_type' => 2])->get();
-//            return $data;
+            //            return $data;
             return view('tenant::tenantDelivery.data', $data);
         }
     }
@@ -222,6 +222,7 @@ class TenantDeliveryProductController extends BaseController
             try {
                 $tenantDelivery = $this->model->with('tenantDeliveryProductList')->findOrFail($request->id);
                 // return $tenantDelivery;
+                $delivery_date = $tenantDelivery->date;
 
                 abort_if($tenantDelivery->status == 1, 404);
                 $total_delivery_product = 0;
@@ -242,8 +243,8 @@ class TenantDeliveryProductController extends BaseController
                 $labor_head = LaborHead::find(1);
                 $coh = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                 $note = "Total Delivery Product: " . $total_delivery_product . " for tenant: " . ($tenantDelivery->tenant->name ?? '');
-                
-                $this->labour_head_Credit($coh->id, $tenantDelivery->invoice_no, $note, $tenantDelivery->total_load_unload_amount);
+
+                $this->labour_head_Credit($coh->id, $tenantDelivery->invoice_no, $note, $tenantDelivery->total_load_unload_amount, $delivery_date);
                 //
                 $output = ['status' => 'success', 'message' => 'Status Change Successfully'];
                 DB::commit();
@@ -294,11 +295,11 @@ class TenantDeliveryProductController extends BaseController
         ];
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date' => date('Y-m-d'),
+            'date' => $date,
             'voucher_no' => $invoiceNo,
             'voucher_type' => "LABOR-BILL",
             'narration' => $narration,

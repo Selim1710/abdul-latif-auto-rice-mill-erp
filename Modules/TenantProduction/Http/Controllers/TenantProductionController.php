@@ -296,7 +296,7 @@ class TenantProductionController extends BaseController
             try {
                 $collection = collect($request->all())->only('production_status');
                 $data = $this->model->with('rawList')->findOrFail($request->production_id);
-
+                $production_date = $data->date;
 
                 if ($request->production_status == 3) {
                     // labour-bill-generate
@@ -305,7 +305,7 @@ class TenantProductionController extends BaseController
 
                     $coh = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Tenant Production In";
-                    $this->labour_head_Credit($coh->id, $data->invoice_no, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $data->invoice_no, $note, $amount, $production_date);
                 }
 
 
@@ -333,11 +333,11 @@ class TenantProductionController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date' => date('Y-m-d'),
+            'date' => $date,
             'voucher_no' => $invoiceNo,
             'voucher_type' => "LABOR-BILL",
             'narration' => $narration,

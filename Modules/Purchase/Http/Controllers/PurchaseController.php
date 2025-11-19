@@ -304,13 +304,14 @@ class PurchaseController extends BaseController
             try {
                 $purchase = $this->model->with('purchaseProductList')->findOrFail($request->purchase_id);
 
+                $purchase_date = $purchase->purchase_date ?? '';
                 // labour-bill-generate
                 $labor_head = LaborHead::find(1); // load-unload
                 $amount = $purchase->purchaseProductList()->sum('load_unload_amount');
 
                 $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                 $note = "Purchase";
-                $this->labour_head_Credit($coh->id, $purchase->invoice_no, $note, $amount);
+                $this->labour_head_Credit($coh->id, $purchase->invoice_no, $note, $amount, $purchase_date);
 
 
                 abort_if($purchase->purchase_status == 4, 404);
@@ -341,11 +342,11 @@ class PurchaseController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date'             => date('Y-m-d'),
+            'date'             => $date,
             'voucher_no'       => $invoiceNo,
             'voucher_type'     => "LABOR-BILL",
             'narration'        => $narration,

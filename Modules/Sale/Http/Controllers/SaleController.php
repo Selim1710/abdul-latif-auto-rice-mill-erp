@@ -301,13 +301,13 @@ class SaleController extends BaseController
             DB::beginTransaction();
             try {
                 $sale     = $this->model->findOrFail($request->sale_id);
-
+                $sale_date = $sale->sale_date ?? '';
                 // labour-bill-generate
                 $labor_head = LaborHead::find(1); // load-unload
                 $amount = $sale->saleProductList()->sum('load_unload_amount');
                 $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                 $note = "Sale";
-                $this->labour_head_Credit($coh->id, $sale->invoice_no, $note, $amount);
+                $this->labour_head_Credit($coh->id, $sale->invoice_no, $note, $amount, $sale_date);
 
 
                 $party    = ChartOfHead::firstWhere(['master_head' => 1, 'party_id' => $sale->party_id]);
@@ -338,11 +338,11 @@ class SaleController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date'             => date('Y-m-d'),
+            'date'             => $date,
             'voucher_no'       => $invoiceNo,
             'voucher_type'     => "LABOR-BILL",
             'narration'        => $narration,

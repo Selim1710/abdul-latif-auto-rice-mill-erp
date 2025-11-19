@@ -280,6 +280,7 @@ class ProductionController extends BaseController
             try {
                 $collection = collect($request->all())->only('production_status');
                 $data       = $this->model->with('productionRawProductList')->findOrFail($request->production_id);
+                $production_date = $data->date;
                 // return $data;
 
                 if ($request->production_status == 3) {
@@ -289,7 +290,7 @@ class ProductionController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Production In";
-                    $this->labour_head_Credit($coh->id, $data->invoice_no, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $data->invoice_no, $note, $amount, $production_date);
                 }
 
                 if ($request->production_status == 3) {
@@ -316,11 +317,11 @@ class ProductionController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date'             => date('Y-m-d'),
+            'date'             => $date,
             'voucher_no'       => $invoiceNo,
             'voucher_type'     => "LABOR-BILL",
             'narration'        => $narration,
