@@ -189,7 +189,8 @@ class PurchaseController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Purchase";
-                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount);
+                    $purchase_date = $request->purchase_date;
+                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount, $purchase_date);
 
 
                     $narration = $name . ' purchase paid amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
@@ -280,6 +281,16 @@ class PurchaseController extends BaseController
                         $cohId       = 28;
                         $name        = 'Walking Customer';
                     }
+
+                    // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $data->purchaseProductList()->sum('load_unload_amount');
+
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Purchase";
+                    $purchase_date = $request->purchase_date;
+                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount, $purchase_date);
+
                     $narration = $name . ' purchase paid amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
                     $this->balanceCredit($request->account_id, $request->invoice_no, $narration, $request->purchase_date, abs($request->paid_amount));
                     $this->balanceCredit($cohId, $request->invoice_no, $narration, $request->purchase_date, abs($request->paid_amount));

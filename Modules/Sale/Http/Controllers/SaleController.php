@@ -186,7 +186,8 @@ class SaleController extends BaseController
                     $amount = $sale->saleProductList()->sum('load_unload_amount');
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Sale";
-                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount);
+                    $sale_date = $request->sale_date;
+                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount, $sale_date);
 
 
                     $narration = $name . ' sale receive amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
@@ -280,6 +281,17 @@ class SaleController extends BaseController
                         $cohId       = 22;
                         $name        = 'Walking Customer';
                     }
+
+                       // labour-bill-generate
+                    $labor_head = LaborHead::find(1); // load-unload
+                    $amount = $sale->saleProductList()->sum('load_unload_amount');
+                    $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
+                    $note = "Sale";
+                    $sale_date = $request->sale_date;
+                    $this->labour_head_Credit($coh->id, $request->invoice_no, $note, $amount, $sale_date);
+
+
+                    
                     $narration = $name . ' sale receive amount ' . $request->paid_amount . ' invoice no -' . $request->invoice_no;
                     $this->balanceDebit($cohId, $request->invoice_no, $narration, $request->sale_date, abs($request->paid_amount));
                     $this->balanceDebit($request->account_id, $request->invoice_no, $request->sale_date, $narration, abs($request->paid_amount));
