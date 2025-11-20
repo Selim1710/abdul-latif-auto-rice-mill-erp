@@ -47,7 +47,7 @@ class ProductionProductController extends BaseController
             DB::beginTransaction();
             try {
                 $production        = Production::findOrFail($request->production_id);
-                $production_date = $production->date;
+                $production_date = $request->date;
                 if ($request->has('production')) {
                     $productions = $request->input('production', []);
                     $totalPackingLoadAmount = collect($productions)->sum('packing_load_amount');

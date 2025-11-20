@@ -52,7 +52,7 @@ class TenantProductionProductController extends BaseController
             DB::beginTransaction();
             try {
                 $tenantProduction = TenantProduction::findOrFail($request->tenant_production_id);
-                $tenant_producion_date = $tenantProduction->date;
+                $tenant_producion_date = $request->date;
                 if ($request->has('production')) {
                     $productions = $request->input('production', []);
                     $totalPackingLoadAmount = collect($productions)->sum('packing_load_amount');
