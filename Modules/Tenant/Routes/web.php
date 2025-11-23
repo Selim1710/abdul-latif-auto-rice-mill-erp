@@ -60,4 +60,12 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::group(['prefix' => 'tenant-stock', 'as' => 'tenant.stock.'], function () {
         Route::post('datatable-data', 'TenantWarehouseProductController@getDataTableData')->name('datatable.data');
     });
+
+
+    
+    //Summery
+    Route::get('tenant-summery', 'TenantSummeryReportController@index')->name('tenant.summery');
+    Route::post('tenant-summery/data', 'TenantSummeryReportController@tenantSummary')->name('tenant.summery.data');
+
+
 });
