@@ -1,26 +1,28 @@
 <?php
 
-namespace Modules\Party\Http\Controllers;
+namespace Modules\Tenant\Http\Controllers;
 
 use App\Http\Controllers\BaseController;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Modules\Party\Entities\Party;
 
-class PartySummeryReportController extends BaseController
+class TenantSummeryReportController extends BaseController
 {
+
     public function index()
     {
-        if (permission('party-ledger-access')) {
-            $title = __('file.Party Transaction Summery');
+        if (permission('tenant-ledger-access')) {
+            $title = __('file.Tenant Transaction Summery');
             $this->setPageData($title, $title, 'fas fa-file', [['name' => $title]]);
-            return view('party::summery.index');
+            return view('tenant::summery.index');
         } else {
             return $this->access_blocked();
         }
     }
 
-    public function partySummary(Request $request)
+    public function tenantSummary(Request $request)
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -28,26 +30,26 @@ class PartySummeryReportController extends BaseController
         // Base query for the date range
         $summary = DB::table('chart_of_heads as coh')
             ->join('transactions as t', 'coh.id', '=', 't.chart_of_head_id')
-            ->join('parties as p', 'p.id', '=', 'coh.party_id')
+            ->join('tenants as tenant', 'tenant.id', '=', 'coh.tenant_id')
             ->whereBetween('t.date', [$start_date, $end_date])
             ->where('t.status', 1)
             ->select(
-                'p.id as party_id',
-                'p.name as party_name',
-                'p.company_name as company_name',
+                'tenant.id as tenant_id',
+                'tenant.name as tenant_name',
+                'tenant.mobile  as mobile',
                 DB::raw('SUM(t.debit) as total_debit'),
                 DB::raw('SUM(t.credit) as total_credit')
             )
-            ->groupBy('p.id', 'p.name', 'p.company_name')
-            ->orderBy('p.name', 'asc')
+            ->groupBy('tenant.id', 'tenant.name', 'tenant.mobile')
+            ->orderBy('tenant.name', 'asc')
             ->get();
 
         // Calculate balance and build table
         $table = '<table class="table table-bordered" style="width:100%; border-collapse: collapse;">
                 <thead>
                     <tr class="text-center bg-primary text-white">
-                        <th>' . __('file.Party Name') . '</th>
-                        <th>' . __('file.Company Name') . '</th>
+                        <th>' . __('file.Tenant Name') . '</th>
+                        <th>' . __('file.Mobile') . '</th>
                         <th>' . __('file.Total Debit') . '</th>
                         <th>' . __('file.Total Credit') . '</th>
                         <th>' . __('file.Balance') . '</th>
@@ -64,8 +66,8 @@ class PartySummeryReportController extends BaseController
             $grandCredit += $row->total_credit;
 
             $table .= '<tr class="text-center">
-                        <td>' . e($row->party_name) . '</td>
-                        <td>' . e($row->company_name) . '</td>
+                        <td>' . e($row->tenant_name) . '</td>
+                        <td>' . e($row->mobile) . '</td>
                         <td>' . number_format($row->total_debit, 2) . '</td>
                         <td>' . number_format($row->total_credit, 2) . '</td>
                         <td>' . number_format($balance, 2) . '</td>

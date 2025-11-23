@@ -2005,5 +2005,8 @@ return [
     'Total Debit' => 'Total Debit',
     'Total Credit' => 'Total Credit',
     'Party Transaction Summery' => 'Party Transaction Summery',
-    'Party Summary' => 'Party Summary'
+    'Party Summary' => 'Party Summary',
+    'Total Credit' => 'Total Credit',
+    'Tenant Transaction Summery' => 'Tenant Transaction Summery',
+    'Tenant Summary' => 'Tenant Summary'
 ];

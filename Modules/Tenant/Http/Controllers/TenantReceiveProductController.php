@@ -216,6 +216,7 @@ class TenantReceiveProductController extends BaseController
             DB::beginTransaction();
             try {
                 $tenantReceive = $this->model->with('tenantReceiveProductList')->findOrFail($request->id);
+                $tenantReceiveDate = $tenantReceive->date;
                 abort_if($tenantReceive->status == 1, 404);
 
                 // labour-bill-generate
@@ -224,7 +225,7 @@ class TenantReceiveProductController extends BaseController
 
                 $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                 $note = "Tenant Receive Load/Unload Bill for Invoice No: " . $tenantReceive->invoice_no;
-                $this->labour_head_Credit($coh->id, $tenantReceive->invoice_no, $note, $amount);
+                $this->labour_head_Credit($coh->id, $tenantReceive->invoice_no, $note, $amount, $tenantReceiveDate);
 
                 foreach ($tenantReceive->tenantReceiveProductList as $value) {
                     $tenantWarehouseProduct = TenantWarehouseProduct::firstWhere(['tenant_id' => $tenantReceive->tenant_id, 'warehouse_id' => $value->warehouse_id, 'batch_no' => $value->batch_no, 'product_id' => $value->product_id, 'tenant_product_type' => 1]);
@@ -260,11 +261,11 @@ class TenantReceiveProductController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date'             => date('Y-m-d'),
+            'date'             => $date,
             'voucher_no'       => $invoiceNo,
             'voucher_type'     => "LABOR-BILL",
             'narration'        => $narration,

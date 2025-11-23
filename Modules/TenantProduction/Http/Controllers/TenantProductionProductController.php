@@ -30,9 +30,22 @@ class TenantProductionProductController extends BaseController
         if (permission('tenant-production-product-add')) {
             $setTitle = __('file.Tenant Production Product');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+
+            $production = TenantProduction::with('tenant', 'rawList')->findOrFail($id);
+            // return $production;
+
+            $tenant_warehouse_bag_batch_numbers = TenantWarehouseProduct::with('product')->where('tenant_id', $production->tenant_id)
+                ->whereHas('product', function ($q) {
+                    $q->where('category_id', '=', 3);
+                })
+                ->groupBy('batch_no')
+                ->pluck('batch_no');
+            // return $tenant_warehouse_bag_batch_numbers;
+
             $data     = [
                 'invoice_no' => self::tpp . '-' . round(microtime(true) * 1000),
-                'production' => TenantProduction::with('tenant','rawList')->findOrFail($id),
+                'production' => $production,
+                'tenant_warehouse_bag_batch_numbers' => $tenant_warehouse_bag_batch_numbers,
                 'warehouses' => Warehouse::all(),
                 'categories' => Category::all()
             ];
@@ -52,7 +65,7 @@ class TenantProductionProductController extends BaseController
             DB::beginTransaction();
             try {
                 $tenantProduction = TenantProduction::findOrFail($request->tenant_production_id);
-
+                $tenant_producion_date = $request->date;
                 if ($request->has('production')) {
                     $productions = $request->input('production', []);
                     $totalPackingLoadAmount = collect($productions)->sum('packing_load_amount');
@@ -62,7 +75,7 @@ class TenantProductionProductController extends BaseController
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
                     $note = "Tenant Production Out";
-                    $this->labour_head_Credit($coh->id, $tenantProduction->invoice_no, $note, $amount);
+                    $this->labour_head_Credit($coh->id, $tenantProduction->invoice_no, $note, $amount, $tenant_producion_date);
                 }
 
 
@@ -106,12 +119,14 @@ class TenantProductionProductController extends BaseController
                             $tenantWarehouseProductionProduct->save();
 
                             if (!empty($value['warehouse_id']) and !empty($value['use_product_id'])) {
-                                $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $request->tenant_id,
+                                $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere([
+                                    'tenant_id' => $request->tenant_id,
 
-                                 'warehouse_id' => $value['warehouse_id'], 
-                                 'batch_no' => $value['use_batch_no'], 
+                                    'warehouse_id' => $value['warehouse_id'],
+                                    'batch_no' => $value['use_batch_no'],
 
-                                 'product_id' => $value['use_product_id']]);
+                                    'product_id' => $value['use_product_id']
+                                ]);
                                 if (empty($tenantWarehouseProduct)) {
                                     return response()->json(['status' => 'error', 'message' => 'Product Is Empty']);
                                 }
@@ -124,7 +139,6 @@ class TenantProductionProductController extends BaseController
                                 ]);
                             }
                         }
-                        
                     }
                 }
                 $tenantProduction->product()->attach($productProduct);
@@ -140,11 +154,11 @@ class TenantProductionProductController extends BaseController
         }
     }
 
-    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount)
+    public function labour_head_Credit($cohId, $invoiceNo, $narration, $paidAmount, $date)
     {
         Transaction::create([
             'chart_of_head_id' => $cohId,
-            'date'             => date('Y-m-d'),
+            'date'             => $date,
             'voucher_no'       => $invoiceNo,
             'voucher_type'     => "LABOR-BILL",
             'narration'        => $narration,
