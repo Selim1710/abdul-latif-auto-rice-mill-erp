@@ -140,7 +140,8 @@
                                                                     name="tenant_receive[{{ $key }}][rec_qty]"
                                                                     value="{{ $item->rec_qty }}"
                                                                     data-load_unload_rate="tenant_receive_{{ $key }}_load_unload_rate"
-                                                                    data-load_unload_amount="tenant_receive_{{ $key }}_load_unload_amount" />
+                                                                    data-load_unload_amount="tenant_receive_{{ $key }}_load_unload_amount"
+                                                                    data-category_id="tenant_receive_0_category_id" />
                                                             </td>
                                                             <td>
                                                                 <input
@@ -288,8 +289,11 @@
             let load_unload_rate = $(this).data('load_unload_rate');
             let load_unload_amount = $(this).data('load_unload_amount');
             let receive_qty = $(this).val();
-
-            _(load_unload_amount).value = (_(load_unload_rate).value * receive_qty).toFixed(2);
+            let category_id = $(this).data('category_id');
+            let cagegory_value = _(category_id).value;
+            if (cagegory_value != 3) {
+                _(load_unload_amount).value = (_(load_unload_rate).value * receive_qty).toFixed(2);
+            }
             // console.log('load_unload_amount: ' + load_unload_amount);
         });
 
@@ -343,7 +347,8 @@
                       <td><input class="form-control recQty" id="tenant_receive_` + i +
                 `_rec_qty" name="tenant_receive[` +
                 i + `][rec_qty]" data-load_unload_rate="tenant_receive_` + i +
-                `_load_unload_rate" data-load_unload_amount="tenant_receive_` + i + `_load_unload_amount" /></td>
+                `_load_unload_rate" data-load_unload_amount="tenant_receive_` + i +
+                `_load_unload_amount" data-category_id="tenant_receive_` + i + `_category_id"/></td>
                   <td>
                     <input class="form-control bg-primary load_unload_rate text-center"
                             id="tenant_receive_` + i + `_load_unload_rate"
