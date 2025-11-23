@@ -38,6 +38,7 @@ class TenantProductionProductController extends BaseController
                 ->whereHas('product', function ($q) {
                     $q->where('category_id', '=', 3);
                 })
+                ->groupBy('batch_no')
                 ->pluck('batch_no');
             // return $tenant_warehouse_bag_batch_numbers;
 
