@@ -30,9 +30,21 @@ class TenantProductionProductController extends BaseController
         if (permission('tenant-production-product-add')) {
             $setTitle = __('file.Tenant Production Product');
             $this->setPageData($setTitle, $setTitle, 'fas fa-industry', [['name' => $setTitle]]);
+
+            $production = TenantProduction::with('tenant', 'rawList')->findOrFail($id);
+            // return $production;
+
+            $tenant_warehouse_bag_batch_numbers = TenantWarehouseProduct::with('product')->where('tenant_id', $production->tenant_id)
+                ->whereHas('product', function ($q) {
+                    $q->where('category_id', '=', 3);
+                })
+                ->pluck('batch_no');
+            // return $tenant_warehouse_bag_batch_numbers;
+
             $data     = [
                 'invoice_no' => self::tpp . '-' . round(microtime(true) * 1000),
-                'production' => TenantProduction::with('tenant','rawList')->findOrFail($id),
+                'production' => $production,
+                'tenant_warehouse_bag_batch_numbers' => $tenant_warehouse_bag_batch_numbers,
                 'warehouses' => Warehouse::all(),
                 'categories' => Category::all()
             ];
@@ -106,12 +118,14 @@ class TenantProductionProductController extends BaseController
                             $tenantWarehouseProductionProduct->save();
 
                             if (!empty($value['warehouse_id']) and !empty($value['use_product_id'])) {
-                                $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere(['tenant_id' => $request->tenant_id,
+                                $tenantWarehouseProduct  = TenantWarehouseProduct::firstWhere([
+                                    'tenant_id' => $request->tenant_id,
 
-                                 'warehouse_id' => $value['warehouse_id'], 
-                                 'batch_no' => $value['use_batch_no'], 
+                                    'warehouse_id' => $value['warehouse_id'],
+                                    'batch_no' => $value['use_batch_no'],
 
-                                 'product_id' => $value['use_product_id']]);
+                                    'product_id' => $value['use_product_id']
+                                ]);
                                 if (empty($tenantWarehouseProduct)) {
                                     return response()->json(['status' => 'error', 'message' => 'Product Is Empty']);
                                 }
@@ -124,7 +138,6 @@ class TenantProductionProductController extends BaseController
                                 ]);
                             }
                         }
-                        
                     }
                 }
                 $tenantProduction->product()->attach($productProduct);

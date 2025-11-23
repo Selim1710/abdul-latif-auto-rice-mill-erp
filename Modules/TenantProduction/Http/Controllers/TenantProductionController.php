@@ -157,7 +157,11 @@ class TenantProductionController extends BaseController
     {
         if (permission('tenant-production-add')) {
             $data = [
-                'tenant_warehouse_products' => TenantWarehouseProduct::where(['tenant_id' => $request->tenant_id, 'tenant_product_type' => 1])->get(),
+                'tenant_warehouse_products' => TenantWarehouseProduct::where(['tenant_id' => $request->tenant_id, 'tenant_product_type' => 1])
+                    ->whereHas('product', function ($q) use ($request) {
+                        $q->where('category_id', '!=', 3);
+                    })
+                    ->get(),
                 // 'categories'  => Category::all(),
             ];
             return view('tenantproduction::tenant_wise_production_detail', $data);
