@@ -14,33 +14,39 @@
                 <div class="card-header flex-wrap py-5">
                     <form method="POST" id="form-filter" class="col-md-12 px-0">
                         <div class="row">
-                            <x-form.selectbox labelName="{{ __('file.Tenant') }}" name="tenant_id" col="col-md-4"
+                            <x-form.selectbox labelName="{{ __('file.Tenant') }}" name="tenant_id" col="col-md-3"
                                 class="selectpicker">
                                 <option value="0" selected>{{ __('file.Please Select') }}</option>
                                 @foreach ($tenants as $tenant)
                                     <option value="{{ $tenant->id }}">{{ $tenant->name }}</option>
                                 @endforeach
                             </x-form.selectbox>
-                            <x-form.selectbox labelName="{{ __('file.Company') }}" name="warehouse_id" col="col-md-4"
+                            <x-form.selectbox labelName="{{ __('file.Company') }}" name="warehouse_id" col="col-md-3"
                                 class="selectpicker">
                                 <option value="0" selected>{{ __('file.All Company') }}</option>
                                 @foreach ($warehouses as $warehouse)
                                     <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                                 @endforeach
                             </x-form.selectbox>
-                            <x-form.selectbox labelName="{{ __('file.Product') }}" name="product_id" col="col-md-4"
+                            <x-form.selectbox labelName="{{ __('file.Product') }}" name="product_id" col="col-md-3"
                                 class="selectpicker">
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->product_name }}</option>
                                 @endforeach
                             </x-form.selectbox>
-                            <x-form.selectbox labelName="{{ __('file.Category') }}" name="category_id" col="col-md-4"
+                            <x-form.selectbox labelName="{{ __('file.Category') }}" name="category_id" col="col-md-3"
                                 class="selectpicker">
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                 @endforeach
                             </x-form.selectbox>
-                            <div class="col-md-2">
+                            <x-form.selectbox labelName="{{ __('Batch') }}" name="batch_number" col="col-md-3"
+                                class="selectpicker">
+                                @foreach ($batch_numbers as $batch_number)
+                                    <option value="{{ $batch_number }}">{{ $batch_number }}</option>
+                                @endforeach
+                            </x-form.selectbox>
+                            <div class="col-md-0">
                                 <div style="margin-top:28px;">
                                     <div style="margin-top:28px;">
                                         <button id="btn-reset"
@@ -126,6 +132,7 @@
                         data.warehouse_id = $("#form-filter #warehouse_id option:selected").val();
                         data.product_id = $("#form-filter #product_id option:selected").val();
                         data.category_id = $("#form-filter #category_id option:selected").val();
+                        data.batch_number = $("#form-filter #batch_number option:selected").val();
                         data._token = _token;
                     }
                 },

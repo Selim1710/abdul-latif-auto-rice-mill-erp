@@ -26,6 +26,9 @@ class TenantWarehouseProductController extends BaseController
                 'warehouses' => Warehouse::all(),
                 'products'   => Product::all(),
                 'categories' => Category::all(),
+                'batch_numbers' => TenantWarehouseProduct::with('product')
+                    ->groupBy('batch_no')
+                    ->pluck('batch_no'),
             ];
             return view('tenant::tenantStock.index', $data);
         } else {
@@ -47,6 +50,9 @@ class TenantWarehouseProductController extends BaseController
             }
             if (!empty($request->category_id)) {
                 $this->model->setCategoryID($request->category_id);
+            }
+            if (!empty($request->batch_number)) {
+                $this->model->set_batch_number($request->batch_number);
             }
             $this->set_datatable_default_properties($request); //set datatable default properties
             $list = $this->model->getDatatableList();

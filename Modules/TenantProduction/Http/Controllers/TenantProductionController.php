@@ -308,7 +308,7 @@ class TenantProductionController extends BaseController
                     $amount = $data->rawList()->sum('load_unload_amount');
 
                     $coh = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
-                    $note = "Tenant Production In";
+                    $note = ($data->tenant->name ?? 'Tenant') . " Production In";
                     $this->labour_head_Credit($coh->id, $data->invoice_no, $note, $amount, $production_date);
                 }
 

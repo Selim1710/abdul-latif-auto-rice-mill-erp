@@ -224,7 +224,7 @@ class TenantReceiveProductController extends BaseController
                 $amount = $tenantReceive->tenantReceiveProductList()->sum('load_unload_amount');
 
                 $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
-                $note = "Tenant Receive Load/Unload Bill for Invoice No: " . $tenantReceive->invoice_no;
+                $note = ($tenantReceive->tenant->name ?? 'Tenant') . (" Receive Load/Unload Bill for Invoice No: " . $tenantReceive->invoice_no);
                 $this->labour_head_Credit($coh->id, $tenantReceive->invoice_no, $note, $amount, $tenantReceiveDate);
 
                 foreach ($tenantReceive->tenantReceiveProductList as $value) {

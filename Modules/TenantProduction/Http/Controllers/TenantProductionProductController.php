@@ -74,7 +74,7 @@ class TenantProductionProductController extends BaseController
                     $labor_head = LaborHead::find(3); // packing and load
 
                     $coh     = ChartOfHead::firstWhere(['labor_head_id' => $labor_head->id]);
-                    $note = "Tenant Production Out";
+                    $note = ($tenantProduction->tenant->name ?? 'Tenant'). " Production Out";
                     $this->labour_head_Credit($coh->id, $tenantProduction->invoice_no, $note, $amount, $tenant_producion_date);
                 }
 
