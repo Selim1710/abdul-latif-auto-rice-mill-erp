@@ -18,7 +18,7 @@
                 <form method="POST" id="form-filter" class="col-md-12 px-0">
                     <div class="row">
                         <x-form.textbox labelName="{{__('file.Name')}}" name="name" col="col-md-4" />
-                        <div class="col-md-8">
+                        <div class="col-md-0">
                             <div style="margin-top:28px;">
                                 <div style="margin-top:28px;">
                                     <button id="btn-reset" class="btn btn-danger btn-sm btn-elevate btn-icon float-right" type="button" data-toggle="tooltip" data-theme="dark" title="{{__('file.Reset')}}"><i class="fas fa-undo-alt"></i></button>

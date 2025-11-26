@@ -11,6 +11,8 @@ Route::group(['middleware' => ['auth','language']], function () {
         Route::post('edit', 'ExpenseItemController@edit')->name('edit');
         Route::post('delete', 'ExpenseItemController@delete')->name('delete');
     });
+    Route::get('expense-type-wise-item', 'ExpenseLedgerController@expense_type_wise_item')->name('expense-type-wise-item');
+
     Route::get('expense-ledger', 'ExpenseLedgerController@index')->name('expense.ledger');
     Route::post('expense-ledger/data', 'ExpenseLedgerController@ExpenseledgerData')->name('expense.ledger.data');
 });

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\DB;
 use Modules\ChartOfHead\Entities\ChartOfHead;
+use Modules\Expense\Entities\ExpenseItem;
 use Modules\Expense\Entities\ExpenseLedger;
 use Modules\Expense\Http\Requests\ExpenseItemFormRequest;
 
@@ -38,7 +39,16 @@ class ExpenseLedgerController extends BaseController
         $coh         = 'Expense';
         $request_id_all = [];
 
-        $request_id_all  =  ChartOfHead::where('master_head', '=', 7)->pluck('id');
+        $request_id_all  =  ChartOfHead::with('expense_items')->where('master_head', '=', 7)
+            ->when($request->expense_type != '', function ($query) use ($request) {
+                $query->whereHas('expense_items', function ($q) use ($request) {
+                    $q->where('expense_type', $request->expense_type);
+                });
+            })
+            ->when($request->expense_item_id != '', function ($query) use ($request) {
+                $query->where('expense_item_id', $request->expense_item_id);
+            })
+            ->pluck('id');
 
         $transactions = DB::table('transactions as t')
             ->join('chart_of_heads as coh', 't.chart_of_head_id', '=', 'coh.id')
@@ -122,5 +132,15 @@ class ExpenseLedgerController extends BaseController
                         </tfoot>
                         </table>';
         return $table;
+    }
+
+    public function expense_type_wise_item(Request $request)
+    {
+        $expense_type = $request->expense_type;
+        $expenseItems = ExpenseItem::where('expense_type', $expense_type)
+            ->where('status', 1)
+            ->select('id', 'name')
+            ->get();
+        return view('expense::expense-ledger.expense_type_wise_item', compact('expenseItems'));
     }
 }
