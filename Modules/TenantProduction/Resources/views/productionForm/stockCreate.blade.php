@@ -63,7 +63,7 @@
                                                         <th><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Category') }}</button>
                                                         </th>
-                                                        <th colspan="3"><button type = "button"
+                                                        <th colspan="4"><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Product') }}</button>
                                                         </th>
                                                         <th><button type = "button"
@@ -116,7 +116,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </td>
-                                                        <td colspan="3">
+                                                        <td colspan="4">
                                                             <select class="form-control selectpicker product text-center"
                                                                 id="production_product_0_product_id"
                                                                 name="production_product[0][product_id]"
@@ -157,11 +157,14 @@
                                                     </tr>
                                                     {{-- Packing --}}
                                                     <tr>
-                                                        <td colspan = "10"><button type="button"
+                                                        <td colspan = "11"><button type="button"
                                                                 class="btn btn-success btn-block">{{ __('file.Packing') }}</button>
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <th><button type = "button"
+                                                                class="btn btn-primary btn-block">{{ __('file.Company') }}</button>
+                                                        </th>
                                                         <td><button type = "button"
                                                                 class="btn btn-primary btn-block">{{ __('file.Batch') }}</button>
                                                         </td>
@@ -188,6 +191,20 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td>
+                                                            <select
+                                                                class="form-control selectpicker text-center"
+                                                                id="production_product_0_use_warehouse_id"
+                                                                name="production_product[0][use_warehouse_id]"
+                                                                data-live-search = "true" index_no="0">
+                                                                <option value="">{{ __('Please Select') }}</option>
+                                                                @foreach ($warehouses as $warehouse)
+                                                                    <option value="{{ $warehouse->id }}"
+                                                                        labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">
+                                                                        {{ $warehouse->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
                                                         <td>
                                                             <select class="form-control selectpicker text-center"
                                                                 data-live-search = "true"
@@ -222,7 +239,7 @@
                                                                 id="production_product_0_use_product_id"
                                                                 name="production_product[0][use_product_id]"
                                                                 data-use_qty="production_product_0_use_qty"
-                                                                data-warehouse_id="production_product_0_warehouse_id"
+                                                                data-warehouse_id="production_product_0_use_warehouse_id"
                                                                 data-unit_show="production_product_0_use_unit_show"
                                                                 data-unit_id="production_product_0_use_unit_id"
                                                                 data-available_qty="production_product_0_use_available_qty"
@@ -518,7 +535,7 @@
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Company') }}</button></th>
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Batch') }}</button></td>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Category') }}</button></th>
-                             <th colspan="3"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></th>
+                             <th colspan="4"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Unit') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Qty') }}</button></th>
                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Scale') }}</button></th>
@@ -555,7 +572,7 @@
                              @endforeach
                              </select>
                              </td>
-                             <td colspan="3">
+                             <td colspan="4">
                              <select class="form-control selectpicker product text-center" id="production_product_` +
                 i + `_product_id" name="production_product[` + i +
                 `][product_id]" data-category_id="production_product_` + i +
@@ -582,9 +599,10 @@
                              <button type = "button" class = "btn btn-danger btn-sm deleteRaw" style="margin-top:3px"><i class = "fas fa-minus-circle"></i></button>
                              </th>
                          </tr>
-                         <tr><td colspan = "10"><button type="button" class="btn btn-success btn-block">{{ __('file.Packing') }}</button></td></tr>
+                         <tr><td colspan = "11"><button type="button" class="btn btn-success btn-block">{{ __('file.Packing') }}</button></td></tr>
                          <tr>
-                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Batch') }}</button></td>
+                              <th><button type = "button" class="btn btn-primary btn-block">{{ __('file.Company') }}</button></th>
+                             <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Batch') }}</button></td>
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Category') }}</button></td>
                              <td colspan="3"><button type = "button" class="btn btn-primary btn-block">{{ __('file.Product') }}</button></td>
                              <td><button type = "button" class="btn btn-primary btn-block">{{ __('file.Unit') }}</button></td>
@@ -597,11 +615,26 @@
 
                          </tr>
                          <tr>
+                            <td>
+                                <select
+                                    class="form-control selectpicker text-center"
+                                    id="production_product_` + i + `_use_warehouse_id"
+                                    name="production_product[` + i + `][use_warehouse_id]"
+                                    data-live-search = "true" index_no="` + i + `">
+                                    <option value="">{{ __('Please Select') }}</option>
+                                    @foreach ($warehouses as $warehouse)
+                                        <option value="{{ $warehouse->id }}"
+                                            labour_packing_head="{{ $warehouse->labour_packing_head->rate ?? 0 }}">
+                                            {{ $warehouse->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                               <td>
                                 <select class="form-control selectpicker text-center"
                                     data-live-search = "true"
                                     id="production_product_` + i + `_use_batch_no"
-                                    name="production_product[` + i + `][use_batch_no]">
+                                    name="production_product[` + i +
+                `][use_batch_no]">
                                     <option value="">{{ __('Please Select') }}</option>
                                     @foreach ($tenant_warehouse_bag_batch_numbers as $batch_no)
                                         <option value="{{ $batch_no }}">
@@ -630,7 +663,7 @@
                                          name="production_product[` + i +
                 `][use_product_id]" data-use_qty="production_product_` + i +
                 `_use_qty" data-warehouse_id="production_product_` + i +
-                `_warehouse_id" data-unit_show="production_product_` + i +
+                `_use_warehouse_id" data-unit_show="production_product_` + i +
                 `_use_unit_show" data-unit_id="production_product_` + i +
                 `_use_unit_id" data-available_qty="production_product_` + i +
                 `_use_available_qty" data-batch_no="production_product_` + i + `_use_batch_no" data-live-search = "true" onchange="tenantProductStock(this)">
